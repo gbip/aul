@@ -3,8 +3,8 @@
 %}
 
 %%
-"main" {printf("tMAIN\n");return tMAIN;}
-"print" {printf("tPRINT\n");return tPRINT;}
+"main" {return tMAIN;}
+"print" {return tPRINT;}
 "const" {return tCONST;}
 "int" {return tINT;}
 "{" {return tACCO;}

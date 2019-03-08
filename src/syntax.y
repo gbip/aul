@@ -19,4 +19,6 @@
 
 %%
 
-S : tMAIN
+S : tMAIN tPARO tPARF tACCO BODY tACCF ;
+
+BODY : tID;
