@@ -1,6 +1,10 @@
+%{
+#include "syntax.h"
+%}
+
 %%
-"main" {printf("tMAIN\n");}
-"printf" {printf("tPRINTF");}
+"main" {printf("tMAIN\n");return tMAIN;}
+"print" {printf("tPRINT\n");return tPRINT;}
 "const" {printf("tCONST\n");}
 "int" {printf("tINT\n");}
 "{" {printf("tACCO\n");}

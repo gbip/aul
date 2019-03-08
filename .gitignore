@@ -160,3 +160,5 @@ fabric.properties
 test_lex
 src/lex.yy.c
 src/lex.yy.h
+src/syntax.c
+src/syntax.h
