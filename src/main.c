@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
         printf("Usage : %s <file>\n",argv[0]);
         return 1;
     }
-    printf("Building %s", argv[1]);
+    printf("Building %s ...\n", argv[1]);
     yyin = fopen(argv[1], "r");
     yyparse();
     fclose(yyin);
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
         printf("Compilation failed\n");
         return 1;
     } else {
-        printf("Compilation complete\n");
+        printf("OK !\n");
         return 0;
     }
 }
