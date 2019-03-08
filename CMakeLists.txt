@@ -25,12 +25,14 @@ ELSE(FLEX_FOUND)
     ENDIF(Flex_FIND_REQUIRED)
 ENDIF(FLEX_FOUND)
 
-add_executable(aul src/main.c src/lex.yy.c)
-
+add_custom_target("lex")
 ADD_CUSTOM_COMMAND(
         COMMAND ${FLEX_EXECUTABLE}
         ARGS -o "${CMAKE_CURRENT_SOURCE_DIR}/src/lex.yy.c" "${CMAKE_CURRENT_SOURCE_DIR}/src/lex.l"
-        TARGET aul
+        TARGET lex
         OUTPUTS "src/lex.yy.c"
 )
+
+add_executable(aul src/main.c src/lex.yy.c)
+add_dependencies(aul lex)
 

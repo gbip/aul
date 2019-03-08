@@ -322,7 +322,8 @@ void yyfree ( void *  );
 	}
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
-/* Begin user sect3 */
+#define yywrap() (/*CONSTCOND*/1)
+#define YY_SKIP_YYWRAP
 typedef flex_uint8_t YY_CHAR;
 
 FILE *yyin = NULL, *yyout = NULL;
@@ -438,7 +439,7 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "/home/paul/repos/aul/src/lex.l"
-#line 441 "/home/paul/repos/aul/src/lex.yy.c"
+#line 442 "/home/paul/repos/aul/src/lex.yy.c"
 
 #define INITIAL 0
 
@@ -655,8 +656,7 @@ YY_DECL
 		}
 
 	{
-#line 1 "/home/paul/repos/aul/src/lex.l"
-
+#line 2 "/home/paul/repos/aul/src/lex.l"
 #line 660 "/home/paul/repos/aul/src/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
@@ -1725,4 +1725,3 @@ void yyfree (void * ptr )
 #define YYTABLES_NAME "yytables"
 
 #line 2 "/home/paul/repos/aul/src/lex.l"
-
