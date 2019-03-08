@@ -3,18 +3,27 @@
 #include "lex.yy.h"
 #include "syntax.h"
 
-void yyerror(char* mess) {
-    printf("Yacc error line %d: %s \n",yylineno,mess);
+int failed = 0;
 
+void yyerror(char* mess) {
+    printf("Syntax error line %d: %s \nFound %s\n",yylineno,mess,yytext);
+    failed = 1;
 }
 
 int main(int argc, char** argv) {
     if (argc != 2) {
-        printf("Usage : %s <file>",argv[0]);
-        exit(1);
+        printf("Usage : %s <file>\n",argv[0]);
+        return 1;
     }
+    printf("Building %s", argv[1]);
     yyin = fopen(argv[1], "r");
     yyparse();
     fclose(yyin);
-    return 0;
+    if (failed){
+        printf("Compilation failed\n");
+        return 1;
+    } else {
+        printf("Compilation complete\n");
+        return 0;
+    }
 }
