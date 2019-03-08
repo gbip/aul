@@ -1,8 +1,8 @@
 main() {
 
 	int a = 8;
-	int _b = 45893;
+	int b_ = 45893;
 	const c = 888890;
-	int d = (a + _b) / (c*c);
+	int d = (a + b_) / (c*c);
 
 }
