@@ -159,3 +159,4 @@ fabric.properties
 .idea/
 test_lex
 src/lex.yy.c
+src/lex.yy.h

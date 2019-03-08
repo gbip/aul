@@ -3,38 +3,14 @@ project(aul C)
 
 set(CMAKE_C_STANDARD 11)
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lfl")
-FIND_PROGRAM(FLEX_EXECUTABLE NAMES flex flex.exe )
 
-IF(FLEX_EXECUTABLE)
-    SET(FLEX_FOUND TRUE)
+find_package(FLEX)
+find_package(BISON)
+flex_target(Lexer ${CMAKE_CURRENT_BINARY_DIR}/../src/lex.l ${CMAKE_CURRENT_BINARY_DIR}/../src/lex.yy.c COMPILE_FLAGS "--header-file=${CMAKE_CURRENT_BINARY_DIR}/../src/lex.yy.h")
+#bison_target(Parser {CMAKE_CURRENT_BINARY_DIR}/../src/bison.y ${CMAKE_CURRENT_BINARY_DIR}/../src/bison.y)
+#ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
-    EXECUTE_PROCESS(COMMAND ${FLEX_EXECUTABLE} --version
-            OUTPUT_VARIABLE _FLEX_VERSION
-            )
-    string (REGEX MATCH "[0-9]+\\.[0-9]+\\.[0-9]+" FLEX_VERSION
-            "${_FLEX_VERSION}")
-ENDIF(FLEX_EXECUTABLE)
+set(SRC_FILES src/main.c ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS})
 
-IF(FLEX_FOUND)
-    IF(NOT Flex_FIND_QUIETLY)
-        MESSAGE(STATUS "Found Flex: ${FLEX_EXECUTABLE}")
-    ENDIF(NOT Flex_FIND_QUIETLY)
-ELSE(FLEX_FOUND)
-    IF(Flex_FIND_REQUIRED)
-        MESSAGE(FATAL_ERROR "Could not find Flex")
-    ENDIF(Flex_FIND_REQUIRED)
-ENDIF(FLEX_FOUND)
-
-add_custom_target("run_lex")
-ADD_CUSTOM_COMMAND(
-        COMMAND ${FLEX_EXECUTABLE}
-        ARGS -o "${CMAKE_CURRENT_SOURCE_DIR}/src/lex.yy.c" "${CMAKE_CURRENT_SOURCE_DIR}/src/lex.l"
-        TARGET run_lex
-        OUTPUTS "src/lex.yy.c"
-)
-
-add_executable(aul src/main.c)
-add_dependencies(aul run_lex)
-
-add_executable(lex src/lex.yy.c)
-add_dependencies(lex run_lex)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/../src)
+add_executable(aul ${SRC_FILES})
