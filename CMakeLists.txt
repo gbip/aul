@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(aul C)
 
 set(CMAKE_C_STANDARD 11)
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lfl")
 FIND_PROGRAM(FLEX_EXECUTABLE NAMES flex flex.exe )
 
 IF(FLEX_EXECUTABLE)
