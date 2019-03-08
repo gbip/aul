@@ -17,8 +17,32 @@
 %token tLITTEXP
 %token tID
 
+%start S
+
 %%
 
 S : tMAIN tPARO tPARF tACCO BODY tACCF ;
 
-BODY : tID;
+BODY : LINE tENDL BODY | ;
+
+LINE : ASSIGN | DECL | PRINT ;
+
+PRINT : tPRINT tPARO tID tPARF ;
+
+DECL : DECLKW tID tEGAL EXPR ;
+
+DECLKW :  tINT | tCONST ;
+
+ASSIGN : tID tEGAL EXPR ;
+
+EXPR : tLITT
+    | tID
+    | tLITTEXP
+    | tPARO EXPR tPARF
+    | EXPR OP EXPR
+
+OP : tMOINS
+| tPLUS
+| tMUL
+| tDIV
+

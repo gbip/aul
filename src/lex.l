@@ -22,5 +22,6 @@
 "," {return tSEP;}
 [0-9]+ {return tLITT;}
 [0-9]+."^".[0-9]+ {return tLITTEXP;}
+"//".*$ ;
 
 %%
