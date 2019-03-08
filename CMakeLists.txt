@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(aul C)
 
 set(CMAKE_C_STANDARD 11)
-
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 FIND_PROGRAM(FLEX_EXECUTABLE NAMES flex flex.exe )
 
 IF(FLEX_EXECUTABLE)
@@ -25,14 +25,16 @@ ELSE(FLEX_FOUND)
     ENDIF(Flex_FIND_REQUIRED)
 ENDIF(FLEX_FOUND)
 
-add_custom_target("lex")
+add_custom_target("run_lex")
 ADD_CUSTOM_COMMAND(
         COMMAND ${FLEX_EXECUTABLE}
         ARGS -o "${CMAKE_CURRENT_SOURCE_DIR}/src/lex.yy.c" "${CMAKE_CURRENT_SOURCE_DIR}/src/lex.l"
-        TARGET lex
+        TARGET run_lex
         OUTPUTS "src/lex.yy.c"
 )
 
-add_executable(aul src/main.c src/lex.yy.c)
-add_dependencies(aul lex)
+add_executable(aul src/main.c)
+add_dependencies(aul run_lex)
 
+add_executable(lex src/lex.yy.c)
+add_dependencies(lex run_lex)

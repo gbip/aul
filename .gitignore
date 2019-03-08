@@ -156,3 +156,6 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/c,c++,clion
 # src/lex.yy.c
+.idea/
+test_lex
+src/lex.yy.c
