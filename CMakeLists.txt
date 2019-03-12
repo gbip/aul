@@ -11,7 +11,7 @@ bison_target(Parser ${CMAKE_CURRENT_BINARY_DIR}/../src/syntax.y ${CMAKE_CURRENT_
 
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
-set(SRC_FILES src/main.c ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS})
+set(SRC_FILES src/main.c ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS} src/ast.h src/ast.c)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../src)
 add_executable(aul ${SRC_FILES})
