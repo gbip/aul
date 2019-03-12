@@ -98,13 +98,6 @@ ast_decl* make_ast_decl(id* anId, type aType, ast_expr* anExpr) {
     return result;
 }
 
-ast_expr* make_ast_expr(expr* anExpr, expr_det aDet) {
-    ast_expr* result = malloc(sizeof(ast_expr));
-    result->expr = anExpr;
-    result->det = aDet;
-    return result;
-}
-
 ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* rightExpr) {
     ast_op* result = malloc(sizeof(ast_op));
     result->left = leftExpr;
@@ -112,3 +105,77 @@ ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* rightExpr) {
     result->op = operation;
     return result;
 }
+
+/* FREERS */
+/*
+void free_ast_expr(ast_expr* tree);
+
+void free_ast_op(ast_op* tree) {
+    free_ast_expr(tree->left);
+    free_ast_expr(tree->right);
+    free(tree);
+}
+
+void free_ast_expr(ast_expr* tree) {
+    switch(tree->det) {
+        case OP:
+            free_ast_op(tree->expr);
+            break;
+        case ID:
+            free(tree->expr);
+            break;
+        case EXPR:
+            free_ast_expr(tree->expr);
+            break;
+    }
+    free(tree);
+}
+
+void free_ast_decl(ast_decl* tree) {
+    free_ast_expr(tree->expr);
+    free(tree->id);
+    free(tree);
+}
+
+void free_ast_print(ast_print* tree) {
+    free(tree->id);
+    free(tree);
+}
+
+void free_ast_assign(ast_assign* tree) {
+    free_ast_expr(tree->expr);
+    free(tree->id);
+    free(tree);
+}
+
+void free_ast(ast_instr* tree) {
+    switch(tree->det) {
+        case DECL:
+            free_ast_decl(tree->instruction);
+            break;
+        case PRINT:
+            free_ast_print(tree->instruction);
+            break;
+        case ASSIGN:
+            free_ast_assign(tree->instruction);
+            break;
+        default:
+            break;
+    }
+    free(tree);
+    free_ast(tree->following);
+}
+*/
+
+#define CREATE_MAKE_UNION(type, code, deter, field) \
+    ast_expr* make_ast_expr_##type  (code field) { \
+        ast_expr* result = malloc(sizeof(ast_expr)); \
+        result->det = deter; \
+        result->field = field; \
+        return result;\
+    }
+
+CREATE_MAKE_UNION(op,ast_op*,OP,op);
+CREATE_MAKE_UNION(lit,lit,LIT,literral);
+CREATE_MAKE_UNION(id,id*,ID,id);
+CREATE_MAKE_UNION(expr,ast_expr*,EXPR,expr);

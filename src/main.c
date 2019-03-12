@@ -3,12 +3,12 @@
 #include "lex.yy.h"
 #include "syntax.h"
 
-
 void yyerror(char* mess) {
     printf("Line %d: %s \nFound \"%s\"\n",yylineno,mess,yytext);
 }
 
 int main(int argc, char** argv) {
+    /* to remove */
     if (argc != 2) {
         printf("Usage : %s <file>\n",argv[0]);
         return 1;

@@ -62,5 +62,5 @@ ast_assign* make_ast_assign(id* anId, ast_expr* anExpr);
 ast_decl* make_ast_decl(id* anId, type aType, ast_expr* anExpr);
 ast_expr* make_ast_expr(expr* anExpr, expr_det aDet);
 ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
-
+void free_ast(ast_instr* tree);
 #endif //AUL_AST_H
