@@ -64,3 +64,25 @@ struct ast_assign {
     id* id;
     ast_expr* expr;
 };
+
+/* INSTRUCTION */
+union instr {
+    ast_decl* decl;
+    ast_print* print;
+    ast_assign* assign;
+};
+
+enum instr_det {
+    DECL,
+    PRINT,
+    ASSIGN,
+};
+
+struct ast_instr {
+    // Data
+    instr* instruction;
+    instr_det det;
+
+    // Following instruction
+    ast_instr* following;
+};

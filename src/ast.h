@@ -30,4 +30,9 @@ typedef struct ast_print ast_print;
 /* ASSIGN */
 typedef struct ast_assign ast_assign;
 
+/* INSTRUCTION */
+typedef union instr instr;
+typedef enum instr_det instr_det;
+typedef struct ast_instr ast_instr;
+
 #endif //AUL_AST_H
