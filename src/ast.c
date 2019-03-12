@@ -9,25 +9,12 @@ struct id{
     char* name;
 };
 
-enum type{
-    INT,
-    CONST,
-};
-
-
 /* EXPR */
 union expr {
     ast_op* op;
     id* id;
     lit literral;
     ast_expr* expr;
-};
-
-enum expr_det {
-    OP,
-    ID,
-    LIT,
-    EXPR,
 };
 
 struct ast_expr {
@@ -40,13 +27,6 @@ struct ast_op {
     ast_expr* left;
     op* op;
     ast_expr* right;
-};
-
-enum op {
-    ADD,
-    SUB,
-    DIV,
-    MUL
 };
 
 /* DECL */
@@ -74,11 +54,6 @@ union instr {
     ast_assign* assign;
 };
 
-enum instr_det {
-    DECL,
-    PRINT,
-    ASSIGN,
-};
 
 struct ast_instr {
     // Data

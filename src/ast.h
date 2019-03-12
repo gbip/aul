@@ -7,15 +7,29 @@
 
 typedef int lit;
 typedef struct id id;
-typedef enum type type;
+typedef enum type {
+    INT,
+    CONST,
+} type;
 
 /* EXPR */
 typedef union expr expr;
 typedef struct ast_expr ast_expr;
-typedef enum expr_det expr_det;
+typedef enum expr_det {
+        OP,
+        ID,
+        LIT,
+        EXPR,
+
+}expr_det;
 
 /* OP */
-typedef enum op op;
+typedef enum op {
+    ADD,
+    SUB,
+    DIV,
+    MUL
+} op;
 typedef struct ast_op ast_op;
 
 /* DECL */
@@ -29,7 +43,11 @@ typedef struct ast_assign ast_assign;
 
 /* INSTRUCTION */
 typedef union instr instr;
-typedef enum instr_det instr_det;
+typedef enum instr_det {
+    DECL,
+    PRINT,
+    ASSIGN,
+}instr_det;
 typedef struct ast_instr ast_instr;
 
 #endif //AUL_AST_H
