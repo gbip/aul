@@ -50,4 +50,14 @@ typedef enum instr_det {
 }instr_det;
 typedef struct ast_instr ast_instr;
 
+/* NODE MAKERS */
+
+id* make_id(char* name);
+ast_instr* make_ast_instr(instr* instruction, instr_det determinant, ast_instr* next_instr);
+ast_print* make_ast_print(id* anId);
+ast_assign* make_ast_assign(id* anId, ast_expr* anExpr);
+ast_decl* make_ast_decl(id* anId, type aType, ast_expr* anExpr);
+ast_expr* make_ast_expr(expr* anExpr, expr_det aDet);
+ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
+
 #endif //AUL_AST_H
