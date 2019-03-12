@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(aul C)
 
 set(CMAKE_C_STANDARD 11)
-SET(CMAKE_C_FLAGS "-lfl ${CMAKE_C_FLAGS} -Wall -Wextra")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 
 find_package(FLEX)
 find_package(BISON)
@@ -15,7 +15,7 @@ set(SRC_FILES src/main.c ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS} src/ast.h
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../src)
 add_executable(aul ${SRC_FILES})
-
+target_link_libraries(aul fl)
 
 
 set(TEST_SRC_FILES src/ast.c src/test_ast.c)
