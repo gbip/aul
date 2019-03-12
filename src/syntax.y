@@ -103,15 +103,15 @@ ASSIGN :
 
 EXPR :
         tLITT
-            {$$ = make_ast_expr($1,LIT);}
+            {$$ = make_ast_expr_lit($1);}
         | tID
-            {$$ = make_ast_expr($1,ID);}
+            {$$ = make_ast_expr_id($1);}
         | tLITTEXP
-            {$$ = make_ast_expr($1,LIT);}
+            {$$ = make_ast_expr_lit($1);}
         | tPARO EXPR tPARF
-            {$$ = make_ast_expr($2,EXPR);}
+            {$$ = make_ast_expr_expr($2);}
         | EXPR OP EXPR
-            {$$ = make_ast_expr(make_ast_op($1,$2,$3),OP);}
+            {$$ = make_ast_expr_op(make_ast_op($1,$2,$3));}
 ;
 
 OP :

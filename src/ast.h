@@ -56,11 +56,28 @@ typedef struct ast_instr ast_instr;
 /* NODE MAKERS */
 
 id* make_id(char* name);
-ast_instr* make_ast_instr(instr* instruction, instr_det determinant, ast_instr* next_instr);
 ast_print* make_ast_print(id* anId);
 ast_assign* make_ast_assign(id* anId, ast_expr* anExpr);
 ast_decl* make_ast_decl(id* anId, type aType, ast_expr* anExpr);
-ast_expr* make_ast_expr(expr* anExpr, expr_det aDet);
 ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
 void free_ast(ast_instr* tree);
+
+
+#define CREATE_MAKE_UNION(type, code, deter, field) \
+    ast_expr* make_ast_expr_##type  (code field); \
+
+CREATE_MAKE_UNION(op,ast_op*,OP,op);
+CREATE_MAKE_UNION(lit,lit,LIT,literral);
+CREATE_MAKE_UNION(id,id*,ID,id);
+CREATE_MAKE_UNION(expr,ast_expr*,EXPR,expr);
+
+#define CREATE_MAKE_UNION(type, deter, typeArg) \
+ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr); \
+
+
+CREATE_MAKE_UNION(decl, DECL, ast_decl*);
+CREATE_MAKE_UNION(print, PRINT,ast_print*);
+CREATE_MAKE_UNION(assign, ASSIGN,ast_assign*);
+
 #endif //AUL_AST_H
+

@@ -45,35 +45,37 @@ struct ast_assign {
 };
 
 /* INSTRUCTION */
-union instr {
-    ast_decl* decl;
-    ast_print* print;
-    ast_assign* assign;
-};
-
 
 struct ast_instr {
-    // Data
-    instr* instruction;
+    union {
+        ast_decl* decl;
+        ast_print* print;
+        ast_assign* assign;
+    };
     instr_det det;
 
     // Following instruction
     ast_instr* following;
 };
 
+#define CREATE_MAKE_UNION(type, deter, typeArg) \
+ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr) { \
+    ast_instr* result = malloc(sizeof(ast_instr));\
+    result->det = deter; \
+    result->type = arg;\
+    result->following = next_instr;\
+    return result; \
+}
+
+CREATE_MAKE_UNION(decl, DECL, ast_decl*);
+CREATE_MAKE_UNION(print, PRINT,ast_print*);
+CREATE_MAKE_UNION(assign, ASSIGN,ast_assign*);
+
 /* MAKERS */
 
 id* make_id(char* name) {
     id* result = malloc(sizeof(id));
     result->name = name;
-    return result;
-}
-
-ast_instr* make_ast_instr(instr* instruction, instr_det determinant, ast_instr* next_instr) {
-    ast_instr* result = malloc(sizeof(ast_instr));
-    result->det = determinant;
-    result->instruction = instruction;
-    result->following = next_instr;
     return result;
 }
 
