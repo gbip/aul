@@ -71,13 +71,13 @@ CREATE_MAKE_UNION(lit,lit,LIT,literral);
 CREATE_MAKE_UNION(id,id*,ID,id);
 CREATE_MAKE_UNION(expr,ast_expr*,EXPR,expr);
 
-#define CREATE_MAKE_UNION(type, deter, typeArg) \
+#define CREATE_MAKE_UNION_INSTR(type, deter, typeArg) \
 ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr); \
 
 
-CREATE_MAKE_UNION(decl, DECL, ast_decl*);
-CREATE_MAKE_UNION(print, PRINT,ast_print*);
-CREATE_MAKE_UNION(assign, ASSIGN,ast_assign*);
+CREATE_MAKE_UNION_INSTR(decl, DECL, ast_decl*);
+CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
+CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
 
 #endif //AUL_AST_H
 

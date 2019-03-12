@@ -58,7 +58,7 @@ struct ast_instr {
     ast_instr* following;
 };
 
-#define CREATE_MAKE_UNION(type, deter, typeArg) \
+#define CREATE_MAKE_UNION_INSTR(type, deter, typeArg) \
 ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr) { \
     ast_instr* result = malloc(sizeof(ast_instr));\
     result->det = deter; \
@@ -67,9 +67,9 @@ ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr) { \
     return result; \
 }
 
-CREATE_MAKE_UNION(decl, DECL, ast_decl*);
-CREATE_MAKE_UNION(print, PRINT,ast_print*);
-CREATE_MAKE_UNION(assign, ASSIGN,ast_assign*);
+CREATE_MAKE_UNION_INSTR(decl, DECL, ast_decl*);
+CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
+CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
 
 /* MAKERS */
 

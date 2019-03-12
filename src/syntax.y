@@ -55,17 +55,20 @@ S :
         tMAIN tPARO tPARF tACCO BODY tACCF
 ;
 
-BODY :
-        LINE tENDL BODY |
+BODY : INSTRS;
+
+INSTRS :
+        LINE tENDL INSTRS
+            {}|
 ;
 
 LINE :
         ASSIGN
-            {$$ = ASSIGN;}
+            {$$ = make_ast_instr_assign($1);}
         | DECL
-            {$$ = DECL;}
+            {$$ = make_ast_instr_decl($1);}
         | PRINT
-            {$$ = PRINT;}
+            {$$ = make_ast_instr_print($1);}
 ;
 
 
