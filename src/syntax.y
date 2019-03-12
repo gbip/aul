@@ -15,6 +15,7 @@
     ast_print* ast_print;
     ast_decl* ast_decl;
     ast_assign* ast_assign;
+    ast_instr* ast_instr;
     type type;
     op op;
 }
@@ -44,7 +45,7 @@
 %type <ast_print> PRINT
 %type <ast_decl> DECL
 %type <ast_assign> ASSIGN
-
+%type <ast_instr> LINE
 
 %start S
 
@@ -60,8 +61,11 @@ BODY :
 
 LINE :
         ASSIGN
+            {$$ = ASSIGN;}
         | DECL
+            {$$ = DECL;}
         | PRINT
+            {$$ = PRINT;}
 ;
 
 
