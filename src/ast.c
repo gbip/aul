@@ -6,20 +6,16 @@
 #include "ast.h"
 
 
-struct id {
-    char *name;
-};
+
 
 /* EXPR */
-union expr {
-    ast_op* op;
-    id* id;
-    lit literral;
-    ast_expr* expr;
-};
-
 struct ast_expr {
-    expr* expr;
+    union {
+        ast_op* op;
+        id* id;
+        lit literral;
+        ast_expr* expr;
+    };
     expr_det det;
 };
 

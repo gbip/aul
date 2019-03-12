@@ -6,7 +6,10 @@
 #define AUL_AST_H
 
 typedef int lit;
-typedef struct id id;
+typedef struct id {
+    char *name;
+} id;
+
 typedef enum type {
     INT,
     CONST,
