@@ -9,9 +9,6 @@ typedef int lit;
 typedef struct id id;
 typedef enum type type;
 
-/* ROOT */
-typedef struct ast_body;
-
 /* EXPR */
 typedef union expr expr;
 typedef struct ast_expr ast_expr;

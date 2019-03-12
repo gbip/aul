@@ -5,7 +5,9 @@
 #include "ast.h"
 
 
-struct id{};
+struct id{
+    char* name;
+};
 
 enum type{
     INT,

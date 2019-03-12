@@ -1,5 +1,8 @@
 %{
     #include "ast.h"
+    #include <stdlib.h>
+
+    ast_instr* ast;
 %}
 
 %token tMAIN
