@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -rf tests
 mkdir tests
 cd tests
 export CC=/usr/bin/gcc
