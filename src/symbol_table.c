@@ -17,7 +17,7 @@ typedef struct ts {
     uintptr_t index;
 } ts;
 
-ts* make_ts() {
+ts* ts_make() {
     ts* result = malloc(sizeof(ts));
     result->index = 0;
     return result;
@@ -29,7 +29,7 @@ void ts_add(ts* ts, const char* name, type_t type, uint64_t depth) {
     entry.type = type;
     entry.depth = depth;
     if (ts-> index == 0) {
-        entry.addr = base_addr;
+        entry.addr = BASE_ADDR;
     } else {
         entry.addr = ts->table[ts->index-1].addr + get_type_bytes_size(type);
     }
@@ -50,9 +50,13 @@ symbol_table_entry* last_entry(ts* ts) {
     return &ts->table[ts->index];
 }
 
-void pop_current_depth(ts *ts) {
+void ts_pop_current_depth(ts *ts) {
     uint64_t current_depth = last_entry(ts)->depth;
     while (ts->table[ts->index].depth == current_depth && ts->index > 0) {
         ts->index--;
     }
+}
+
+void ts_free(ts *ts) {
+    free(ts);
 }

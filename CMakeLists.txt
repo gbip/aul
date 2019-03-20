@@ -20,5 +20,9 @@ add_executable(aul ${SRC_FILES})
 target_link_libraries(aul fl)
 
 
-set(TEST_SRC_FILES src/ast.c src/test_ast.c)
+set(TEST_SRC_FILES
+        src/ast.c
+        src/symbol_table.c
+        src/types.c
+        src/tests.c)
 add_executable(test_ast  ${TEST_SRC_FILES})
