@@ -13,7 +13,7 @@ ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
 set(SRC_FILES src/main.c ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS}
         src/ast.c
-        src/symbol_table.c src/types.h src/types.c)
+        src/symbol_table.c src/types.h src/types.c src/ir.c src/ir.h)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../src)
 add_executable(aul ${SRC_FILES})
