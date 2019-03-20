@@ -35,127 +35,130 @@
 
 ### MOV
 
-```
+```txt
 MOV <ra> <val>
 ```
-```
+
+```txt
 ra <- val
 ```
 
 ### CP
 
-```
+```txt
 CP <ra> <rb>
 ```
 
-```
+```txt
 ra <- rb
 ```
 
 ### ADD
 
-```
+```txt
 ADD <ra> <rb>
 ```
 
-```
+```txt
 ra = ra+b
 ```
 
 ### SUB
 
-```
+```txt
 SUB <ra> <rb>
 ```
 
-```
+```txt
 ra= ra - rb
 ```
 
 ### MUL
 
-```
+```txt
 MUL <ra> <rb>
 ```
 
-```
+```txt
 ra = ra*rb
 ```
 
 ### DIV
 
-```
+```txt
 DIV <ra> <rb>
 ```
 
-```
+```txt
 ra = ra/rb
 ```
 
 ### LD
 
-```
+```txt
 LD <ra> <addr>
 ```
-```
+
+```txt
 ra <- @addr
 ```
 
 ### STR
 
-```
+```txt
 STR <ra> <addr>
 ```
 
-```
+```txt
 @addr <- ra
 ```
 
 ### EQ
 
-```
+```txt
 EQ <ra> <rb>
 ```
-```
+
+```txt
 ra = 1 si ra = rb
 ```
 
 ### INF
 
-```
+```txt
 INF <ra> <rb>
 ```
 
-```
+```txt
 ra = 1 si ra < rb
 ```
 
 ### INFEQ
 
-```
+```txt
 INFEQ <ra> <rb>
 ```
 
-```
+```txt
 ra = 1 si ra <= rb
 ```
 
 ### SUP
 
-```
+```txt
 SUP <ra> <rb>
 ```
 
-```
+```txt
 ra = 1 si ra > rb
 ```
 
 ### SUPEQ
 
-```
+```txt
 SUPEQ <ra> <rb>
 ```
 
-```
+```txt
 ra = 1 si ra >= rb
 ```
