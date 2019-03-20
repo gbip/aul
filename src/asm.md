@@ -35,6 +35,8 @@
 
 ### MOV
 
+Assignation de valeur à un registre depuis une donnée
+
 ```txt
 MOV <ra> <val>
 ```
@@ -45,6 +47,7 @@ ra <- val
 
 ### CP
 
+Copie de valeur entre registres
 ```txt
 CP <ra> <rb>
 ```
@@ -54,6 +57,8 @@ ra <- rb
 ```
 
 ### ADD
+
+Addition de deux registres 
 
 ```txt
 ADD <ra> <rb>
@@ -65,6 +70,8 @@ ra = ra+b
 
 ### SUB
 
+Soustraction de deux registres
+
 ```txt
 SUB <ra> <rb>
 ```
@@ -74,6 +81,8 @@ ra= ra - rb
 ```
 
 ### MUL
+
+Multiplication de deux registres
 
 ```txt
 MUL <ra> <rb>
@@ -85,6 +94,8 @@ ra = ra*rb
 
 ### DIV
 
+Divisions de deux registres
+
 ```txt
 DIV <ra> <rb>
 ```
@@ -94,6 +105,8 @@ ra = ra/rb
 ```
 
 ### LD
+
+Chargement d'un registre depuis une donnée en mémoire
 
 ```txt
 LD <ra> <addr>
@@ -105,6 +118,8 @@ ra <- @addr
 
 ### STR
 
+Stockage d'un registre en mémoire
+
 ```txt
 STR <ra> <addr>
 ```
@@ -114,6 +129,8 @@ STR <ra> <addr>
 ```
 
 ### EQ
+
+Test de l'égalité
 
 ```txt
 EQ <ra> <rb>
@@ -125,6 +142,8 @@ ra = 1 si ra = rb
 
 ### INF
 
+Test d'infériorité
+
 ```txt
 INF <ra> <rb>
 ```
@@ -134,6 +153,8 @@ ra = 1 si ra < rb
 ```
 
 ### INFEQ
+
+Test d'infériorité et d'égalité
 
 ```txt
 INFEQ <ra> <rb>
@@ -145,6 +166,8 @@ ra = 1 si ra <= rb
 
 ### SUP
 
+Test de supériorité
+
 ```txt
 SUP <ra> <rb>
 ```
@@ -154,6 +177,8 @@ ra = 1 si ra > rb
 ```
 
 ### SUPEQ
+
+Test de supériorité et d'égalité
 
 ```txt
 SUPEQ <ra> <rb>
