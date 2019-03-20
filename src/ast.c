@@ -216,10 +216,7 @@ void print_node(ast_instr* node, int offset_nb) {
         case ASSIGN :
             print_offset(offset_nb);
             printf("[ASSIGN] %s\n",node->decl->id->name);
-            if(node->decl->expr == NULL) {
-                printf(";\n");
-            }
-            else {
+            if(!(node->decl->expr == NULL)) {
                 print_expr(node->decl->expr,offset_nb+4);
             }
             break;
