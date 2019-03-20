@@ -15,7 +15,6 @@ struct ast_expr {
         ast_op* op; // opération sur deux expressions
         id* id; // type atomique
         lit literral; // type atomique
-        ast_expr* expr; // autre expression
     };
     expr_det det;
 };
@@ -74,13 +73,7 @@ CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
 CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
 
 ast_body* get_ast() {
-    if (init) {
         return ast;
-    }
-    else {
-        ast=malloc(sizeof(ast_body));
-        return ast;
-    }
 }
 
 void set_ast(ast_body* new_ast) {
@@ -180,9 +173,6 @@ void print_expr(ast_expr* expression, int offset_nb) {
         case LIT:
             print_offset(offset_nb);
             printf("[LIT] %d\n", expression->literral);
-            break;
-        case EXPR: // utile seulement pour les ( expr )
-            print_offset(offset_nb);
             break;
         case ID:
             print_offset(offset_nb);
@@ -325,4 +315,3 @@ void free_ast(ast_instr* tree) {
 CREATE_MAKE_UNION(op,ast_op*,OP,op);
 CREATE_MAKE_UNION(lit,lit,LIT,literral);
 CREATE_MAKE_UNION(id,id*,ID,id);
-CREATE_MAKE_UNION(expr,ast_expr*,EXPR,expr);

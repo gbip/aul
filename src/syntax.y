@@ -43,7 +43,7 @@
 %type <ast_decl> DECL
 %type <ast_assign> ASSIGN
 %type <ast_instr> LINE
-%type <ast_body> INSTRS
+%type <ast_body> INSTRS MAIN BODY S
 
 %left tPLUS tMOINS
 %right tDIV tMUL
@@ -52,13 +52,19 @@
 
 %%
 
-S :
+S : MAIN
+            {set_ast($1);}
+;
+
+MAIN :
         tMAIN tPARO tPARF tACCO BODY tACCF
+            {$$ = $5;}
 ;
 
 BODY :
         INSTRS
-            {set_ast($1);}
+            {$$=$1;}
+;
 
 INSTRS :
         LINE tENDL INSTRS
@@ -117,7 +123,7 @@ EXPR :
         | tLITTEXP
             {$$ = ast_make_expr_lit($1);}
         | tPARO EXPR tPARF
-            {$$ = ast_make_expr_expr($2);}
+            {$$ = $2;}
         | EXPR tPLUS EXPR
             {$$ = ast_make_expr_op(ast_make_op($1,ADD,$3));}
         | EXPR tMOINS EXPR
@@ -126,5 +132,4 @@ EXPR :
             {$$ = ast_make_expr_op(ast_make_op($1,DIV,$3));}
         | EXPR tMUL EXPR
             {$$ = ast_make_expr_op(ast_make_op($1,MUL,$3));}
-
 ;

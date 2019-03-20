@@ -19,7 +19,6 @@ typedef enum expr_det {
         OP,
         ID,
         LIT,
-        EXPR,
 
 }expr_det;
 
