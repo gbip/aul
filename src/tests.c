@@ -7,10 +7,10 @@ void ast_tests() {
     /*
      *
      * cas de test :
-     *  variable = 4+12;
+     *  variable = 4+variable; //ok ça devrait pas marcher en vrai
      *  const var2;
      *  print(var2);
-     *
+     *  var2 = 12+variable
      */
     id* anId = ast_make_id("variable");
     ast_expr* op1 = ast_make_expr_lit(12);
