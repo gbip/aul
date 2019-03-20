@@ -66,6 +66,7 @@ ast_instr* ast_make_instr_##type(typeArg arg) { \
     ast_instr* result = malloc(sizeof(ast_instr));\
     result->det = deter; \
     result->type = arg;\
+    result->following = next_instr;\
     return result; \
 }
 
@@ -202,20 +203,14 @@ void print_node(ast_instr* node, int offset_nb) {
                 case INT:
                     print_offset(offset_nb);
                     printf("[DECL] int %s\n",node->decl->id->name);
-                    if(node->decl->expr == NULL) {
-                        printf(";\n");
-                    }
-                    else {
+                    if(!(node->decl->expr == NULL)) {
                         print_expr(node->decl->expr,offset_nb+4);
                     }
                     break;
                 case CONST:
                     print_offset(offset_nb);
                     printf("[DECL] const %s\n",node->decl->id->name);
-                    if(node->decl->expr == NULL) {
-                        printf(";\n");
-                    }
-                    else {
+                    if(!(node->decl->expr == NULL)) {
                         print_expr(node->decl->expr,offset_nb+4);
                     }
                     break;
@@ -247,7 +242,7 @@ void print_node(ast_instr* node, int offset_nb) {
 }
 
 void print_ast(struct ast_body* body) {
-    printf("printing tree \n");
+    printf("--------------------\n");
     int i = 0;
     ast_body* iter = body;
     ast_instr* tree;
@@ -256,6 +251,7 @@ void print_ast(struct ast_body* body) {
         print_node(tree,i);
         iter = iter->next;
     }
+    printf("--------------------\n");
 }
 
 /* FREERS */
