@@ -138,7 +138,6 @@ void print_offset(int nb) {
 void print_expr(ast_expr* expression, int offset_nb) {
     switch(expression->det) {
         case OP:
-            print_offset(offset_nb);
             switch(expression->op->op) {
                 case ADD:
                     print_offset(offset_nb);
