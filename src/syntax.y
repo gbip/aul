@@ -64,11 +64,11 @@ INSTRS :
 
 LINE :
         ASSIGN
-            {$$ = make_ast_instr_assign($1);}
+            {$$ = make_ast_instr_assign($1,NULL);}
         | DECL
-            {$$ = make_ast_instr_decl($1);}
+            {$$ = make_ast_instr_decl($1,NULL);}
         | PRINT
-            {$$ = make_ast_instr_print($1);}
+            {$$ = make_ast_instr_print($1,NULL);}
 ;
 
 
