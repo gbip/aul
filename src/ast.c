@@ -26,7 +26,7 @@ struct ast_op {
 /* DECL */
 struct ast_decl {
     id* id;
-    type type;
+    type_t type;
     ast_expr* expr;
 };
 
@@ -89,7 +89,7 @@ ast_assign* make_ast_assign(id* anId, ast_expr* anExpr) {
     return result;
 }
 
-ast_decl* make_ast_decl(id* anId, type aType, ast_expr* anExpr) {
+ast_decl* make_ast_decl(id* anId, type_t aType, ast_expr* anExpr) {
     ast_decl* result = malloc(sizeof(ast_decl));
     result->id = anId;
     result->type = aType;

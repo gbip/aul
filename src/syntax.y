@@ -16,7 +16,7 @@
     ast_decl* ast_decl;
     ast_assign* ast_assign;
     ast_instr* ast_instr;
-    type type;
+    type_t type;
     op op;
 }
 

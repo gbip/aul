@@ -5,15 +5,13 @@
 #ifndef AUL_AST_H
 #define AUL_AST_H
 
+#include "types.h"
+
 typedef int lit;
 typedef struct id {
     char *name;
 } id;
 
-typedef enum type {
-    INT,
-    CONST,
-} type;
 
 /* EXPR */
 typedef union expr expr;
@@ -57,7 +55,7 @@ typedef struct ast_instr ast_instr;
 id* make_id(char* name);
 ast_print* make_ast_print(id* anId);
 ast_assign* make_ast_assign(id* anId, ast_expr* anExpr);
-ast_decl* make_ast_decl(id* anId, type aType, ast_expr* anExpr);
+ast_decl* make_ast_decl(id* anId, type_t aType, ast_expr* anExpr);
 ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
 void free_ast(ast_instr* tree);
 
