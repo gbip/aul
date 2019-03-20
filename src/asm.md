@@ -1,26 +1,37 @@
 # Instructions
 
-* 8 bits : opcode
-* 8 bits : première opérande
-* 32 bits seconde opérande
+|  Champ | OPcode | Opérande1 | Opérande2 |
+|:------:|:------:|:---------:|:---------:|
+| Taille | 8 bits |   8 bits  |  32 bits  |
 
 ## Résumé
 
-|  Nom             	| OPcode 	| Opérande1 	| Opérande2 	|
-|------------------	|--------	|-----------	|-----------	|
-| Taille (en bits) 	| 8      	| 8         	| 32        	|
-| [MOV](#mov)      	| 0x00   	| <ra>      	| <value>   	|
-| [CP](#cp)        	| 0x01   	| <ra>      	| <rb>      	|
-| [ADD](#add)      	| 0x02   	| <ra>      	| <rb>      	|
-| [SUB](#sub)      	| 0x03   	| <ra>      	| <rb>      	|
-|                  	|        	|           	|           	|
-|                  	|        	|           	|           	|
-|                  	|        	|           	|           	|
-|                  	|        	|           	|           	|
-|                  	|        	|           	|           	|
-|                  	|        	|           	|           	|
-|                  	|        	|           	|           	|
+|  Nom             | OPcode |
+|------------------|--------|
+| [MOV](#mov)      | 0x00   |
+| [CP](#cp)        | 0x01   |
+| [ADD](#add)      | 0x02   |
+| [SUB](#sub)      | 0x03   |
+| [MUL](#mul)      | 0x04   |
+| [DIV](#div)      | 0x05   |
+| [LD](#ld)        | 0x06   |
+| [STR](#str)      | 0x07   |
+| [EQ](#eq)        | 0x08   |
+| [INF](#inf)      | 0x09   |
+| [INFEQ](#infeq)  | 0x0A   |
+| [SUP](#sup)      | 0x0B   |
+| [SUPEQ](#supeq)  | 0x0C   |
 
+## Exemples
+
+|       Exemple      |    OPcode   | Opérande1 |  Opérande2  |
+|:------------------:|:-----------:|:---------:|:-----------:|
+|   `RO = RO + R1`   | [ADD](#add) |     R0    |      R1     |
+|                    | 0x02        | 0x00      | 0x0000_0001 |
+| `R4 = R4 * R12`    | [MUL](#mul) | R4        | R12         |
+|                    | 0x04        | 0x04      | 0x0000_000C |
+| `R4 = 0x9876_5432` | [MOV](#mov) | R4        | 0x9876_5432 |
+|                    | 0x00        | 0x04      | 0x9876_5432 |
 
 ### MOV
 
