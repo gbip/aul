@@ -22,6 +22,7 @@ int main(int argc, char** argv) {
         return 1;
     } else {
         printf("OK !\n");
+        print_ast(ast);
         return 0;
     }
 }

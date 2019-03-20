@@ -51,9 +51,6 @@ struct ast_instr {
         ast_assign* assign;
     };
     instr_det det;
-
-    // Following instruction
-    ast_instr* following;
 };
 
 struct ast_body {
@@ -62,11 +59,10 @@ struct ast_body {
 };
 
 #define CREATE_MAKE_UNION_INSTR(type, deter, typeArg) \
-ast_instr* ast_make_instr_##type(typeArg arg, ast_instr* next_instr) { \
+ast_instr* ast_make_instr_##type(typeArg arg) { \
     ast_instr* result = malloc(sizeof(ast_instr));\
     result->det = deter; \
     result->type = arg;\
-    result->following = next_instr;\
     return result; \
 }
 
@@ -233,12 +229,15 @@ void print_node(ast_instr* node, int offset_nb) {
     }
 }
 
-void print_ast(struct ast_instr* tree) {
+void print_ast(struct ast_body* body) {
     printf("printing tree \n");
     int i = 0;
-    while(tree != NULL) {
+    ast_body* iter = body;
+    ast_instr* tree;
+    while(iter != NULL) {
+        tree = iter->instr;
         print_node(tree,i);
-        tree = tree->following;
+        iter = iter->next;
     }
 }
 

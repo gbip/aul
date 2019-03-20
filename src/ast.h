@@ -72,7 +72,7 @@ CREATE_MAKE_UNION_H(id,id*,ID,id);
 CREATE_MAKE_UNION_H(expr,ast_expr*,EXPR,expr);
 
 #define CREATE_MAKE_UNION_INSTR_H(type, deter, typeArg) \
-ast_instr* ast_make_instr_##type(typeArg arg, ast_instr* next_instr); \
+ast_instr* ast_make_instr_##type(typeArg arg); \
 
 
 CREATE_MAKE_UNION_INSTR_H(decl, DECL, ast_decl*);
@@ -83,7 +83,7 @@ CREATE_MAKE_UNION_INSTR_H(assign, ASSIGN,ast_assign*);
 void ast_body_set_next(ast_body* body, ast_body* next);
 
 /* UTILS */
-void print_ast(ast_instr* tree);
+void print_ast(ast_body* tree);
 void ast_free(ast_instr *tree);
 
 

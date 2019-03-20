@@ -2,7 +2,7 @@
     #include "ast.h"
     #include <stdlib.h>
 
-    ast_instr* ast;
+    ast_body* ast;
 %}
 
 %code requires {#include "ast.h"}
@@ -58,7 +58,9 @@ S :
         tMAIN tPARO tPARF tACCO BODY tACCF
 ;
 
-BODY : INSTRS;
+BODY :
+        INSTRS
+            {ast = $1;}
 
 INSTRS :
         LINE tENDL INSTRS
