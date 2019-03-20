@@ -50,19 +50,22 @@ typedef enum instr_det {
 }instr_det;
 typedef struct ast_instr ast_instr;
 
+/* BODY */
+typedef struct ast_body ast_body;
+
 /* NODE MAKERS */
 
-id* make_id(char* name);
-ast_print* make_ast_print(id* anId);
-ast_assign* make_ast_assign(id* anId, ast_expr* anExpr);
-ast_decl* make_ast_decl(id* anId, type_t aType, ast_expr* anExpr);
-ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
-void free_ast(ast_instr* tree);
+id* ast_make_id(char *name);
+ast_print* ast_make_print(id *anId);
+ast_assign* ast_make_assign(id *anId, ast_expr *anExpr);
+ast_decl* ast_make_decl(id *anId, type_t aType, ast_expr *anExpr);
+ast_op* ast_make_op(ast_expr *leftExpr, op operation, ast_expr *right);
+void ast_free(ast_instr *tree);
 
 void print_ast(ast_instr* tree);
 
 #define CREATE_MAKE_UNION_H(type, code, deter, field) \
-    ast_expr* make_ast_expr_##type  (code field); \
+    ast_expr* ast_make_expr_##type  (code field); \
 
 CREATE_MAKE_UNION_H(op,ast_op*,OP,op);
 CREATE_MAKE_UNION_H(lit,lit,LIT,literral);
@@ -70,7 +73,7 @@ CREATE_MAKE_UNION_H(id,id*,ID,id);
 CREATE_MAKE_UNION_H(expr,ast_expr*,EXPR,expr);
 
 #define CREATE_MAKE_UNION_INSTR_H(type, deter, typeArg) \
-ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr); \
+ast_instr* ast_make_instr_##type(typeArg arg, ast_instr* next_instr); \
 
 
 CREATE_MAKE_UNION_INSTR_H(decl, DECL, ast_decl*);

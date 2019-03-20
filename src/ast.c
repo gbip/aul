@@ -56,9 +56,13 @@ struct ast_instr {
     ast_instr* following;
 };
 
+struct ast_body {
+    ast_instr instr;
+    ast_body* next;
+};
 
 #define CREATE_MAKE_UNION_INSTR(type, deter, typeArg) \
-ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr) { \
+ast_instr* ast_make_instr_##type(typeArg arg, ast_instr* next_instr) { \
     ast_instr* result = malloc(sizeof(ast_instr));\
     result->det = deter; \
     result->type = arg;\
@@ -72,26 +76,26 @@ CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
 
 /* MAKERS */
 
-id* make_id(char* name) {
+id* ast_make_id(char *name) {
     id* result = malloc(sizeof(id));
     result->name = name;
     return result;
 }
 
-ast_print* make_ast_print(id* anId) {
+ast_print* ast_make_print(id *anId) {
     ast_print* result = malloc(sizeof(ast_print));
     result->id = anId;
     return result;
 }
 
-ast_assign* make_ast_assign(id* anId, ast_expr* anExpr) {
+ast_assign* ast_make_assign(id *anId, ast_expr *anExpr) {
     ast_assign* result = malloc(sizeof(ast_assign));
     result->id = anId;
     result->expr = anExpr;
     return result;
 }
 
-ast_decl* make_ast_decl(id* anId, type_t aType, ast_expr* anExpr) {
+ast_decl* ast_make_decl(id *anId, type_t aType, ast_expr *anExpr) {
     ast_decl* result = malloc(sizeof(ast_decl));
     result->id = anId;
     result->type = aType;
@@ -99,10 +103,10 @@ ast_decl* make_ast_decl(id* anId, type_t aType, ast_expr* anExpr) {
     return result;
 }
 
-ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* rightExpr) {
+ast_op* ast_make_op(ast_expr *leftExpr, op operation, ast_expr *right) {
     ast_op* result = malloc(sizeof(ast_op));
     result->left = leftExpr;
-    result->right = rightExpr;
+    result->right = right;
     result->op = operation;
     return result;
 }
@@ -247,12 +251,12 @@ void free_ast(ast_instr* tree) {
             break;
     }
     free(tree);
-    free_ast(tree->following);
+    ast_free(tree->following);
 }
 */
 
 #define CREATE_MAKE_UNION(type, code, deter, field) \
-    ast_expr* make_ast_expr_##type  (code field) { \
+    ast_expr* ast_make_expr_##type  (code field) { \
         ast_expr* result = malloc(sizeof(ast_expr)); \
         result->det = deter; \
         result->field = field; \

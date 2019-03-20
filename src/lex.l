@@ -21,7 +21,7 @@
 ")" {return tPARF;}
 
 [A-Za-z]([A-Za-z0-9]|"_")*  {
-    yylval.idValue = make_id(strdup(yytext));
+    yylval.idValue = ast_make_id(strdup(yytext));
     return tID;
 }
 

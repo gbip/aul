@@ -12,13 +12,13 @@ void ast_tests() {
      */
     ast_expr* op1 = make_ast_expr_lit(12);
     ast_expr* op2 = make_ast_expr_lit(4);
-    ast_op* opNode = make_ast_op(op1,ADD,op2);
+    ast_op* opNode = ast_make_op(op1, ADD, op2);
     ast_expr* op4 = make_ast_expr_op(opNode);
-    id* anId = make_id("variable");
-    id* id2 = make_id("var2");
-    ast_decl* simpleDecl = make_ast_decl(id2,CONST,NULL);
+    id* anId = ast_make_id("variable");
+    id* id2 = ast_make_id("var2");
+    ast_decl* simpleDecl = ast_make_decl(id2, CONST, NULL);
     ast_instr* finalNode2 = make_ast_instr_decl(simpleDecl, NULL);
-    ast_decl* declNode = make_ast_decl(anId, INT, op4);
+    ast_decl* declNode = ast_make_decl(anId, INT, op4);
     ast_instr* finalNode = make_ast_instr_decl(declNode,finalNode2);
     print_ast(finalNode);
 }
@@ -61,7 +61,7 @@ void symbol_table_tests() {
         sprintf(buffer, "var%d", i);
         assert(ts_get(ts, buffer) == NULL);
     }
-
+    ts_free(ts);
 }
 
 int main() {

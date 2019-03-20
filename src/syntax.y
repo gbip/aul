@@ -64,25 +64,25 @@ INSTRS :
 
 LINE :
         ASSIGN
-            {$$ = make_ast_instr_assign($1,NULL);}
+            {$$ = ast_make_instr_assign($1,NULL);}
         | DECL
-            {$$ = make_ast_instr_decl($1,NULL);}
+            {$$ = ast_make_instr_decl($1,NULL);}
         | PRINT
-            {$$ = make_ast_instr_print($1,NULL);}
+            {$$ = ast_make_instr_print($1,NULL);}
 ;
 
 
 PRINT :
         tPRINT tPARO tID tPARF
         {
-            $$ = make_ast_print($3);
+            $$ = ast_make_print($3);
         }
 ;
 
 DECL :
         DECLKW tID tEGAL EXPR
             {
-                $$ = make_ast_decl($2,$1,$4);
+                $$ = ast_make_decl($2,$1,$4);
             }
 ;
 
@@ -100,21 +100,21 @@ DECLKW :
 ASSIGN :
         tID tEGAL EXPR
             {
-                $$ = make_ast_assign($1,$3);
+                $$ = ast_make_assign($1,$3);
             }
 ;
 
 EXPR :
         tLITT
-            {$$ = make_ast_expr_lit($1);}
+            {$$ = ast_make_expr_lit($1);}
         | tID
-            {$$ = make_ast_expr_id($1);}
+            {$$ = ast_make_expr_id($1);}
         | tLITTEXP
-            {$$ = make_ast_expr_lit($1);}
+            {$$ = ast_make_expr_lit($1);}
         | tPARO EXPR tPARF
-            {$$ = make_ast_expr_expr($2);}
+            {$$ = ast_make_expr_expr($2);}
         | EXPR OP EXPR
-            {$$ = make_ast_expr_op(make_ast_op($1,$2,$3));}
+            {$$ = ast_make_expr_op(ast_make_op($1,$2,$3));}
 ;
 
 OP :
