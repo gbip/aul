@@ -67,7 +67,7 @@
 /* First part of user prologue.  */
 #line 1 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:338  */
 
-    #include "ast.h"
+    #include "co_ast.h"
     #include <stdlib.h>
 
 #line 74 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:338  */
@@ -104,7 +104,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 #line 6 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:353  */
-#include "ast.h"
+#include "co_ast.h"
 
 #line 110 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:353  */
 
@@ -736,7 +736,7 @@ do {                                    \
     yy_reduce_print (yyssp, yyvsp, Rule); \
 } while (0)
 
-/* Nonzero means print parse trace.  It is left uninitialized so that
+/* Nonzero means print vm_execute trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
 int yydebug;
 #else /* !YYDEBUG */
@@ -1071,7 +1071,7 @@ yyparse (void)
   yyvsp = yyvs = yyvsa;
   yystacksize = YYINITDEPTH;
 
-  YYDPRINTF ((stderr, "Starting parse\n"));
+  YYDPRINTF ((stderr, "Starting vm_execute\n"));
 
   yystate = 0;
   yyerrstatus = 0;

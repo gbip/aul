@@ -44,7 +44,7 @@ extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
 #line 6 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1906  */
-#include "ast.h"
+#include "co_ast.h"
 
 #line 50 "/home/paul/repos/aul/src/compiler/syntax.h" /* yacc.c:1906  */
 

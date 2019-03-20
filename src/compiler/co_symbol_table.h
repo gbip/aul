@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include "ast.h"
+#include "co_ast.h"
 
 // The maximum size of our symbol tables
 #define TABLE_SIZE 1000

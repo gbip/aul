@@ -475,7 +475,7 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "/home/paul/repos/aul/src/compiler/lex.l"
 #line 2 "/home/paul/repos/aul/src/compiler/lex.l"
-#include "ast.h"
+#include "co_ast.h"
 #include "syntax.h"
 #line 480 "/home/paul/repos/aul/src/compiler/lex.yy.c"
 #line 481 "/home/paul/repos/aul/src/compiler/lex.yy.c"

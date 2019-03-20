@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     void * file = fopen(argv[1], "r");
     if (file == NULL) {
         printf("File does not exist");
-        exit(1);
+        return 1;
     }
     yyin = file;
     int error = yyparse();

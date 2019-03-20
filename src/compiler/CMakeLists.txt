@@ -10,20 +10,20 @@ bison_target(Parser ${CMAKE_CURRENT_SOURCE_DIR}/syntax.y
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
 set(SRC_FILES ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS}
-        main.c
-        ast.c
-        symbol_table.c
-        types.c
-        ir.c
-        ir.h)
+        co_main.c
+        co_ast.c
+        co_symbol_table.c
+        co_types.c
+        co_ir.c
+        co_ir.h)
 
 add_executable(aul ${SRC_FILES})
 
 target_link_libraries(aul fl)
 
 set(TEST_SRC_FILES
-        ast.c
-        symbol_table.c
-        types.c
-        tests.c)
-add_executable(test_ast  ${TEST_SRC_FILES})
+        co_ast.c
+        co_symbol_table.c
+        co_types.c
+        co_tests.c)
+add_executable(test_ast ${TEST_SRC_FILES})

@@ -3,7 +3,7 @@
 //
 
 #include <string.h>
-#include "symbol_table.h"
+#include "co_symbol_table.h"
 
 typedef struct symbol_table_entry {
     target_usize_t addr;

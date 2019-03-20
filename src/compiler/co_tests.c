@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
-#include "ast.h"
-#include "symbol_table.h"
+#include "co_ast.h"
+#include "co_symbol_table.h"
 
 void ast_tests() {
     /*

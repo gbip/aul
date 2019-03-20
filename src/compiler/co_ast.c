@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "ast.h"
+#include "co_ast.h"
 
 ast_body* ast;
 int init = 0;

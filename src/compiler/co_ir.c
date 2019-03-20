@@ -2,7 +2,7 @@
 // Created by paul on 20/03/19.
 //
 
-#include "ir.h"
+#include "co_ir.h"
 
 struct ir_body {
     ir_body* next;
@@ -20,7 +20,7 @@ struct ir_ins {
         struct _if {
             ir_body* if_cond;
             ir_body* if_body;
-        }
+        };
     };
 
 };
