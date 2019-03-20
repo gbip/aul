@@ -20,13 +20,20 @@ void ast_tests() {
     id* id2 = ast_make_id("var2");
     ast_print* printNode = ast_make_print(anId);
     ast_assign* assignNode = ast_make_assign(id2,op4);
-    ast_instr* finalNode4 = ast_make_instr_assign(assignNode, NULL);
-    ast_instr* finalNode3 = ast_make_instr_print(printNode, finalNode4);
+    ast_instr* finalNode4 = ast_make_instr_assign(assignNode);
+    ast_instr* finalNode3 = ast_make_instr_print(printNode);
     ast_decl* simpleDecl = ast_make_decl(id2, CONST, NULL);
-    ast_instr* finalNode2 = ast_make_instr_decl(simpleDecl, finalNode3);
+    ast_instr* finalNode2 = ast_make_instr_decl(simpleDecl);
     ast_decl* declNode = ast_make_decl(anId, INT, op4);
-    ast_instr* finalNode = ast_make_instr_decl(declNode,finalNode2);
-    print_ast(finalNode);
+    ast_instr* finalNode = ast_make_instr_decl(declNode);
+    ast_body* bod1 = ast_make_body(finalNode,NULL);
+    ast_body* bod2 = ast_make_body(finalNode2,NULL);
+    ast_body* bod3 = ast_make_body(finalNode3,NULL);
+    ast_body* bod4 = ast_make_body(finalNode4,NULL);
+    ast_body_set_next(bod1,bod2);
+    ast_body_set_next(bod2,bod3);
+    ast_body_set_next(bod3,bod4);
+    print_ast(bod1);
 }
 
 void symbol_table_tests() {

@@ -66,7 +66,6 @@ ast_instr* ast_make_instr_##type(typeArg arg) { \
     ast_instr* result = malloc(sizeof(ast_instr));\
     result->det = deter; \
     result->type = arg;\
-    result->following = next_instr;\
     return result; \
 }
 

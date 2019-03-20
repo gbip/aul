@@ -82,7 +82,7 @@ CREATE_MAKE_UNION_INSTR_H(assign, ASSIGN,ast_assign*);
 void ast_body_set_next(ast_body* body, ast_body* next);
 
 /* UTILS */
-void print_ast(ast_body* tree);
+void print_ast(struct ast_body* body);
 void ast_free(ast_instr *tree);
 ast_body* get_ast();
 void set_ast(ast_body*);
