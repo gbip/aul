@@ -45,7 +45,6 @@ typedef struct ast_print ast_print;
 typedef struct ast_assign ast_assign;
 
 /* INSTRUCTION */
-typedef union instr instr;
 typedef enum instr_det {
     DECL,
     PRINT,

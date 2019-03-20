@@ -5,9 +5,6 @@
 #include <stdlib.h>
 #include "ast.h"
 
-
-
-
 /* EXPR */
 struct ast_expr {
     union {
