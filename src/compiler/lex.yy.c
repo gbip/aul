@@ -1,6 +1,6 @@
-#line 1 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.c"
+#line 1 "/home/paul/repos/aul/src/compiler/lex.yy.c"
 
-#line 3 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.c"
+#line 3 "/home/paul/repos/aul/src/compiler/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -473,12 +473,12 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
-#line 2 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 1 "/home/paul/repos/aul/src/compiler/lex.l"
+#line 2 "/home/paul/repos/aul/src/compiler/lex.l"
 #include "ast.h"
 #include "syntax.h"
-#line 480 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.c"
-#line 481 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.c"
+#line 480 "/home/paul/repos/aul/src/compiler/lex.yy.c"
+#line 481 "/home/paul/repos/aul/src/compiler/lex.yy.c"
 
 #define INITIAL 0
 
@@ -695,9 +695,9 @@ YY_DECL
 		}
 
 	{
-#line 6 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 6 "/home/paul/repos/aul/src/compiler/lex.l"
 
-#line 700 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.c"
+#line 700 "/home/paul/repos/aul/src/compiler/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -756,47 +756,47 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 7 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tMAIN;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 9 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 9 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tPRINT;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 11 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 11 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tCONST;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 13 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 13 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tINT;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 15 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 15 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tACCO;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 17 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 17 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tACCF;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 19 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 19 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tPARO;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 21 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 21 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tPARF;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 23 "/home/paul/repos/aul/src/compiler/lex.l"
 {
     yylval.idValue = ast_make_id(strdup(yytext));
     return tID;
@@ -804,48 +804,48 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 28 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 28 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tPLUS;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 30 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 30 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tMOINS;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 32 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 32 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tMUL;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 34 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 34 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tDIV;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 36 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 36 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tEGAL;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 38 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 38 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tENDL;}
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 40 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 40 "/home/paul/repos/aul/src/compiler/lex.l"
 {}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 42 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 42 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tSEP;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 44 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 44 "/home/paul/repos/aul/src/compiler/lex.l"
 {
     yylval.intValue = atoi(yytext);
     return tLITT;
@@ -853,7 +853,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 49 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 49 "/home/paul/repos/aul/src/compiler/lex.l"
 {return tLITTEXP;}
 	YY_BREAK
 case 20:
@@ -861,15 +861,15 @@ case 20:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 51 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 51 "/home/paul/repos/aul/src/compiler/lex.l"
 ;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 53 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 53 "/home/paul/repos/aul/src/compiler/lex.l"
 ECHO;
 	YY_BREAK
-#line 872 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.c"
+#line 872 "/home/paul/repos/aul/src/compiler/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1874,5 +1874,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 53 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 53 "/home/paul/repos/aul/src/compiler/lex.l"
 

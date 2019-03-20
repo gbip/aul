@@ -14,7 +14,12 @@ int main(int argc, char** argv) {
         return 1;
     }
     printf("Building %s ...\n", argv[1]);
-    yyin = fopen(argv[1], "r");
+    void * file = fopen(argv[1], "r");
+    if (file == NULL) {
+        printf("File does not exist");
+        exit(1);
+    }
+    yyin = file;
     int error = yyparse();
     fclose(yyin);
     if (error){

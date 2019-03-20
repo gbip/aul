@@ -2,9 +2,9 @@
 #define yyHEADER_H 1
 #define yyIN_HEADER 1
 
-#line 5 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.h"
+#line 5 "/home/paul/repos/aul/src/compiler/lex.yy.h"
 
-#line 7 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.h"
+#line 7 "/home/paul/repos/aul/src/compiler/lex.yy.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -466,9 +466,9 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 53 "/home/paul/repos/aul/cmake-build-debug/../src/lex.l"
+#line 53 "/home/paul/repos/aul/src/compiler/lex.l"
 
 
-#line 472 "/home/paul/repos/aul/cmake-build-debug/../src/lex.yy.h"
+#line 472 "/home/paul/repos/aul/src/compiler/lex.yy.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

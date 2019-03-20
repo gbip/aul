@@ -5,7 +5,7 @@
 #ifndef AUL_AST_H
 #define AUL_AST_H
 
-#include "compiler/types.h"
+#include "types.h"
 
 typedef int lit;
 typedef struct id {

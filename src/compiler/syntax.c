@@ -65,12 +65,12 @@
 
 
 /* First part of user prologue.  */
-#line 1 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:338  */
+#line 1 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:338  */
 
     #include "ast.h"
     #include <stdlib.h>
 
-#line 74 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:338  */
+#line 74 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:338  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -93,8 +93,8 @@
 
 /* In a future release of Bison, this section will be replaced
    by #include "syntax.h".  */
-#ifndef YY_YY_HOME_PAUL_REPOS_AUL_CMAKE_BUILD_DEBUG_SRC_SYNTAX_H_INCLUDED
-# define YY_YY_HOME_PAUL_REPOS_AUL_CMAKE_BUILD_DEBUG_SRC_SYNTAX_H_INCLUDED
+#ifndef YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
+# define YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -103,10 +103,10 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 6 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:353  */
+#line 6 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:353  */
 #include "ast.h"
 
-#line 110 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:353  */
+#line 110 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:353  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -139,7 +139,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:353  */
+#line 9 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:353  */
 
     int intValue;
     id* idValue;
@@ -151,7 +151,7 @@ union YYSTYPE
     type_t type;
     ast_body* ast_body;
 
-#line 155 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:353  */
+#line 155 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:353  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -164,7 +164,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_HOME_PAUL_REPOS_AUL_CMAKE_BUILD_DEBUG_SRC_SYNTAX_H_INCLUDED  */
+#endif /* !YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED  */
 
 
 
@@ -1255,143 +1255,143 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 56 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 56 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {set_ast((yyvsp[0].ast_body));}
-#line 1261 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1261 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 3:
-#line 61 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 61 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_body) = (yyvsp[-1].ast_body);}
-#line 1267 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1267 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 4:
-#line 66 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 66 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_body)=(yyvsp[0].ast_body);}
-#line 1273 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1273 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 5:
-#line 71 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 71 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_body) = ast_make_body((yyvsp[-2].ast_instr),(yyvsp[0].ast_body));}
-#line 1279 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1279 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 6:
-#line 73 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 73 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_body) = NULL;}
-#line 1285 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1285 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 7:
-#line 78 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 78 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_instr) = ast_make_instr_assign((yyvsp[0].ast_assign));}
-#line 1291 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1291 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 8:
-#line 80 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 80 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_instr) = ast_make_instr_decl((yyvsp[0].ast_decl));}
-#line 1297 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1297 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 9:
-#line 82 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 82 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_instr) = ast_make_instr_print((yyvsp[0].ast_print));}
-#line 1303 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1303 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 10:
-#line 88 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 88 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {
             (yyval.ast_print) = ast_make_print((yyvsp[-1].idValue));
         }
-#line 1311 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1311 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 11:
-#line 95 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 95 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {
                 (yyval.ast_decl) = ast_make_decl((yyvsp[-2].idValue),(yyvsp[-3].type),(yyvsp[0].ast_expr));
             }
-#line 1319 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1319 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 12:
-#line 102 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 102 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {
                 (yyval.type) = INT;
             }
-#line 1327 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1327 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 13:
-#line 106 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 106 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {
                 (yyval.type) = CONST;
             }
-#line 1335 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1335 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 14:
-#line 113 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 113 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {
                 (yyval.ast_assign) = ast_make_assign((yyvsp[-2].idValue),(yyvsp[0].ast_expr));
             }
-#line 1343 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1343 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 15:
-#line 120 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 120 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_lit((yyvsp[0].intValue));}
-#line 1349 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1349 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 16:
-#line 122 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 122 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_id((yyvsp[0].idValue));}
-#line 1355 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1355 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 17:
-#line 124 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 124 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_lit((yyvsp[0].intValue));}
-#line 1361 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1361 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 18:
-#line 126 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 126 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = (yyvsp[-1].ast_expr);}
-#line 1367 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1367 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 19:
-#line 128 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 128 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),ADD,(yyvsp[0].ast_expr)));}
-#line 1373 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1373 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 20:
-#line 130 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 130 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),SUB,(yyvsp[0].ast_expr)));}
-#line 1379 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1379 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 21:
-#line 132 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 132 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),DIV,(yyvsp[0].ast_expr)));}
-#line 1385 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1385 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
   case 22:
-#line 134 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.y" /* yacc.c:1645  */
+#line 134 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),MUL,(yyvsp[0].ast_expr)));}
-#line 1391 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1391 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
     break;
 
 
-#line 1395 "/home/paul/repos/aul/cmake-build-debug/../src/syntax.c" /* yacc.c:1645  */
+#line 1395 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

@@ -1,0 +1,2 @@
+add_subdirectory(virtual_machine)
+add_subdirectory(compiler)
