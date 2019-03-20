@@ -29,8 +29,8 @@ ts* make_ts();
 void ts_add(ts* ts, const char* name, type_t type, uint64_t depth);
 
 // Retrieve the index of a specified entry in the symbol table
-target_usize_t ts_get(ts* ts, const char* name);
+target_usize_t* ts_get(ts* ts, const char* name);
 
-void step_out_of_block(ts* ts);
+void pop_current_depth(ts *ts);
 
 #endif //AUL_SYMBOL_TABLE_H

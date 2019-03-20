@@ -60,21 +60,21 @@ ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
 void free_ast(ast_instr* tree);
 
 
-#define CREATE_MAKE_UNION(type, code, deter, field) \
+#define CREATE_MAKE_UNION_H(type, code, deter, field) \
     ast_expr* make_ast_expr_##type  (code field); \
 
-CREATE_MAKE_UNION(op,ast_op*,OP,op);
-CREATE_MAKE_UNION(lit,lit,LIT,literral);
-CREATE_MAKE_UNION(id,id*,ID,id);
-CREATE_MAKE_UNION(expr,ast_expr*,EXPR,expr);
+CREATE_MAKE_UNION_H(op,ast_op*,OP,op);
+CREATE_MAKE_UNION_H(lit,lit,LIT,literral);
+CREATE_MAKE_UNION_H(id,id*,ID,id);
+CREATE_MAKE_UNION_H(expr,ast_expr*,EXPR,expr);
 
-#define CREATE_MAKE_UNION_INSTR(type, deter, typeArg) \
+#define CREATE_MAKE_UNION_INSTR_H(type, deter, typeArg) \
 ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr); \
 
 
-CREATE_MAKE_UNION_INSTR(decl, DECL, ast_decl*);
-CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
-CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
+CREATE_MAKE_UNION_INSTR_H(decl, DECL, ast_decl*);
+CREATE_MAKE_UNION_INSTR_H(print, PRINT,ast_print*);
+CREATE_MAKE_UNION_INSTR_H(assign, ASSIGN,ast_assign*);
 
 #endif //AUL_AST_H
 

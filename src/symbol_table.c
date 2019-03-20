@@ -2,6 +2,7 @@
 // Created by paul on 20/03/19.
 //
 
+#include <string.h>
 #include "symbol_table.h"
 
 typedef struct symbol_table_entry {
@@ -36,10 +37,22 @@ void ts_add(ts* ts, const char* name, type_t type, uint64_t depth) {
     ts->index++;
 }
 
-target_usize_t ts_get(ts* ts, const char* name) {
-    return 0;
+target_usize_t* ts_get(ts* ts, const char* name) {
+    for (uintptr_t i = 0; i < ts->index; i++) {
+        if (strcmp(ts->table[i].name, name) == 0) {
+            return &ts->table[i].addr;
+        }
+    }
+    return NULL;
 }
 
-void step_out_of_block(ts* ts) {
+symbol_table_entry* last_entry(ts* ts) {
+    return &ts->table[ts->index];
+}
 
+void pop_current_depth(ts *ts) {
+    uint64_t current_depth = last_entry(ts)->depth;
+    while (ts->table[ts->index].depth == current_depth && ts->index > 0) {
+        ts->index--;
+    }
 }
