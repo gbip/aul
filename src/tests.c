@@ -7,17 +7,23 @@ void ast_tests() {
     /*
      *
      * cas de test :
-     *  variable = 4+12
+     *  variable = 4+12;
+     *  const var2;
+     *  print(var2);
      *
      */
+    id* anId = ast_make_id("variable");
     ast_expr* op1 = ast_make_expr_lit(12);
-    ast_expr* op2 = ast_make_expr_lit(4);
+    ast_expr* op2 = ast_make_expr_id(anId);
     ast_op* opNode = ast_make_op(op1, ADD, op2);
     ast_expr* op4 = ast_make_expr_op(opNode);
-    id* anId = ast_make_id("variable");
     id* id2 = ast_make_id("var2");
+    ast_print* printNode = ast_make_print(anId);
+    ast_assign* assignNode = ast_make_assign(id2,op4);
+    ast_instr* finalNode4 = ast_make_instr_assign(assignNode, NULL);
+    ast_instr* finalNode3 = ast_make_instr_print(printNode, finalNode4);
     ast_decl* simpleDecl = ast_make_decl(id2, CONST, NULL);
-    ast_instr* finalNode2 = ast_make_instr_decl(simpleDecl, NULL);
+    ast_instr* finalNode2 = ast_make_instr_decl(simpleDecl, finalNode3);
     ast_decl* declNode = ast_make_decl(anId, INT, op4);
     ast_instr* finalNode = ast_make_instr_decl(declNode,finalNode2);
     print_ast(finalNode);
