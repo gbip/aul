@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
         return 1;
     } else {
         printf("OK !\n");
-        print_ast(ast);
+        print_ast(get_ast());
         return 0;
     }
 }

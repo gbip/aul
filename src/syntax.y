@@ -1,8 +1,6 @@
 %{
     #include "ast.h"
     #include <stdlib.h>
-
-    ast_body* ast;
 %}
 
 %code requires {#include "ast.h"}
@@ -60,7 +58,7 @@ S :
 
 BODY :
         INSTRS
-            {ast = $1;}
+            {set_ast($1);}
 
 INSTRS :
         LINE tENDL INSTRS
@@ -71,11 +69,11 @@ INSTRS :
 
 LINE :
         ASSIGN
-            {$$ = ast_make_instr_assign($1,NULL);}
+            {$$ = ast_make_instr_assign($1);}
         | DECL
-            {$$ = ast_make_instr_decl($1,NULL);}
+            {$$ = ast_make_instr_decl($1);}
         | PRINT
-            {$$ = ast_make_instr_print($1,NULL);}
+            {$$ = ast_make_instr_print($1);}
 ;
 
 

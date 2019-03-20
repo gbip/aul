@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include "ast.h"
 
+ast_body* ast;
+int init = 0;
+
 /* EXPR */
 struct ast_expr {
     union {
@@ -69,6 +72,20 @@ ast_instr* ast_make_instr_##type(typeArg arg) { \
 CREATE_MAKE_UNION_INSTR(decl, DECL, ast_decl*);
 CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
 CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
+
+ast_body* get_ast() {
+    if (init) {
+        return ast;
+    }
+    else {
+        ast=malloc(sizeof(ast_body));
+        return ast;
+    }
+}
+
+void set_ast(ast_body* new_ast) {
+    ast = new_ast;
+}
 
 /* MAKERS */
 
