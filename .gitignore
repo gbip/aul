@@ -163,3 +163,4 @@ src/lex.yy.h
 src/syntax.c
 src/syntax.h
 /tests/
+*.output

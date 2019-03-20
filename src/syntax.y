@@ -17,7 +17,7 @@
     ast_assign* ast_assign;
     ast_instr* ast_instr;
     type_t type;
-    op op;
+    ast_body* ast_body;
 }
 
 %token tMAIN
@@ -40,12 +40,15 @@
 %token <idValue> tID
 
 %type <ast_expr> EXPR
-%type <op> OP
 %type <type> DECLKW
 %type <ast_print> PRINT
 %type <ast_decl> DECL
 %type <ast_assign> ASSIGN
 %type <ast_instr> LINE
+%type <ast_body> INSTRS
+
+%left tPLUS tMOINS
+%right tDIV tMUL
 
 %start S
 
@@ -59,7 +62,9 @@ BODY : INSTRS;
 
 INSTRS :
         LINE tENDL INSTRS
-            {}|
+            {$$ = ast_make_body($1,$3);}
+        |
+            {$$ = NULL;}
 ;
 
 LINE :
@@ -113,18 +118,13 @@ EXPR :
             {$$ = ast_make_expr_lit($1);}
         | tPARO EXPR tPARF
             {$$ = ast_make_expr_expr($2);}
-        | EXPR OP EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,$2,$3));}
-;
+        | EXPR tPLUS EXPR
+            {$$ = ast_make_expr_op(ast_make_op($1,ADD,$3));}
+        | EXPR tMOINS EXPR
+            {$$ = ast_make_expr_op(ast_make_op($1,SUB,$3));}
+        | EXPR tDIV EXPR
+            {$$ = ast_make_expr_op(ast_make_op($1,DIV,$3));}
+        | EXPR tMUL EXPR
+            {$$ = ast_make_expr_op(ast_make_op($1,MUL,$3));}
 
-OP :
-        tMOINS
-            {$$ = SUB;}
-        | tPLUS
-            {$$ = ADD;}
-        | tMUL
-            {$$ = MUL;}
-        | tDIV
-            {$$ = DIV;}
 ;
-

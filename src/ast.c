@@ -57,7 +57,7 @@ struct ast_instr {
 };
 
 struct ast_body {
-    ast_instr instr;
+    ast_instr* instr;
     ast_body* next;
 };
 
@@ -75,6 +75,17 @@ CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
 CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
 
 /* MAKERS */
+
+ast_body* ast_make_body(ast_instr* instr, ast_body* next) {
+    ast_body* result = malloc(sizeof(ast_body));
+    result->instr = instr;
+    result->next = next;
+    return result;
+}
+
+void ast_body_set_next(ast_body* body, ast_body* next) {
+    body->next = next;
+}
 
 id* ast_make_id(char *name) {
     id* result = malloc(sizeof(id));

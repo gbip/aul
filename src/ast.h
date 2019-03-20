@@ -60,9 +60,8 @@ ast_print* ast_make_print(id *anId);
 ast_assign* ast_make_assign(id *anId, ast_expr *anExpr);
 ast_decl* ast_make_decl(id *anId, type_t aType, ast_expr *anExpr);
 ast_op* ast_make_op(ast_expr *leftExpr, op operation, ast_expr *right);
-void ast_free(ast_instr *tree);
+ast_body* ast_make_body(ast_instr* instr, ast_body* next);
 
-void print_ast(ast_instr* tree);
 
 #define CREATE_MAKE_UNION_H(type, code, deter, field) \
     ast_expr* ast_make_expr_##type  (code field); \
@@ -79,6 +78,14 @@ ast_instr* ast_make_instr_##type(typeArg arg, ast_instr* next_instr); \
 CREATE_MAKE_UNION_INSTR_H(decl, DECL, ast_decl*);
 CREATE_MAKE_UNION_INSTR_H(print, PRINT,ast_print*);
 CREATE_MAKE_UNION_INSTR_H(assign, ASSIGN,ast_assign*);
+
+/* BODY OPERATIONS */
+void ast_body_set_next(ast_body* body, ast_body* next);
+
+/* UTILS */
+void print_ast(ast_instr* tree);
+void ast_free(ast_instr *tree);
+
 
 #endif //AUL_AST_H
 

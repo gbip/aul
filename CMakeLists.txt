@@ -7,7 +7,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 find_package(FLEX)
 find_package(BISON)
 flex_target(Lexer ${CMAKE_CURRENT_BINARY_DIR}/../src/lex.l ${CMAKE_CURRENT_BINARY_DIR}/../src/lex.yy.c COMPILE_FLAGS "--header-file=${CMAKE_CURRENT_BINARY_DIR}/../src/lex.yy.h")
-bison_target(Parser ${CMAKE_CURRENT_BINARY_DIR}/../src/syntax.y ${CMAKE_CURRENT_BINARY_DIR}/../src/syntax.c COMPILE_FLAGS "-d")
+bison_target(Parser ${CMAKE_CURRENT_BINARY_DIR}/../src/syntax.y ${CMAKE_CURRENT_BINARY_DIR}/../src/syntax.c COMPILE_FLAGS "-d -v")
 
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)
 
