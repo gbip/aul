@@ -59,6 +59,7 @@ ast_decl* make_ast_decl(id* anId, type_t aType, ast_expr* anExpr);
 ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* right);
 void free_ast(ast_instr* tree);
 
+void print_ast(ast_instr* tree);
 
 #define CREATE_MAKE_UNION(type, code, deter, field) \
     ast_expr* make_ast_expr_##type  (code field); \

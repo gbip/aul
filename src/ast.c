@@ -3,15 +3,16 @@
 //
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "ast.h"
 
 /* EXPR */
 struct ast_expr {
     union {
-        ast_op* op;
-        id* id;
-        lit literral;
-        ast_expr* expr;
+        ast_op* op; // opération sur deux expressions
+        id* id; // type atomique
+        lit literral; // type atomique
+        ast_expr* expr; // autre expression
     };
     expr_det det;
 };
@@ -54,6 +55,7 @@ struct ast_instr {
     // Following instruction
     ast_instr* following;
 };
+
 
 #define CREATE_MAKE_UNION_INSTR(type, deter, typeArg) \
 ast_instr* make_ast_instr_##type(typeArg arg, ast_instr* next_instr) { \
@@ -103,6 +105,49 @@ ast_op* make_ast_op(ast_expr* leftExpr, op operation, ast_expr* rightExpr) {
     result->right = rightExpr;
     result->op = operation;
     return result;
+}
+
+void print_offset(int nb) {
+    while(nb>0) {
+        printf(" ");
+        nb--;
+    }
+}
+
+void print_node(ast_instr* node, int offset_nb) {
+    switch(node->det) {
+        case DECL :
+            switch(node->decl->type) {
+                case INT:
+                    print_offset(offset_nb);
+                    printf("int %s",node->decl->id->name);
+                    break;
+                case CONST:
+                    print_offset(offset_nb);
+                    printf("const %s",node->decl->id->name);
+                default:
+                    break;
+            }
+            break;
+        case PRINT :
+            print_offset(offset_nb);
+            printf("print \n");
+        case ASSIGN :
+            print_offset(offset_nb);
+            printf("print \n");
+        default:
+            printf("ERROR ! \n");
+    }
+}
+
+void print_ast(struct ast_instr* tree) {
+    printf("printing tree \n");
+    int i = 0;
+    while(tree != NULL) {
+        print_node(tree,i);
+        tree = tree->following;
+        i++;
+    }
 }
 
 /* FREERS */
