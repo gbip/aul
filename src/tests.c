@@ -3,7 +3,8 @@
 #include "ast.h"
 #include "symbol_table.h"
 
-void ast_tests() {    /*
+void ast_tests() {
+    /*
      *
      * cas de test :
      *  variable = 4+12
@@ -14,8 +15,11 @@ void ast_tests() {    /*
     ast_op* opNode = make_ast_op(op1,ADD,op2);
     ast_expr* op4 = make_ast_expr_op(opNode);
     id* anId = make_id("variable");
+    id* id2 = make_id("var2");
+    ast_decl* simpleDecl = make_ast_decl(id2,CONST,NULL);
+    ast_instr* finalNode2 = make_ast_instr_decl(simpleDecl, NULL);
     ast_decl* declNode = make_ast_decl(anId, INT, op4);
-    ast_instr* finalNode = make_ast_instr_decl(declNode,NULL);
+    ast_instr* finalNode = make_ast_instr_decl(declNode,finalNode2);
     print_ast(finalNode);
 }
 

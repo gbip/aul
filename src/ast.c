@@ -114,27 +114,67 @@ void print_offset(int nb) {
     }
 }
 
+void print_expr(ast_expr* expression, int offset_nb) {
+    switch(expression->det) {
+        case OP:
+            print_offset(offset_nb);
+            break;
+        case LIT:
+            print_offset(offset_nb);
+            printf("[LIT] %d\n", expression->literral);
+            break;
+        case EXPR:
+            print_offset(offset_nb);
+            break;
+        case ID:
+            print_offset(offset_nb);
+            printf("[ID] %d\n", expression->id->name);
+            break;
+        default:
+            printf("ERROR\n");
+            break;
+    }
+}
+
 void print_node(ast_instr* node, int offset_nb) {
     switch(node->det) {
         case DECL :
             switch(node->decl->type) {
                 case INT:
                     print_offset(offset_nb);
-                    printf("int %s",node->decl->id->name);
+                    printf("[DECL] int %s\n",node->decl->id->name);
+                    if(node->decl->expr == NULL) {
+                        printf(";\n");
+                    }
+                    else {
+                        print_expr(node->decl->expr,offset_nb+4);
+                    }
                     break;
                 case CONST:
                     print_offset(offset_nb);
-                    printf("const %s",node->decl->id->name);
+                    printf("[DECL] const %s\n",node->decl->id->name);
+                    if(node->decl->expr == NULL) {
+                        printf(";\n");
+                    }
+                    else {
+                        print_expr(node->decl->expr,offset_nb+4);
+                    }
                 default:
                     break;
             }
             break;
         case PRINT :
             print_offset(offset_nb);
-            printf("print \n");
+            printf("[PRINT] print %s \n", node->print->id->name);
         case ASSIGN :
             print_offset(offset_nb);
-            printf("print \n");
+            printf("[ASSIGN] %s\n",node->decl->id->name);
+            if(node->decl->expr == NULL) {
+                printf(";\n");
+            }
+            else {
+                print_expr(node->decl->expr,offset_nb+1);
+            }
         default:
             printf("ERROR ! \n");
     }
@@ -146,7 +186,7 @@ void print_ast(struct ast_instr* tree) {
     while(tree != NULL) {
         print_node(tree,i);
         tree = tree->following;
-        i++;
+        i+=4;
     }
 }
 
