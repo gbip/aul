@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 
+// Describe all the opcodes implemented by the virtual machine
 enum OPCODE {
     ADD,
     SUB,
@@ -23,6 +24,10 @@ enum OPCODE {
     COPY
 };
 
+// Give semantic to an integer by mapping it to an opcode
+// 0 => MOVE
+// 1 => COPY
+// etc.
 uint8_t OP_CODES[16] = {
         MOVE,
         COPY,
