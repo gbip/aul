@@ -81,6 +81,8 @@ void vm_execute( struct vm_machine *vm, const char *filename) {
             case STORE:
                 set_addr(vm->mem, vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
                 break;
+            case PRINT:
+                printf("Value of r%ud : %ud \n", instr[1], vm->regs[instr[1]]);
         }
     }
 }

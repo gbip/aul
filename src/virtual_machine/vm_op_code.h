@@ -21,14 +21,15 @@ enum OPCODE {
     SUP,
     SUPEQ,
     MOVE,
-    COPY
+    COPY,
+    PRINT
 };
 
 // Give semantic to an integer by mapping it to an opcode
 // 0 => MOVE
 // 1 => COPY
 // etc.
-uint8_t OP_CODES[16] = {
+uint8_t OP_CODES[17] = {
         MOVE,
         COPY,
         ADD,
@@ -41,7 +42,8 @@ uint8_t OP_CODES[16] = {
         INF,
         INFEQ,
         SUP,
-        SUPEQ
+        SUPEQ,
+        PRINT
 };
 
 #endif //AUL_OP_CODE_H

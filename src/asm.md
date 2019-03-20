@@ -21,6 +21,7 @@
 | [INFEQ](#infeq)  | 0x0A   |
 | [SUP](#sup)      | 0x0B   |
 | [SUPEQ](#supeq)  | 0x0C   |
+| [PRINT](#print)  | 0x0D   |
 
 ## Exemples
 
@@ -186,4 +187,16 @@ SUPEQ <ra> <rb>
 
 ```txt
 ra = 1 si ra >= rb
+```
+
+### PRINT
+
+Affiche la valeur d'un registre
+
+```txt
+PRINT <ra>
+```
+
+```
+display the value of <ra> on screen
 ```
