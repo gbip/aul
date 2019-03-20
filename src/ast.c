@@ -122,19 +122,50 @@ void print_expr(ast_expr* expression, int offset_nb) {
     switch(expression->det) {
         case OP:
             print_offset(offset_nb);
+            switch(expression->op->op) {
+                case ADD:
+                    print_offset(offset_nb);
+                    printf("[ADD]\n");
+                    print_expr(expression->op->left, offset_nb+4);
+                    print_expr(expression->op->right, offset_nb+4);
+                    break;
+                case SUB:
+                    print_offset(offset_nb);
+                    printf("[SUB]\n");
+                    print_expr(expression->op->left, offset_nb+4);
+                    print_expr(expression->op->right, offset_nb+4);
+                    break;
+                case DIV:
+                    print_offset(offset_nb);
+                    printf("[DIV]\n");
+                    print_expr(expression->op->left, offset_nb+4);
+                    print_expr(expression->op->right, offset_nb+4);
+                    break;
+                case MUL:
+                    print_offset(offset_nb);
+                    printf("[MUL]\n");
+                    print_expr(expression->op->left, offset_nb+4);
+                    print_expr(expression->op->right, offset_nb+4);
+                    break;
+                default:
+                    print_offset(offset_nb);
+                    printf("ERROR\n");
+                    break;
+            }
             break;
         case LIT:
             print_offset(offset_nb);
             printf("[LIT] %d\n", expression->literral);
             break;
-        case EXPR:
+        case EXPR: // utile seulement pour les ( expr )
             print_offset(offset_nb);
             break;
         case ID:
             print_offset(offset_nb);
-            printf("[ID] %d\n", expression->id->name);
+            printf("[ID] %s\n", expression->id->name);
             break;
         default:
+            print_offset(offset_nb);
             printf("ERROR\n");
             break;
     }
@@ -163,13 +194,17 @@ void print_node(ast_instr* node, int offset_nb) {
                     else {
                         print_expr(node->decl->expr,offset_nb+4);
                     }
+                    break;
                 default:
+                    print_offset(offset_nb);
+                    printf("ERROR\n");
                     break;
             }
             break;
         case PRINT :
             print_offset(offset_nb);
             printf("[PRINT] print %s \n", node->print->id->name);
+            break;
         case ASSIGN :
             print_offset(offset_nb);
             printf("[ASSIGN] %s\n",node->decl->id->name);
@@ -177,10 +212,13 @@ void print_node(ast_instr* node, int offset_nb) {
                 printf(";\n");
             }
             else {
-                print_expr(node->decl->expr,offset_nb+1);
+                print_expr(node->decl->expr,offset_nb+4);
             }
+            break;
         default:
+            print_offset(offset_nb);
             printf("ERROR ! \n");
+            break;
     }
 }
 
@@ -190,7 +228,6 @@ void print_ast(struct ast_instr* tree) {
     while(tree != NULL) {
         print_node(tree,i);
         tree = tree->following;
-        i+=4;
     }
 }
 
