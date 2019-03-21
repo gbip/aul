@@ -736,7 +736,7 @@ do {                                    \
     yy_reduce_print (yyssp, yyvsp, Rule); \
 } while (0)
 
-/* Nonzero means print vm_execute trace.  It is left uninitialized so that
+/* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
 int yydebug;
 #else /* !YYDEBUG */
@@ -1071,7 +1071,7 @@ yyparse (void)
   yyvsp = yyvs = yyvsa;
   yystacksize = YYINITDEPTH;
 
-  YYDPRINTF ((stderr, "Starting vm_execute\n"));
+  YYDPRINTF ((stderr, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;

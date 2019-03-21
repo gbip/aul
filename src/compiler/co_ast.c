@@ -2,8 +2,7 @@
 // Created by paul on 12/03/19.
 //
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "utils.h"
 #include "co_ast.h"
 
 ast_body* ast;

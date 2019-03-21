@@ -3,6 +3,7 @@
 //
 
 #include <string.h>
+#include "utils.h"
 #include "co_symbol_table.h"
 
 typedef struct symbol_table_entry {

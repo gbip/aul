@@ -6,7 +6,6 @@
 #define AUL_SYMBOL_TABLE_H
 
 #include <stdint.h>
-#include <stdlib.h>
 #include "co_ast.h"
 
 // The maximum size of our symbol tables
