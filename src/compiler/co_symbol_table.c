@@ -3,13 +3,13 @@
 //
 
 #include <string.h>
-#include "utils.h"
+#include "../aul_utils.h"
 #include "co_symbol_table.h"
 
 typedef struct symbol_table_entry {
     target_usize_t addr;
     const char* name;
-    type_t type;
+    co_type_t type;
     uint64_t depth;
 } symbol_table_entry;
 
@@ -24,7 +24,7 @@ ts* ts_make() {
     return result;
 }
 
-void ts_add(ts* ts, const char* name, type_t type, uint64_t depth) {
+void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth) {
     symbol_table_entry entry;
     entry.name = name;
     entry.type = type;

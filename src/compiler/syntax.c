@@ -148,7 +148,7 @@ union YYSTYPE
     ast_decl* ast_decl;
     ast_assign* ast_assign;
     ast_instr* ast_instr;
-    type_t type;
+    co_type_t type;
     ast_body* ast_body;
 
 #line 155 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:353  */

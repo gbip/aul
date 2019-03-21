@@ -56,7 +56,7 @@ typedef struct ast_body ast_body;
 id* ast_make_id(char *name);
 ast_print* ast_make_print(id *anId);
 ast_assign* ast_make_assign(id *anId, ast_expr *anExpr);
-ast_decl* ast_make_decl(id *anId, type_t aType, ast_expr *anExpr);
+ast_decl* ast_make_decl(id *anId, co_type_t aType, ast_expr *anExpr);
 ast_op* ast_make_op(ast_expr *leftExpr, op operation, ast_expr *right);
 ast_body* ast_make_body(ast_instr* instr, ast_body* next);
 

@@ -14,7 +14,7 @@
 // The base addresses for our variables
 #define BASE_ADDR 0x4000
 
-// The type_t of an address on our target
+// The co_type_t of an address on our target
 typedef uint64_t target_usize_t;
 
 typedef struct symbol_table_entry symbol_table_entry;
@@ -28,7 +28,7 @@ ts* ts_make();
 void ts_free(ts *ts);
 
 // Add an entry in the symbol table
-void ts_add(ts* ts, const char* name, type_t type, uint64_t depth);
+void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth);
 
 // Retrieve the index of a specified entry in the symbol table
 target_usize_t* ts_get(ts* ts, const char* name);

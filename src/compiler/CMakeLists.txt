@@ -16,6 +16,8 @@ set(SRC_COMPILER_LIBRARY
         co_ir.c)
 
 add_library(compiler STATIC ${SRC_COMPILER_LIBRARY})
+add_library(compiler_test STATIC ${SRC_COMPILER_LIBRARY})
+target_compile_definitions(compiler_test PRIVATE UNIT_TESTING)
 
 set(SRC_FILES ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS}
         co_main.c)

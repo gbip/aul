@@ -2,7 +2,7 @@
 // Created by paul on 12/03/19.
 //
 
-#include "utils.h"
+#include "../aul_utils.h"
 #include "co_ast.h"
 
 ast_body* ast;
@@ -28,7 +28,7 @@ struct ast_op {
 /* DECL */
 struct ast_decl {
     id* id;
-    type_t type;
+    co_type_t type;
     ast_expr* expr;
 };
 
@@ -111,7 +111,7 @@ ast_assign* ast_make_assign(id *anId, ast_expr *anExpr) {
     return result;
 }
 
-ast_decl* ast_make_decl(id *anId, type_t aType, ast_expr *anExpr) {
+ast_decl* ast_make_decl(id *anId, co_type_t aType, ast_expr *anExpr) {
     ast_decl* result = malloc(sizeof(ast_decl));
     result->id = anId;
     result->type = aType;
