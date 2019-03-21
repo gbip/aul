@@ -13,14 +13,15 @@ set(SRC_COMPILER_LIBRARY
         co_ast.c
         co_symbol_table.c
         co_types.c
-        co_ir.c)
+        co_ir.c
+        ${BISON_Parser_OUTPUTS}
+        ${FLEX_Lexer_OUTPUTS})
 
 add_library(compiler STATIC ${SRC_COMPILER_LIBRARY})
 add_library(compiler_test STATIC ${SRC_COMPILER_LIBRARY})
 target_compile_definitions(compiler_test PRIVATE UNIT_TESTING)
 
-set(SRC_FILES ${BISON_Parser_OUTPUTS} ${FLEX_Lexer_OUTPUTS}
-        co_main.c)
+set(SRC_FILES co_main.c)
 
 add_executable(aul ${SRC_FILES})
 target_link_libraries(aul compiler)
@@ -32,4 +33,3 @@ set(TEST_SRC_FILES
         co_symbol_table.c
         co_types.c
         co_tests.c)
-#add_executable(test_ast ${TEST_SRC_FILES})
