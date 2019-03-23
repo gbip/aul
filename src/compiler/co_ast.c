@@ -239,65 +239,96 @@ void print_ast(struct ast_body* body) {
 }
 
 /* FREERS */
-/*
+
 void free_ast_expr(ast_expr* tree);
 
 void free_ast_op(ast_op* tree) {
-    free_ast_expr(tree->left);
-    free_ast_expr(tree->right);
-    free(tree);
+    if(tree != NULL) {
+        free_ast_expr(tree->left);
+        free_ast_expr(tree->right);
+        free(tree);
+    }
 }
 
-void free_ast_expr(ast_expr* tree) {
-    switch(tree->det) {
-        case OP:
-            free_ast_op(tree->expr);
-            break;
-        case ID:
-            free(tree->expr);
-            break;
-        case EXPR:
-            free_ast_expr(tree->expr);
-            break;
+void free_id(id* tree) {
+    if(tree != NULL) {
+        /*if(tree->name != NULL) {
+            free(tree->name);
+        }*/
+        free(tree);
     }
-    free(tree);
 }
+void free_ast_expr(ast_expr* tree) {
+    if(tree != NULL) {
+        switch (tree->det) {
+            case OP:
+                free_ast_op(tree->op);
+                break;
+            case ID:
+                free_id(tree->id);
+                break;
+            case LIT:
+                break;
+            default:
+                break;
+        }
+        free(tree);
+    }
+}
+
 
 void free_ast_decl(ast_decl* tree) {
-    free_ast_expr(tree->expr);
-    free(tree->id);
-    free(tree);
+    if(tree != NULL) {
+        free_ast_expr(tree->expr);
+        free_id(tree->id);
+        free(tree);
+    }
 }
 
 void free_ast_print(ast_print* tree) {
-    free(tree->id);
-    free(tree);
+    if(tree != NULL) {
+        free_id(tree->id);
+        free(tree);
+    }
 }
 
 void free_ast_assign(ast_assign* tree) {
-    free_ast_expr(tree->expr);
-    free(tree->id);
-    free(tree);
+    if(tree != NULL) {
+        free_ast_expr(tree->expr);
+        free_id(tree->id);
+        free(tree);
+    }
 }
 
-void free_ast(ast_instr* tree) {
-    switch(tree->det) {
-        case DECL:
-            free_ast_decl(tree->instruction);
-            break;
-        case PRINT:
-            free_ast_print(tree->instruction);
-            break;
-        case ASSIGN:
-            free_ast_assign(tree->instruction);
-            break;
-        default:
-            break;
+void free_ast_instr(ast_instr* tree) {
+    if(tree != NULL) {
+        switch (tree->det) {
+            case DECL:
+                free_ast_decl(tree->decl);
+                break;
+            case PRINT:
+                free_ast_print(tree->print);
+                break;
+            case ASSIGN:
+                free_ast_assign(tree->assign);
+                break;
+            default:
+                break;
+        }
+        free(tree);
     }
-    free(tree);
-    ast_free(tree->following);
 }
-*/
+
+void free_ast(struct ast_body* tree) {
+    if(tree != NULL) {
+        free_ast_instr(tree->instr);
+        if (tree->next != NULL) {
+            free_ast(tree->next);
+        }
+        free(tree);
+    }
+}
+
 
 #define CREATE_MAKE_UNION(type, code, deter, field) \
     ast_expr* ast_make_expr_##type  (code field) { \

@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
     } else {
         printf("OK !\n");
         print_ast(get_ast());
+        free_ast(get_ast());
         return 0;
     }
 }

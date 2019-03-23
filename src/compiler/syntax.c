@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,14 +40,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -64,22 +61,19 @@
 
 
 
-/* First part of user prologue.  */
-#line 1 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:338  */
+/* Copy the first part of user declarations.  */
+#line 1 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:339  */
 
     #include "co_ast.h"
     #include <stdlib.h>
 
-#line 74 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:338  */
+#line 71 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:339  */
+
 # ifndef YY_NULLPTR
-#  if defined __cplusplus
-#   if 201103L <= __cplusplus
-#    define YY_NULLPTR nullptr
-#   else
-#    define YY_NULLPTR 0
-#   endif
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULLPTR ((void*)0)
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -93,8 +87,8 @@
 
 /* In a future release of Bison, this section will be replaced
    by #include "syntax.h".  */
-#ifndef YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
-# define YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
+#ifndef YY_YY_HOME_JULIEN_PROJET_INFO_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
+# define YY_YY_HOME_JULIEN_PROJET_INFO_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -103,10 +97,10 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 6 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:353  */
+#line 6 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:355  */
 #include "co_ast.h"
 
-#line 110 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:353  */
+#line 104 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:355  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -139,7 +133,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:353  */
+#line 9 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:355  */
 
     int intValue;
     id* idValue;
@@ -151,7 +145,7 @@ union YYSTYPE
     co_type_t type;
     ast_body* ast_body;
 
-#line 155 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:353  */
+#line 149 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -164,9 +158,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED  */
+#endif /* !YY_YY_HOME_JULIEN_PROJET_INFO_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED  */
 
+/* Copy the second part of user declarations.  */
 
+#line 166 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -187,13 +183,13 @@ typedef signed char yytype_int8;
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short yytype_uint16;
+typedef unsigned short int yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short yytype_int16;
+typedef short int yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -205,7 +201,7 @@ typedef short yytype_int16;
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned
+#  define YYSIZE_T unsigned int
 # endif
 #endif
 
@@ -241,6 +237,15 @@ typedef short yytype_int16;
 # define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
+# endif
+#endif
+
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
@@ -248,7 +253,7 @@ typedef short yytype_int16;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
@@ -416,7 +421,7 @@ union yyalloc
 #define YYMAXUTOK   275
 
 #define YYTRANSLATE(YYX)                                                \
-  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, without out-of-bounds checking.  */
@@ -649,37 +654,37 @@ do {                                                                      \
 } while (0)
 
 
-/*-----------------------------------.
-| Print this symbol's value on YYO.  |
-`-----------------------------------*/
+/*----------------------------------------.
+| Print this symbol's value on YYOUTPUT.  |
+`----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  FILE *yyoutput = yyo;
-  YYUSE (yyoutput);
+  FILE *yyo = yyoutput;
+  YYUSE (yyo);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
   YYUSE (yytype);
 }
 
 
-/*---------------------------.
-| Print this symbol on YYO.  |
-`---------------------------*/
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  YYFPRINTF (yyo, "%s %s (",
+  YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyo, yytype, yyvaluep);
-  YYFPRINTF (yyo, ")");
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  YYFPRINTF (yyoutput, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -713,7 +718,7 @@ do {                                                            \
 static void
 yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  unsigned long yylno = yyrline[yyrule];
+  unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
@@ -846,7 +851,7 @@ yytnamerr (char *yyres, const char *yystr)
   if (! yyres)
     return yystrlen (yystr);
 
-  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
+  return yystpcpy (yyres, yystr) - yyres;
 }
 # endif
 
@@ -939,7 +944,6 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
-    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1088,12 +1092,12 @@ yyparse (void)
   yyssp++;
 
  yysetstate:
-  *yyssp = (yytype_int16) yystate;
+  *yyssp = yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
+      YYSIZE_T yysize = yyssp - yyss + 1;
 
 #ifdef yyoverflow
       {
@@ -1111,6 +1115,7 @@ yyparse (void)
                     &yyss1, yysize * sizeof (*yyssp),
                     &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
+
         yyss = yyss1;
         yyvs = yyvs1;
       }
@@ -1144,7 +1149,7 @@ yyparse (void)
       yyvsp = yyvs + yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-                  (unsigned long) yystacksize));
+                  (unsigned long int) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
@@ -1255,143 +1260,143 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 56 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 56 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {set_ast((yyvsp[0].ast_body));}
-#line 1261 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1266 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 61 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 61 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_body) = (yyvsp[-1].ast_body);}
-#line 1267 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1272 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 66 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 66 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_body)=(yyvsp[0].ast_body);}
-#line 1273 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1278 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 71 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 71 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_body) = ast_make_body((yyvsp[-2].ast_instr),(yyvsp[0].ast_body));}
-#line 1279 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1284 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 73 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 73 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_body) = NULL;}
-#line 1285 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1290 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 78 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 78 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_instr) = ast_make_instr_assign((yyvsp[0].ast_assign));}
-#line 1291 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1296 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 80 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 80 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_instr) = ast_make_instr_decl((yyvsp[0].ast_decl));}
-#line 1297 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1302 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 82 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 82 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_instr) = ast_make_instr_print((yyvsp[0].ast_print));}
-#line 1303 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1308 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 88 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 88 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {
             (yyval.ast_print) = ast_make_print((yyvsp[-1].idValue));
         }
-#line 1311 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1316 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 95 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 95 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {
                 (yyval.ast_decl) = ast_make_decl((yyvsp[-2].idValue),(yyvsp[-3].type),(yyvsp[0].ast_expr));
             }
-#line 1319 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1324 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 102 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 102 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {
                 (yyval.type) = INT;
             }
-#line 1327 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1332 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 106 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 106 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {
                 (yyval.type) = CONST;
             }
-#line 1335 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1340 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 113 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 113 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {
                 (yyval.ast_assign) = ast_make_assign((yyvsp[-2].idValue),(yyvsp[0].ast_expr));
             }
-#line 1343 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1348 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 120 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 120 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_lit((yyvsp[0].intValue));}
-#line 1349 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1354 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 122 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 122 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_id((yyvsp[0].idValue));}
-#line 1355 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1360 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 124 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 124 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_lit((yyvsp[0].intValue));}
-#line 1361 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1366 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 126 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 126 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = (yyvsp[-1].ast_expr);}
-#line 1367 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1372 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 128 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 128 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),ADD,(yyvsp[0].ast_expr)));}
-#line 1373 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1378 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 130 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 130 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),SUB,(yyvsp[0].ast_expr)));}
-#line 1379 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1384 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 132 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 132 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),DIV,(yyvsp[0].ast_expr)));}
-#line 1385 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1390 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 134 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1645  */
+#line 134 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1646  */
     {(yyval.ast_expr) = ast_make_expr_op(ast_make_op((yyvsp[-2].ast_expr),MUL,(yyvsp[0].ast_expr)));}
-#line 1391 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1396 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
     break;
 
 
-#line 1395 "/home/paul/repos/aul/src/compiler/syntax.c" /* yacc.c:1645  */
+#line 1400 "/home/julien/projet_info/aul/src/compiler/syntax.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1416,13 +1421,14 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-  {
-    const int yylhs = yyr1[yyn] - YYNTOKENS;
-    const int yyi = yypgoto[yylhs] + *yyssp;
-    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
-               ? yytable[yyi]
-               : yydefgoto[yylhs]);
-  }
+
+  yyn = yyr1[yyn];
+
+  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
+  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
+    yystate = yytable[yystate];
+  else
+    yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
 

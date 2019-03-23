@@ -46,6 +46,7 @@ static void test_ast(void **state)
     ast_body_set_next(bod2,bod3);
     ast_body_set_next(bod3,bod4);
     //print_ast(bod1);
+    free_ast(bod1);
 }
 
 void test_ts(void **state) {

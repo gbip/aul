@@ -82,7 +82,7 @@ void ast_body_set_next(ast_body* body, ast_body* next);
 
 /* UTILS */
 void print_ast(struct ast_body* body);
-void ast_free(ast_instr *tree);
+void free_ast(ast_body *tree);
 ast_body* get_ast();
 void set_ast(ast_body*);
 
