@@ -27,7 +27,7 @@ static void test_ast(void **state)
     id* anId = ast_make_id("variable");
     ast_expr* op1 = ast_make_expr_lit(12);
     ast_expr* op2 = ast_make_expr_id(anId);
-    ast_op* opNode = ast_make_op(op1, ADD, op2);
+    ast_op* opNode = ast_make_op(op1, OP_ADD, op2);
     ast_expr* op4 = ast_make_expr_op(opNode);
     id* id2 = ast_make_id("var2");
     ast_print* printNode = ast_make_print(anId);

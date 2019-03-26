@@ -125,11 +125,11 @@ EXPR :
         | tPARO EXPR tPARF
             {$$ = $2;}
         | EXPR tPLUS EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,ADD,$3));}
+            {$$ = ast_make_expr_op(ast_make_op($1,OP_ADD,$3));}
         | EXPR tMOINS EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,SUB,$3));}
+            {$$ = ast_make_expr_op(ast_make_op($1,OP_SUB,$3));}
         | EXPR tDIV EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,DIV,$3));}
+            {$$ = ast_make_expr_op(ast_make_op($1,OP_DIV,$3));}
         | EXPR tMUL EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,MUL,$3));}
+            {$$ = ast_make_expr_op(ast_make_op($1,OP_MUL,$3));}
 ;

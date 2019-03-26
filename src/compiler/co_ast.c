@@ -68,7 +68,7 @@ ast_instr* ast_make_instr_##type(typeArg arg) { \
 }
 
 CREATE_MAKE_UNION_INSTR(decl, DECL, ast_decl*);
-CREATE_MAKE_UNION_INSTR(print, PRINT,ast_print*);
+CREATE_MAKE_UNION_INSTR(print, OP_PRINT,ast_print*);
 CREATE_MAKE_UNION_INSTR(assign, ASSIGN,ast_assign*);
 
 ast_body* get_ast() {
@@ -138,25 +138,25 @@ void print_expr(ast_expr* expression, int offset_nb) {
     switch(expression->det) {
         case OP:
             switch(expression->op->op) {
-                case ADD:
+                case OP_ADD:
                     print_offset(offset_nb);
-                    printf("[ADD]\n");
+                    printf("[OP_ADD]\n");
                     print_expr(expression->op->left, offset_nb+4);
                     print_expr(expression->op->right, offset_nb+4);
                     break;
-                case SUB:
+                case OP_SUB:
                     print_offset(offset_nb);
                     printf("[SUB]\n");
                     print_expr(expression->op->left, offset_nb+4);
                     print_expr(expression->op->right, offset_nb+4);
                     break;
-                case DIV:
+                case OP_DIV:
                     print_offset(offset_nb);
                     printf("[DIV]\n");
                     print_expr(expression->op->left, offset_nb+4);
                     print_expr(expression->op->right, offset_nb+4);
                     break;
-                case MUL:
+                case OP_MUL:
                     print_offset(offset_nb);
                     printf("[MUL]\n");
                     print_expr(expression->op->left, offset_nb+4);
@@ -207,7 +207,7 @@ void print_node(ast_instr* node, int offset_nb) {
                     break;
             }
             break;
-        case PRINT :
+        case OP_PRINT :
             print_offset(offset_nb);
             printf("[PRINT] print %s \n", node->print->id->name);
             break;
@@ -306,7 +306,7 @@ void free_ast_instr(ast_instr* tree) {
             case DECL:
                 free_ast_decl(tree->decl);
                 break;
-            case PRINT:
+            case OP_PRINT:
                 free_ast_print(tree->print);
                 break;
             case ASSIGN:
