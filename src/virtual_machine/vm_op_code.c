@@ -4,6 +4,23 @@
 
 #include "vm_op_code.h"
 
+const uint8_t OP_CODES[17] = {
+MOVE,
+COPY,
+ADD,
+SUB,
+MUL,
+DIV,
+LOAD,
+STORE,
+EQ,
+INF,
+INFEQ,
+SUP,
+SUPEQ,
+PRINT
+};
+
 uint8_t vm_opcode_to_byte(vm_opcode_t op) {
     switch(op) {
         case MOVE :
