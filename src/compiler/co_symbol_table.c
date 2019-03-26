@@ -38,7 +38,7 @@ void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth) {
     ts->index++;
 }
 
-target_usize_t* ts_get(ts* ts, const char* name) {
+uint32_t ts_get(ts *ts, const char *name) {
     for (uintptr_t i = 0; i < ts->index; i++) {
         if (strcmp(ts->table[i].name, name) == 0) {
             return &ts->table[i].addr;

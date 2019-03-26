@@ -11,10 +11,6 @@
 #include "../virtual_machine/vm_machine.h"
 #include "co_ast_private.h"
 
-struct ir_body {
-    ir_body* next;
-    ir_ins* instr;
-};
 
 struct ir_ins {
     enum vm_opcode_t opcode;
@@ -27,39 +23,40 @@ struct ir_ins {
         };*/
 };
 
-ir_body* make_body(vm_opcode_t code, uint8_t op1, uint32_t op2, ir_body* following) {
-    ir_ins* ins = malloc(sizeof(ir_ins));
-    ins->opcode = code;
-    ins->op1 = op1;
-    ins->op2 = op2;
-    ir_body* result = malloc(sizeof(ir_body));
-    result->instr = ins;
-    result->next = following;
-    return result;
+struct ir_body {
+    ir_body* next;
+    ir_ins instr;
+};
+
+// Build a new instruction, chaining it to `p`.
+ir_body** ir_make_instr(ir_body **p, vm_opcode_t code, uint8_t op1, uint32_t op2, ir_body *following) {
+    *p = malloc(sizeof(ir_ins));
+    (*p)->instr.opcode = code;
+    (*p)->instr.op1 = op1;
+    (*p)->instr.op2 = op2;
+    (*p)->next = following;
+    return &(*p)->next;
 }
 
-void ir_write_to_file(const char *filename, ir_body *root) {
-    uint8_t buffer[INSTR_SIZE] = {0};
 
-    FILE* output = fopen(filename ,"w");
+// Load the value `data` inside the register `reg`, chaining it `p`
+ir_body** ir_load_data(ir_body **p, uint32_t data, uint8_t reg) {
+    p = ir_make_instr(p, LOAD, reg, reg, NULL);
+    p = ir_make_instr(p, MOVE, reg, data, NULL);
+    return p;
+}
 
-    if (output == NULL) {
-        printf("Failed to open %s for writing : %s", filename, strerror(errno));
-        return;
-    }
+// Load the variable `name` inside the register `reg`, chaining it `p
+ir_body** ir_load_var(ir_body** p, const char* name, ts* ts, uint8_t reg) {
+    uint32_t addr = ts_get(ts, name);
+    return ir_load_data(p, addr, reg);
+}
 
-    while (root != NULL) {
-        buffer[0] = vm_opcode_to_byte(root->instr->opcode);
-        buffer[1] = root->instr->op1;
-        for (int i=0; i<4 ;++i)
-            buffer[i+2] = ((uint8_t*)&root->instr->op2)[3-i];
-
-        fwrite(buffer,1,sizeof(buffer),output);
-        root = root->next;
-    }
-
-    fclose(output);
-
+// Store the content of `reg` into the memory, using r1 as a working register
+ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
+    p = ir_make_instr(p, MOVE, 1, ts_gen_tmp(ts), NULL);
+    p = ir_make_instr(p, STORE, reg, 1, NULL);
+    return p;
 }
 
 /*
@@ -84,33 +81,68 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
     switch (ast->det) {
         case OP : {
-
-            uintptr_t a = ts_gen_tmp(ts, 0);
-            uintptr_t b = ts_gen_tmp(ts, 0);
-
-            ir_body* load_addr_a = make_body(LOAD, 0, ts_pop_tmp(ts, a));
-            ir_body* load_addr_b = make_body(LOAD, 1, ts_pop_tmp(ts, b));
-
-            ir_body *op = make_body(ADD,0,1,NULL);
-
-
-
+            p = ir_build_expr(p, ast->op->right, ts);
+            p = ir_build_expr(p, ast->op->left, ts);
+            p = ir_load_data(p,ts_pop_tmp(ts),0);
+            p = ir_load_data(p,ts_pop_tmp(ts),1);
             switch (ast->op->op) {
-                case OP_ADD : {op->instr->opcode = ADD; break;}
-                case OP_SUB : {op->instr->opcode = SUB; break;}
-                case OP_DIV : {op->instr->opcode = DIV; break;}
-                case OP_MUL : {op->instr->opcode = MUL; break;}
+                case OP_ADD : {
+                    p = ir_make_instr(p, ADD, 0, 1, NULL);
+                    break;
+                }
+                case OP_SUB : {
+                    p = ir_make_instr(p, SUB, 0, 1, NULL);
+                    break;
+                }
+                case OP_DIV : {
+                    p = ir_make_instr(p, DIV, 0, 1, NULL);
+                    break;
+                }
+                case OP_MUL : {
+                    p = ir_make_instr(p, MUL, 0, 1, NULL);
+                    break;
+                }
             }
-            ir->next = op;
-            ir->next = ir_build_expr(ast->op->left, ir_build_expr(ast->op->right, op, ts), ts);
+            p = ir_push_register_data(p,0,ts);
+            return p;
             break;
         }
         case ID :
-            break;
+            p = ir_load_data(p, ts_get(ts, ast->id->name),0);
+            p = ir_push_register_data(p,0,ts);
+            return p;
         case LIT : {
-            ir_body *body = make_body(MOVE, 0, ast->literral, NULL);
-            ir->next = body;
-            break;
+            p = ir_make_instr(p,MOVE, 1, ts_gen_tmp(ts), NULL);
+            p = ir_make_instr(p,MOVE, 0, ast->literral, NULL);
+            p = ir_make_instr(p,STORE, 0, 1, NULL);
+            return p;
         }
     }
+    return p;
+}
+
+
+
+void ir_write_to_file(const char *filename, ir_body *root) {
+    uint8_t buffer[INSTR_SIZE] = {0};
+
+    FILE* output = fopen(filename ,"w");
+
+    if (output == NULL) {
+        printf("Failed to open %s for writing : %s", filename, strerror(errno));
+        return;
+    }
+
+    while (root != NULL) {
+        buffer[0] = vm_opcode_to_byte(root->instr.opcode);
+        buffer[1] = root->instr.op1;
+        for (int i=0; i<4 ;++i)
+            buffer[i+2] = ((uint8_t*)&root->instr.op2)[3-i];
+
+        fwrite(buffer,1,sizeof(buffer),output);
+        root = root->next;
+    }
+
+    fclose(output);
+
 }

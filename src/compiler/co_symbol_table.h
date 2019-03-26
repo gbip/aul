@@ -36,7 +36,7 @@ uint32_t ts_pop_tmp(ts *ts);
 
 
 // Retrieve the index of a specified entry in the symbol table
-target_usize_t* ts_get(ts* ts, const char* name);
+uint32_t ts_get(ts *ts, const char *name);
 
 void ts_pop_current_depth(ts *ts);
 
