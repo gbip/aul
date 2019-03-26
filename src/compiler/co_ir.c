@@ -23,3 +23,7 @@ struct ir_ins {
             ir_body* if_body;
         };*/
 };
+
+ir_body* ir_build_tree(ast_body* ast) {
+    
+}

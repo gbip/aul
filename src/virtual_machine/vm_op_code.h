@@ -32,7 +32,7 @@ enum vm_opcode_t {
 uint8_t OP_CODES[17] = {
         MOVE,
         COPY,
-        ADD,
+        OP_ADD,
         SUB,
         MUL,
         DIV,

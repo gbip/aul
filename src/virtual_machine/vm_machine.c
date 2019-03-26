@@ -48,7 +48,7 @@ void vm_execute( struct vm_machine *vm, const char *filename) {
             case COPY:
                 vm->regs[instr[1]] = vm->regs[vm_instr_get_rb(instr)];
                 break;
-            case ADD :
+            case OP_ADD :
                 vm->regs[instr[1]] = vm->regs[instr[1]] + vm->regs[vm_instr_get_rb(instr)];
                 break;
             case SUB:

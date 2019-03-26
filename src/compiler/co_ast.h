@@ -24,10 +24,10 @@ typedef enum expr_det {
 
 /* OP */
 typedef enum op {
-    ADD,
-    SUB,
-    DIV,
-    MUL
+    OP_ADD,
+    OP_SUB,
+    OP_DIV,
+    OP_MUL
 } op;
 typedef struct ast_op ast_op;
 
@@ -43,7 +43,7 @@ typedef struct ast_assign ast_assign;
 /* INSTRUCTION */
 typedef enum instr_det {
     DECL,
-    PRINT,
+    OP_PRINT,
     ASSIGN,
 }instr_det;
 typedef struct ast_instr ast_instr;
