@@ -51,6 +51,6 @@ void ir_write_to_file(const char *filename, ir_body *root) {
 
 }
 
-ir_body* ir_build_tree(ast_body* ast) {
+ir_body* ir_build_tree(ast_body* anAst) {
 
 }

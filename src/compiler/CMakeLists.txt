@@ -14,6 +14,7 @@ set(SRC_COMPILER_LIBRARY
         co_symbol_table.c
         co_types.c
         co_ir.c
+        ../virtual_machine/vm_op_code.c
         ${BISON_Parser_OUTPUTS}
         ${FLEX_Lexer_OUTPUTS})
 
