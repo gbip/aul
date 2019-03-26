@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 // Describe all the opcodes implemented by the virtual machine
-enum OPCODE {
+enum vm_opcode_t {
     ADD,
     SUB,
     MUL,
