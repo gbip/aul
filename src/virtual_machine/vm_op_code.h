@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 // Describe all the opcodes implemented by the virtual machine
-enum vm_opcode_t {
+typedef enum vm_opcode_t {
     ADD,
     SUB,
     MUL,
@@ -23,7 +23,7 @@ enum vm_opcode_t {
     MOVE,
     COPY,
     PRINT
-};
+}vm_opcode_t;
 
 // Give semantic to an integer by mapping it to an opcode
 // 0 => MOVE
@@ -45,5 +45,7 @@ uint8_t OP_CODES[17] = {
         SUPEQ,
         PRINT
 };
+
+uint8_t vm_opcode_to_byte(vm_opcode_t op);
 
 #endif //AUL_OP_CODE_H

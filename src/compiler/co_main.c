@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
         printf("OK !\n");
         print_ast(get_ast());
         free_ast(get_ast());
+        fclose(file);
         return 0;
     }
 }
