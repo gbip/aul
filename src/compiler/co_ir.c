@@ -81,10 +81,14 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
     switch (ast->det) {
         case OP : {
+            // Evaluate the left side
             p = ir_build_expr(p, ast->op->right, ts);
+            // Evaluate the right side
             p = ir_build_expr(p, ast->op->left, ts);
+            // Retrieve the evaluation results and store it in r0 and r1
             p = ir_load_data(p,ts_pop_tmp(ts),0);
             p = ir_load_data(p,ts_pop_tmp(ts),1);
+            // Perform the operation
             switch (ast->op->op) {
                 case OP_ADD : {
                     p = ir_make_instr(p, ADD, 0, 1, NULL);
@@ -103,25 +107,51 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
                     break;
                 }
             }
+            // Store the result
             p = ir_push_register_data(p,0,ts);
             return p;
-            break;
         }
         case ID :
+            // Retrieve the data associated with the ID
             p = ir_load_data(p, ts_get(ts, ast->id->name),0);
+            // Push it in as a temporary variable in the symbol table, so that it can be retrieved during operation
+            // evaluation
             p = ir_push_register_data(p,0,ts);
             return p;
         case LIT : {
-            p = ir_make_instr(p,MOVE, 1, ts_gen_tmp(ts), NULL);
+            // Store the literral content in r0
             p = ir_make_instr(p,MOVE, 0, ast->literral, NULL);
-            p = ir_make_instr(p,STORE, 0, 1, NULL);
+            // Push r0 as a temporary variable
+            p = ir_push_register_data(p,0,ts);
             return p;
         }
     }
     return p;
 }
 
+ir_body** ir_build_decl(ir_body** p, ast_decl* ast, ts* ts) {
+    // Add the new symbol to the symbol table
+    ts_add(ts, ast->id->name, ast->type, 0);
+    // Generate expr evaluation
+    p = ir_build_expr(p, ast->expr, ts);
+    // Retrieve the result pushed from the evaluation
+    p = ir_load_data(p,ts_pop_tmp(ts),0);
+    // Associate the result with the variable
+    p = ir_make_instr(p, STORE, 0, ts_get(ts, ast->id->name), NULL);
+    return p;
+}
 
+ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
+    // Evaluate the expression
+    p = ir_build_expr(p, ast->expr, ts);
+    // Store the variable address in r0
+    p = ir_make_instr(p, MOVE, 0, ts_get(ast->id->name,ts), NULL);
+    // Retrieve the expression result in r1
+    p = ir_load_data(p,ts_pop_tmp(ts),1);
+    // Store the result at the address of the variable
+    p = ir_make_instr(p, STORE, 1, 0, NULL);
+    return p;
+}
 
 void ir_write_to_file(const char *filename, ir_body *root) {
     uint8_t buffer[INSTR_SIZE] = {0};
