@@ -158,8 +158,8 @@ fabric.properties
 # src/lex.yy.c
 .idea/
 test_lex
-src/lex.yy.c
-src/lex.yy.h
-src/syntax.c
-src/syntax.h
+*.yy.c
+*.yy.h
+syntax.c
+syntax.h
 *.output
