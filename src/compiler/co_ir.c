@@ -80,16 +80,16 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
     return p;
 }
 
-/*
-ir_body* ir_build_expr(ast_expr* ast, ir_body* ir, ts* ts) {
+
+ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
     switch (ast->det) {
         case OP : {
 
             uintptr_t a = ts_gen_tmp(ts, 0);
             uintptr_t b = ts_gen_tmp(ts, 0);
 
-            ir_body* load_addr_a = make_body(LOAD, 0, ts_get_tmp(ts,a));
-            ir_body* load_addr_b = make_body(LOAD, 1, ts_get_tmp(ts,b));
+            ir_body* load_addr_a = make_body(LOAD, 0, ts_pop_tmp(ts, a));
+            ir_body* load_addr_b = make_body(LOAD, 1, ts_pop_tmp(ts, b));
 
             ir_body *op = make_body(ADD,0,1,NULL);
 
@@ -114,4 +114,3 @@ ir_body* ir_build_expr(ast_expr* ast, ir_body* ir, ts* ts) {
         }
     }
 }
- */
