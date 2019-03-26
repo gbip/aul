@@ -30,6 +30,12 @@ void ts_free(ts *ts);
 // Add an entry in the symbol table
 void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth);
 
+uintptr_t ts_gen_tmp(ts* ts, int depth);
+
+uint32_t ts_get_tmp(ts* ts, uintptr_t index);
+
+void ts_free_tmp(ts* ts);
+
 // Retrieve the index of a specified entry in the symbol table
 target_usize_t* ts_get(ts* ts, const char* name);
 

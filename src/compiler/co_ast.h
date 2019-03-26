@@ -5,9 +5,10 @@
 #ifndef AUL_AST_H
 #define AUL_AST_H
 
+#include <stdint.h>
 #include "co_types.h"
 
-typedef int lit;
+typedef uint32_t lit;
 typedef struct id {
     char *name;
 } id;
