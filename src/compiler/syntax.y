@@ -1,9 +1,9 @@
 %{
-    #include "co_ast.h"
+    #include "../co_ast.h"
     #include <stdlib.h>
 %}
 
-%code requires {#include "co_ast.h"}
+%code requires {#include "../co_ast.h"}
 
 %union
 {

@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,8 +30,11 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_HOME_JULIEN_PROJET_INFO_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
-# define YY_YY_HOME_JULIEN_PROJET_INFO_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
+#ifndef YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_GEN_SYNTAX_H_INCLUDED
+# define YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_GEN_SYNTAX_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -40,10 +43,10 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 6 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1909  */
-#include "co_ast.h"
+#line 6 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1906  */
+#include "../co_ast.h"
 
-#line 47 "/home/julien/projet_info/aul/src/compiler/syntax.h" /* yacc.c:1909  */
+#line 50 "/home/paul/repos/aul/src/compiler/gen/syntax.h" /* yacc.c:1906  */
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
@@ -76,7 +79,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 9 "/home/julien/projet_info/aul/src/compiler/syntax.y" /* yacc.c:1909  */
+#line 9 "/home/paul/repos/aul/src/compiler/syntax.y" /* yacc.c:1906  */
 
     int intValue;
     id* idValue;
@@ -88,7 +91,7 @@ union YYSTYPE
     co_type_t type;
     ast_body* ast_body;
 
-#line 92 "/home/julien/projet_info/aul/src/compiler/syntax.h" /* yacc.c:1909  */
+#line 95 "/home/paul/repos/aul/src/compiler/gen/syntax.h" /* yacc.c:1906  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -101,4 +104,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_HOME_JULIEN_PROJET_INFO_AUL_SRC_COMPILER_SYNTAX_H_INCLUDED  */
+#endif /* !YY_YY_HOME_PAUL_REPOS_AUL_SRC_COMPILER_GEN_SYNTAX_H_INCLUDED  */

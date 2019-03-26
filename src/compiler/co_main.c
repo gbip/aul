@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <fcntl.h>
-#include "lex.yy.h"
-#include "syntax.h"
+#include "gen/lex.yy.h"
+#include "gen/syntax.h"
 
 void yyerror(char* mess) {
     printf("Line %d: %s \nFound \"%s\"\n",yylineno,mess,yytext);

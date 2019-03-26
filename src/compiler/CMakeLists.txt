@@ -1,10 +1,10 @@
 
 flex_target(Lexer ${CMAKE_CURRENT_SOURCE_DIR}/lex.l
-        ${CMAKE_CURRENT_SOURCE_DIR}/lex.yy.c
-        COMPILE_FLAGS "--header-file=${CMAKE_CURRENT_SOURCE_DIR}/lex.yy.h")
+        ${CMAKE_CURRENT_SOURCE_DIR}/gen/lex.yy.c
+        COMPILE_FLAGS "--header-file=${CMAKE_CURRENT_SOURCE_DIR}/gen/lex.yy.h")
 
 bison_target(Parser ${CMAKE_CURRENT_SOURCE_DIR}/syntax.y
-        ${CMAKE_CURRENT_SOURCE_DIR}/syntax.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/gen/syntax.c
         COMPILE_FLAGS "-d")
 
 ADD_FLEX_BISON_DEPENDENCY(Lexer Parser)

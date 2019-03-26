@@ -1,5 +1,5 @@
 %{
-#include "co_ast.h"
+#include "../co_ast.h"
 #include "syntax.h"
 %}
 
