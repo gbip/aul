@@ -163,3 +163,4 @@ test_lex
 syntax.c
 syntax.h
 *.output
+*.bin

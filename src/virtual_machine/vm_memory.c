@@ -27,3 +27,8 @@ void set_addr(vm_mem* mem, uint32_t addr, DATA_TYPE value) {
 		mem->memory[addr - MEMORY_OFFSET] = value;
 	}
 }
+
+vm_mem* vm_make_mem() {
+	vm_mem* result = malloc(sizeof(vm_mem));
+	return result;
+}

@@ -60,7 +60,7 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
 }
 
 
-ir_body * ir_build_tree(ast_body *ast) {
+ir_body* ir_build_tree(ast_body* ast) {
 	// create symbol table
 	ts* ts = ts_make();
 	ir_body* p = malloc(sizeof(ir_body));
@@ -93,11 +93,11 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 }
 
 ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
-    // Load the var in R0
-    p = ir_load_var(p, ast->id->name, ts, 0);
-    // Print the variable
-    p = ir_make_instr(p, PRINT, 0, 0, NULL);
-    return p;
+	// Load the var in R0
+	p = ir_load_var(p, ast->id->name, ts, 0);
+	// Print the variable
+	p = ir_make_instr(p, PRINT, 0, 0, NULL);
+	return p;
 }
 
 ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
@@ -179,25 +179,24 @@ void ir_print_debug(ir_body* root) {
 
 
 	while(root != NULL) {
-	    switch (root->instr.opcode) {
-	        case MOVE : {
-                printf( "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
-                break;
-            }
-            case LOAD : {
-                printf( "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-            case STORE : {
-                printf( "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-	        default : {
-                printf( "%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-
-	    }
+		switch(root->instr.opcode) {
+			case MOVE: {
+				printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+				break;
+			}
+			case LOAD: {
+				printf("%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
+			case STORE: {
+				printf("%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
+			default: {
+				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
+		}
 		root = root->next;
 	}
 }
@@ -226,8 +225,8 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 }
 
 void free_ir(ir_body* root) {
-    if (root->next != NULL) {
-        free_ir(root->next);
-    }
-    free(root);
+	if(root->next != NULL) {
+		free_ir(root->next);
+	}
+	free(root);
 }

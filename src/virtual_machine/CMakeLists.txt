@@ -1,4 +1,5 @@
 set(VM_SRC_FILES
+        vm_op_code.c
         vm_machine.c
         vm_memory.c vm_main.c)
 

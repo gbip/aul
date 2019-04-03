@@ -14,6 +14,8 @@ typedef enum vm_opcode_t { ADD, SUB, MUL, DIV, LOAD, STORE, EQ, INF, INFEQ, SUP,
 // 0 => MOVE
 // 1 => COPY
 // etc.
+
+
 const uint8_t OP_CODES[17];
 
 uint8_t vm_opcode_to_byte(vm_opcode_t op);

@@ -20,6 +20,9 @@
 // A structure that represent the virtual's machine memory
 typedef struct vm_mem vm_mem;
 
+// Initialize the memory
+vm_mem* vm_make_mem();
+
 // Retrieve data from the memory.
 // Returns 0 if the address is out of range
 DATA_TYPE get_addr(const vm_mem* mem, uint32_t addr);

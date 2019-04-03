@@ -10,8 +10,8 @@ void yyerror(char* mess) {
 
 int main(int argc, char** argv) {
 	/* to remove */
-	if(argc != 2) {
-		printf("Usage : %s <file>\n", argv[0]);
+	if(argc != 3) {
+		printf("Usage : %s <file> <output>\n", argv[0]);
 		return 1;
 	}
 	printf("Building %s ...\n", argv[1]);
@@ -33,6 +33,8 @@ int main(int argc, char** argv) {
 		fclose(file);
 		printf("Writing output to file...\n\n\n");
 		ir_print_debug(irt);
+		ir_print_debug(irt);
+		ir_write_to_file(argv[2], irt);
 		free_ast(get_ast());
 		free_ir(irt);
 		return 0;

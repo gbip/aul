@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 	vm_machine* vm = vm_make_machine();
-	vm_execute(vm, argv[2]);
+	printf("Opening %s \n", argv[1]);
+	vm_execute(vm, argv[1]);
 	return 0;
 }
