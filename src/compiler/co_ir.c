@@ -176,25 +176,24 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 void ir_print_debug(ir_body* root) {
 
 	while(root != NULL) {
-	    switch (root->instr.opcode) {
-	        case MOVE : {
-                printf( "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
-                break;
-            }
-            case LOAD : {
-                printf( "%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-            case STORE : {
-                printf( "%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-	        default : {
-                printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-
-	    }
+		switch(root->instr.opcode) {
+			case MOVE: {
+				printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+				break;
+			}
+			case LOAD: {
+				printf("%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
+			case STORE: {
+				printf("%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
+			default: {
+				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
+		}
 		root = root->next;
 	}
 }

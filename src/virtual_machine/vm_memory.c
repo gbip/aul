@@ -4,6 +4,7 @@
 
 #include "vm_memory.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 // The memory is an array
 struct vm_mem {
