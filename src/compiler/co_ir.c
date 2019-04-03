@@ -39,10 +39,9 @@ ir_body** ir_make_instr(ir_body** p, vm_opcode_t code, uint8_t op1, uint32_t op2
 }
 
 
-// Load the value `data` inside the register `reg`, chaining it `p`
-ir_body** ir_load_data(ir_body** p, uint32_t data, uint8_t reg) {
-	p = ir_make_instr(p, LOAD, reg, reg, NULL);
-	p = ir_make_instr(p, MOVE, reg, data, NULL);
+// Load the value contained at address `addr` inside the register `reg`, chaining it `p`
+ir_body** ir_load_data(ir_body** p, uint32_t addr, uint8_t reg) {
+	p = ir_make_instr(p, LOAD, reg, addr, NULL);
 	return p;
 }
 
@@ -52,10 +51,9 @@ ir_body** ir_load_var(ir_body** p, const char* name, ts* ts, uint8_t reg) {
 	return ir_load_data(p, addr, reg);
 }
 
-// Store the content of `reg` into the memory, using r1 as a working register
+// Store the content of `reg` into the memory
 ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
-	p = ir_make_instr(p, MOVE, 1, ts_gen_tmp(ts), NULL);
-	p = ir_make_instr(p, STORE, reg, 1, NULL);
+	p = ir_make_instr(p, STORE, reg, ts_gen_tmp(ts), NULL);
 	return p;
 }
 
@@ -177,26 +175,26 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 
 void ir_print_debug(ir_body* root) {
 
-
 	while(root != NULL) {
-		switch(root->instr.opcode) {
-			case MOVE: {
-				printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
-				break;
-			}
-			case LOAD: {
-				printf("%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-			case STORE: {
-				printf("%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-			default: {
-				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-		}
+	    switch (root->instr.opcode) {
+	        case MOVE : {
+                printf( "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+                break;
+            }
+            case LOAD : {
+                printf( "%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+            case STORE : {
+                printf( "%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+	        default : {
+                printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+
+	    }
 		root = root->next;
 	}
 }

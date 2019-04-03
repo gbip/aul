@@ -84,6 +84,14 @@ void test_ts(void** state) {
 	ts_pop_current_depth(ts);
 	ts_pop_current_depth(ts);
 
+	// test temporary vars
+	ts_gen_tmp(ts);
+    ts_gen_tmp(ts);
+    ts_gen_tmp(ts);
+    ts_pop_tmp(ts);
+    ts_pop_tmp(ts);
+    ts_pop_tmp(ts);
+
 	for(int i = 0; i < 9; i++) {
 		char buffer[15];
 		sprintf(buffer, "var%d", i);
