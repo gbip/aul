@@ -14,8 +14,8 @@
 // The base addresses for our variables
 #define BASE_ADDR 0x4000
 
-// The co_type_t of an address on our target
-typedef uint64_t target_usize_t;
+// The type of an address on our target
+typedef uint32_t target_usize_t;
 
 typedef struct symbol_table_entry symbol_table_entry;
 

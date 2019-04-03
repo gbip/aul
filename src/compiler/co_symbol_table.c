@@ -42,10 +42,12 @@ void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth) {
 uint32_t ts_get(ts *ts, const char *name) {
     for (uintptr_t i = 0; i < ts->index; i++) {
         if (strcmp(ts->table[i].name, name) == 0) {
-            return &ts->table[i].addr;
+            return ts->table[i].addr;
         }
     }
-    return NULL;
+    // Tried to get a symbol from an empty symbol table
+    assert(1);
+    return 0;
 }
 
 symbol_table_entry* last_entry(ts* ts) {
@@ -66,10 +68,12 @@ void ts_free(ts *ts) {
 uint32_t ts_gen_tmp(ts* ts) { //as temp variables don't have names we use _tmp to recognize them
     symbol_table_entry entry;
     entry.name = "_tmp";
+    entry.depth = 6666666;
+    entry.type = CONST;
     if (ts-> index == 0) {
         entry.addr = BASE_ADDR;
     } else {
-        entry.addr = ts->table[ts->index-1].addr + sizeof(__uint32_t);
+        entry.addr = ts->table[ts->index-1].addr + sizeof(uint32_t);
     }
     ts->table[ts->index] = entry;
     ts->index++;
@@ -78,7 +82,8 @@ uint32_t ts_gen_tmp(ts* ts) { //as temp variables don't have names we use _tmp t
 
 uint32_t ts_pop_tmp(ts* ts) { //as temp variables don't have names we use _tmp to recognize them
     symbol_table_entry last_tmp = ts->table[ts->index];
-    assert(strcmp("_tmp",last_tmp.name) && "Error : Attempt to ts_pop_tmp a non temp variable"); //a verifier ?
+    // Error : Attempt to ts_pop_tmp a non temp variable
+    assert(strcmp("_tmp",last_tmp.name)); //a verifier ?
     ts->index--;
     return last_tmp.addr;
 }
