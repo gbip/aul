@@ -61,10 +61,9 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
 ir_body* ir_build_tree(ast_body* ast) {
 	// create symbol table
 	ts* ts = ts_make();
-	ir_body* p = malloc(sizeof(ir_body));
-	ir_build_instrs(&(p->next), ast, ts);
-	p = p->next;
-	return p;
+	ir_body p;
+	ir_build_instrs(&(p.next), ast, ts);
+	return p.next;
 }
 
 
