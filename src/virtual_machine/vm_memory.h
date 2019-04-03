@@ -15,7 +15,7 @@
 #define MEMORY_SIZE 0x8000
 
 // The offset applied to memory addresses
-#define MEMORY_OFFSET 0x000
+#define MEMORY_OFFSET 0x4000
 
 // A structure that represent the virtual's machine memory
 typedef struct vm_mem vm_mem;
