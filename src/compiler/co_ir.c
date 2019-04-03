@@ -63,7 +63,20 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
 ir_body** ir_build_tree(ast_body* ast) {}
 
 
-ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {}
+ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
+    switch (ast->det) {
+        case ASSIGN :
+            p = ir_build_assign(p, ast->assign, ts);
+            break;
+        case DECL :
+            p = ir_build_decl(p, ast->decl, ts);
+            break;
+        case OP_PRINT :
+            p = ir_build_print(p, ast->print, ts);
+            break;
+    }
+    return p;
+}
 
 ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 	p = ir_build_instr(p, ast->instr, ts);
@@ -140,7 +153,7 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	// Evaluate the expression
 	p = ir_build_expr(p, ast->expr, ts);
 	// Store the variable address in r0
-	p = ir_make_instr(p, MOVE, 0, ts_get(ast->id->name, ts), NULL);
+	p = ir_make_instr(p, MOVE, 0, ts_get(ts, ast->id->name), NULL);
 	// Retrieve the expression result in r1
 	p = ir_load_data(p, ts_pop_tmp(ts), 1);
 	// Store the result at the address of the variable
@@ -169,4 +182,13 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 	}
 
 	fclose(output);
+}
+
+ir_body** ir_build_print(ir_body **p, ast_print *ast, ts *ts) {
+    // Load the var in R0
+    p = ir_load_var(p,ast->id->name, ts, 0);
+    // Print the variable
+    p = ir_make_instr(p, PRINT, 0,0, NULL);
+    return p;
+
 }
