@@ -63,6 +63,7 @@ ir_body* ir_build_tree(ast_body* ast) {
 	ts* ts = ts_make();
 	ir_body p;
 	ir_build_instrs(&(p.next), ast, ts);
+	ts_free(ts);
 	return p.next;
 }
 
