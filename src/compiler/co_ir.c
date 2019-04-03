@@ -60,7 +60,12 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
 }
 
 
-ir_body** ir_build_tree(ast_body* ast) {}
+ir_body** ir_build_tree(ast_body* ast) {
+	// create symbol table
+	ts* ts = ts_make();
+	ir_body** p = malloc(sizeof(ir_body*));
+	ir_build_instrs(p,ast,ts);
+}
 
 
 ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
@@ -121,7 +126,7 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 		}
 		case ID:
 			// Retrieve the data associated with the ID
-			p = ir_load_data(p, ts_get(ts, ast->id->name), 0);
+			p = ir_load_var(p,ast->id->name,ts,0);
 			// Push it in as a temporary variable in the symbol table, so that it can be retrieved during operation
 			// evaluation
 			p = ir_push_register_data(p, 0, ts);
