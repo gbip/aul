@@ -12,7 +12,6 @@
 #include "co_ast.h"
 
 ast_body* ast;
-int init = 0;
 
 /* EXPR */
 struct ast_expr {

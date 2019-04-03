@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     } else {
         print_ast(get_ast());
         free_ast(get_ast());
-        printf("AST build, building intermediate representation tree ...\n");
+        printf("AST built, building intermediate representation tree ...\n");
         ir_body* irt = ir_build_tree(get_ast());
         fclose(file);
         ir_write_to_file("main.bin",irt);

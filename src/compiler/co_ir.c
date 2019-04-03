@@ -59,11 +59,11 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
     return p;
 }
 
-/*
-ir_body* ir_build_tree(ast_body* ast) {
+
+ir_body** ir_build_tree(ast_body* ast) {
 
 }
-*/
+
 
 
 ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {

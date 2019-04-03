@@ -3,6 +3,7 @@
 //
 
 #include <string.h>
+#include <assert.h>
 #include "../aul_utils.h"
 #include "co_symbol_table.h"
 
@@ -60,4 +61,24 @@ void ts_pop_current_depth(ts *ts) {
 
 void ts_free(ts *ts) {
     free(ts);
+}
+
+uint32_t ts_gen_tmp(ts* ts) { //as temp variables don't have names we use _tmp to recognize them
+    symbol_table_entry entry;
+    entry.name = "_tmp";
+    if (ts-> index == 0) {
+        entry.addr = BASE_ADDR;
+    } else {
+        entry.addr = ts->table[ts->index-1].addr + sizeof(__uint32_t);
+    }
+    ts->table[ts->index] = entry;
+    ts->index++;
+    return entry.addr;
+}
+
+uint32_t ts_pop_tmp(ts* ts) { //as temp variables don't have names we use _tmp to recognize them
+    symbol_table_entry last_tmp = ts->table[ts->index];
+    assert(strcmp("_tmp",last_tmp.name) && "Error : Attempt to ts_pop_tmp a non temp variable"); //a verifier ?
+    ts->index--;
+    return last_tmp.addr;
 }
