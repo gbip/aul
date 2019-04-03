@@ -15,6 +15,8 @@ typedef struct ir_ins ir_ins;
 // Write the intermediate representation to a file
 void ir_write_to_file(const char* filename, ir_body* root);
 
+void ir_write_debug_to_file(const char* filename, ir_body* root);
+
 ir_body** ir_build_tree(ast_body* ast);
 
 ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts);

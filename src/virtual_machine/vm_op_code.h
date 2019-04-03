@@ -18,4 +18,6 @@ const uint8_t OP_CODES[17];
 
 uint8_t vm_opcode_to_byte(vm_opcode_t op);
 
+const char* vm_opcode_to_str(vm_opcode_t op);
+
 #endif // AUL_OP_CODE_H

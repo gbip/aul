@@ -64,7 +64,8 @@ ir_body** ir_build_tree(ast_body* ast) {
 	// create symbol table
 	ts* ts = ts_make();
 	ir_body** p = malloc(sizeof(ir_body*));
-	ir_build_instrs(p,ast,ts);
+	p = ir_build_instrs(p,ast,ts);
+	return p;
 }
 
 
@@ -164,6 +165,23 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	// Store the result at the address of the variable
 	p = ir_make_instr(p, STORE, 1, 0, NULL);
 	return p;
+}
+
+void ir_write_debug_to_file(const char* filename, ir_body* root) {
+
+    FILE* output = fopen(filename, "w");
+
+    if(output == NULL) {
+        printf("Failed to open %s for writing : %s", filename, strerror(errno));
+        return;
+    }
+
+    while(root != NULL) {
+        fprintf(output, "%s %s%d %#x", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+        //fwrite(buffer, 1, sizeof(buffer), output);
+        root = root->next;
+    }
+    fclose(output);
 }
 
 void ir_write_to_file(const char* filename, ir_body* root) {

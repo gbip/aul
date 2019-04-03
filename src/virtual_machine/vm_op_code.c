@@ -40,3 +40,38 @@ uint8_t vm_opcode_to_byte(vm_opcode_t op) {
 			return 0xFF;
 	}
 }
+
+const char* vm_opcode_to_str(vm_opcode_t op) {
+    switch(op) {
+        case MOVE:
+            return "MOV";
+        case COPY:
+            return "COPY";
+        case LOAD:
+            return "LD";
+        case STORE:
+            return "STR";
+        case ADD:
+            return "ADD";
+        case SUB:
+            return "SUB";
+        case MUL:
+            return "MUL";
+        case DIV:
+            return "DIV";
+        case EQ:
+            return "EQ";
+        case INF:
+            return "INF";
+        case INFEQ:
+            return "INFEQ";
+        case SUP:
+            return "SUP";
+        case SUPEQ:
+            return "SUPEQ";
+        case PRINT:
+            return "PRINT";
+        default:
+            return "";
+    }
+}
