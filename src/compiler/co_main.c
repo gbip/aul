@@ -31,8 +31,9 @@ int main(int argc, char** argv) {
 		printf("AST built, building intermediate representation tree ...\n");
 		ir_body* irt = ir_build_tree(get_ast());
 		fclose(file);
-		printf("Writing output to file...\n\n\n");
+		printf("===== Generated asm code : =====\n\n\n");
 		ir_print_debug(irt);
+		printf("\nFree AST and IRT...\n");
 		free_ast(get_ast());
 		free_ir(irt);
 		return 0;
