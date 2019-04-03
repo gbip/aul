@@ -46,6 +46,10 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 	while(!feof(file)) {
 		// load the next instruction in the buffer
 		fread(instr, 1, INSTR_SIZE, file);
+		
+		if (feof(file)) {
+		    break;
+		}
 		// handle the instruction
 		// printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
 		switch(OP_CODES[instr[0]]) {
