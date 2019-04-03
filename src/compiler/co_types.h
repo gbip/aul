@@ -6,10 +6,10 @@
 #define AUL_TYPES_H
 
 typedef enum co_type {
-    INT,
-    CONST,
+	INT,
+	CONST,
 } co_type_t;
 
 int get_type_bytes_size(co_type_t type);
 
-#endif //AUL_TYPES_H
+#endif // AUL_TYPES_H

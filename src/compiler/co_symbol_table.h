@@ -5,8 +5,8 @@
 #ifndef AUL_SYMBOL_TABLE_H
 #define AUL_SYMBOL_TABLE_H
 
-#include <stdint.h>
 #include "co_ast.h"
+#include <stdint.h>
 
 // The maximum size of our symbol tables
 #define TABLE_SIZE 1000
@@ -25,19 +25,19 @@ typedef struct ts ts;
 ts* ts_make();
 
 // Free the memory allocated by a symbol table
-void ts_free(ts *ts);
+void ts_free(ts* ts);
 
 // Add an entry in the symbol table
 void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth);
 
 uint32_t ts_gen_tmp(ts* ts);
 
-uint32_t ts_pop_tmp(ts *ts);
+uint32_t ts_pop_tmp(ts* ts);
 
 
 // Retrieve the index of a specified entry in the symbol table
-uint32_t ts_get(ts *ts, const char *name);
+uint32_t ts_get(ts* ts, const char* name);
 
-void ts_pop_current_depth(ts *ts);
+void ts_pop_current_depth(ts* ts);
 
-#endif //AUL_SYMBOL_TABLE_H
+#endif // AUL_SYMBOL_TABLE_H

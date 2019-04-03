@@ -12,10 +12,10 @@
 typedef struct vm_machine vm_machine;
 
 // Load some code from a file and execute it
-void vm_execute( struct vm_machine *vm,const char *filename);
+void vm_execute(struct vm_machine* vm, const char* filename);
 
 // Allocate a virtual machine
 vm_machine* vm_make_machine();
 
 
-#endif //AUL_MACHINE_H
+#endif // AUL_MACHINE_H

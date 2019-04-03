@@ -22,10 +22,10 @@ typedef struct vm_mem vm_mem;
 
 // Retrieve data from the memory.
 // Returns 0 if the address is out of range
-DATA_TYPE get_addr(const vm_mem* mem,uint32_t addr);
+DATA_TYPE get_addr(const vm_mem* mem, uint32_t addr);
 
 // Store data in the memory
 // If the address is out of range, does nothing
-void set_addr(vm_mem* mem,uint32_t addr, DATA_TYPE value);
+void set_addr(vm_mem* mem, uint32_t addr, DATA_TYPE value);
 
-#endif //AUL_MEMORY_H
+#endif // AUL_MEMORY_H
