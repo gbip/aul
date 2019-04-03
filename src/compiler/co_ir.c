@@ -65,6 +65,7 @@ ir_body * ir_build_tree(ast_body *ast) {
 	ts* ts = ts_make();
 	ir_body* p = malloc(sizeof(ir_body));
 	ir_build_instrs(&(p->next), ast, ts);
+	p = p->next;
 	return p;
 }
 
@@ -174,38 +175,31 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	return p;
 }
 
-void ir_write_debug_to_file(const char* filename, ir_body* root) {
+void ir_print_debug(ir_body* root) {
 
-	FILE* output = fopen(filename, "w");
-
-	if(output == NULL) {
-		printf("Failed to open %s for writing : %s", filename, strerror(errno));
-		return;
-	}
 
 	while(root != NULL) {
 	    switch (root->instr.opcode) {
 	        case MOVE : {
-                fprintf(output, "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+                printf( "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
                 break;
             }
             case LOAD : {
-                fprintf(output, "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                printf( "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
                 break;
             }
             case STORE : {
-                fprintf(output, "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                printf( "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
                 break;
             }
 	        default : {
-                fprintf(output, "%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                printf( "%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
                 break;
             }
 
 	    }
 		root = root->next;
 	}
-	fclose(output);
 }
 
 void ir_write_to_file(const char* filename, ir_body* root) {
@@ -229,4 +223,11 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 	}
 
 	fclose(output);
+}
+
+void free_ir(ir_body* root) {
+    if (root->next != NULL) {
+        free_ir(root->next);
+    }
+    free(root);
 }
