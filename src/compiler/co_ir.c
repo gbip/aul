@@ -177,8 +177,25 @@ void ir_write_debug_to_file(const char* filename, ir_body* root) {
 	}
 
 	while(root != NULL) {
-		fprintf(output, "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
-		// fwrite(buffer, 1, sizeof(buffer), output);
+	    switch (root->instr.opcode) {
+	        case MOVE : {
+                fprintf(output, "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+                break;
+            }
+            case LOAD : {
+                fprintf(output, "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+            case STORE : {
+                fprintf(output, "%s r%d [r%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+	        default : {
+                fprintf(output, "%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+
+	    }
 		root = root->next;
 	}
 	fclose(output);
