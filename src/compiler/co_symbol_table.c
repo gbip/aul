@@ -52,12 +52,12 @@ uint32_t ts_get(ts* ts, const char* name) {
 }
 
 symbol_table_entry* last_entry(ts* ts) {
-	return &ts->table[ts->index-1];
+	return &ts->table[ts->index - 1];
 }
 
 void ts_pop_current_depth(ts* ts) {
 	uint64_t current_depth = last_entry(ts)->depth;
-	while(ts->table[ts->index-1].depth == current_depth && ts->index > 0) {
+	while(ts->table[ts->index - 1].depth == current_depth && ts->index > 0) {
 		ts->index--;
 	}
 }
@@ -82,7 +82,7 @@ uint32_t ts_gen_tmp(ts* ts) { // as temp variables don't have names we use _tmp 
 }
 
 uint32_t ts_pop_tmp(ts* ts) { // as temp variables don't have names we use _tmp to recognize them
-	symbol_table_entry last_tmp = ts->table[ts->index-1];
+	symbol_table_entry last_tmp = ts->table[ts->index - 1];
 	// Error : Attempt to ts_pop_tmp a non temp variable
 	assert(strcmp("_tmp", last_tmp.name) == 0); // a verifier ?
 	ts->index--;

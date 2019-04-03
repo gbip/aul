@@ -40,6 +40,7 @@ PenaltyExcessCharacter: 1
 PenaltyReturnTypeOnItsOwnLine: 20
 PointerBindsToType: true
 SpaceBeforeAssignmentOperators: true
+SortIncludes: false
 SpaceBeforeParens: Never
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1

@@ -33,8 +33,8 @@ int main(int argc, char** argv) {
 		fclose(file);
 		printf("Writing output to file...\n");
 		ir_write_debug_to_file("main.bin", *irt);
-        free_ast(get_ast());
-        //free_ast(get_ast());
+		free_ast(get_ast());
+		// free_ast(get_ast());
 		return 0;
 	}
 }

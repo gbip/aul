@@ -64,24 +64,24 @@ ir_body** ir_build_tree(ast_body* ast) {
 	// create symbol table
 	ts* ts = ts_make();
 	ir_body** p = malloc(sizeof(ir_body*));
-	p = ir_build_instrs(p,ast,ts);
+	p = ir_build_instrs(p, ast, ts);
 	return p;
 }
 
 
 ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
-    switch (ast->det) {
-        case ASSIGN :
-            p = ir_build_assign(p, ast->assign, ts);
-            break;
-        case DECL :
-            p = ir_build_decl(p, ast->decl, ts);
-            break;
-        case OP_PRINT :
-            p = ir_build_print(p, ast->print, ts);
-            break;
-    }
-    return p;
+	switch(ast->det) {
+		case ASSIGN:
+			p = ir_build_assign(p, ast->assign, ts);
+			break;
+		case DECL:
+			p = ir_build_decl(p, ast->decl, ts);
+			break;
+		case OP_PRINT:
+			p = ir_build_print(p, ast->print, ts);
+			break;
+	}
+	return p;
 }
 
 ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
@@ -127,7 +127,7 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 		}
 		case ID:
 			// Retrieve the data associated with the ID
-			p = ir_load_var(p,ast->id->name,ts,0);
+			p = ir_load_var(p, ast->id->name, ts, 0);
 			// Push it in as a temporary variable in the symbol table, so that it can be retrieved during operation
 			// evaluation
 			p = ir_push_register_data(p, 0, ts);
@@ -169,19 +169,19 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 
 void ir_write_debug_to_file(const char* filename, ir_body* root) {
 
-    FILE* output = fopen(filename, "w");
+	FILE* output = fopen(filename, "w");
 
-    if(output == NULL) {
-        printf("Failed to open %s for writing : %s", filename, strerror(errno));
-        return;
-    }
+	if(output == NULL) {
+		printf("Failed to open %s for writing : %s", filename, strerror(errno));
+		return;
+	}
 
-    while(root != NULL) {
-        fprintf(output, "%s %s%d %#x", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
-        //fwrite(buffer, 1, sizeof(buffer), output);
-        root = root->next;
-    }
-    fclose(output);
+	while(root != NULL) {
+		fprintf(output, "%s %s%d %#x", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+		// fwrite(buffer, 1, sizeof(buffer), output);
+		root = root->next;
+	}
+	fclose(output);
 }
 
 void ir_write_to_file(const char* filename, ir_body* root) {
@@ -207,11 +207,10 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 	fclose(output);
 }
 
-ir_body** ir_build_print(ir_body **p, ast_print *ast, ts *ts) {
-    // Load the var in R0
-    p = ir_load_var(p,ast->id->name, ts, 0);
-    // Print the variable
-    p = ir_make_instr(p, PRINT, 0,0, NULL);
-    return p;
-
+ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
+	// Load the var in R0
+	p = ir_load_var(p, ast->id->name, ts, 0);
+	// Print the variable
+	p = ir_make_instr(p, PRINT, 0, 0, NULL);
+	return p;
 }
