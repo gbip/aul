@@ -30,7 +30,7 @@ struct ir_body {
 
 // Build a new instruction, chaining it to `p`.
 ir_body** ir_make_instr(ir_body** p, vm_opcode_t code, uint8_t op1, uint32_t op2, ir_body* following) {
-	*p = malloc(sizeof(ir_ins));
+	*p = malloc(sizeof(ir_body));
 	(*p)->instr.opcode = code;
 	(*p)->instr.op1 = op1;
 	(*p)->instr.op2 = op2;

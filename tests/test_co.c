@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <cmocka.h>
+#include <string.h>
 
 #include "../src/compiler/co_ast.h"
 
@@ -26,7 +27,7 @@ const vector_t vectors[] = {
 };
 
 static void test_ast(void** state) {
-	id* anId = ast_make_id("variable");
+	id* anId = ast_make_id(strdup("variable"));
 	ast_expr* op1 = ast_make_expr_lit(12);
 	ast_expr* op2 = ast_make_expr_id(anId);
 	ast_op* opNode = ast_make_op(op1, OP_ADD, op2);
