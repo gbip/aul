@@ -60,11 +60,11 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
 }
 
 
-ir_body** ir_build_tree(ast_body* ast) {
+ir_body * ir_build_tree(ast_body *ast) {
 	// create symbol table
 	ts* ts = ts_make();
-	ir_body** p = malloc(sizeof(ir_body*));
-	p = ir_build_instrs(p, ast, ts);
+	ir_body* p = malloc(sizeof(ir_body));
+	ir_build_instrs(&(p->next), ast, ts);
 	return p;
 }
 
@@ -177,7 +177,7 @@ void ir_write_debug_to_file(const char* filename, ir_body* root) {
 	}
 
 	while(root != NULL) {
-		fprintf(output, "%s %s%d %#x", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+		fprintf(output, "%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
 		// fwrite(buffer, 1, sizeof(buffer), output);
 		root = root->next;
 	}
