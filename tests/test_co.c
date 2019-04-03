@@ -2,13 +2,13 @@
 // Created by paul on 21/03/19.
 //
 
-#include <cmocka.h>
 #include <co_symbol_table.h>
 #include <limits.h>
 #include <setjmp.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <cmocka.h>
 
 #include "../src/compiler/co_ast.h"
 
