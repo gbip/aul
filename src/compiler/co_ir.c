@@ -91,6 +91,13 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 	return p;
 }
 
+ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
+    // Load the var in R0
+    p = ir_load_var(p, ast->id->name, ts, 0);
+    // Print the variable
+    p = ir_make_instr(p, PRINT, 0, 0, NULL);
+    return p;
+}
 
 ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 	switch(ast->det) {
@@ -222,12 +229,4 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 	}
 
 	fclose(output);
-}
-
-ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
-	// Load the var in R0
-	p = ir_load_var(p, ast->id->name, ts, 0);
-	// Print the variable
-	p = ir_make_instr(p, PRINT, 0, 0, NULL);
-	return p;
 }
