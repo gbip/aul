@@ -175,13 +175,6 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 
 void ir_print_debug(ir_body* root) {
 
-	FILE* output = fopen(filename, "w");
-
-	if(output == NULL) {
-		printf("Failed to open %s for writing : %s", filename, strerror(errno));
-		return;
-	}
-
 	while(root != NULL) {
 	    switch (root->instr.opcode) {
 	        case MOVE : {
@@ -197,7 +190,7 @@ void ir_print_debug(ir_body* root) {
                 break;
             }
 	        default : {
-                fprintf(output, "%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
                 break;
             }
 
