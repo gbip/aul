@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define DEBUG 0
+
 // A virtual machine is some memory associated with some registers
 struct vm_machine {
 	vm_mem* mem;
@@ -51,29 +53,34 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 		    break;
 		}
 		// handle the instruction
-		// printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
+		//printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
 		switch(OP_CODES[instr[0]]) {
 			case MOVE:
-				printf("MOVE r%d %#x\n", instr[1], vm_instr_get_2nd_operand(instr));
+			    if(DEBUG)
+				    printf("MOVE r%d %#x\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm_instr_get_2nd_operand(instr);
 				break;
 			case COPY:
 				vm->regs[instr[1]] = vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case ADD:
-				printf("ADD r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(DEBUG)
+				    printf("ADD r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[instr[1]] + vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case SUB:
-				printf("SUB r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(DEBUG)
+				    printf("SUB r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[instr[1]] - vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case MUL:
-				printf("MUL r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(DEBUG)
+				    printf("MUL r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[instr[1]] * vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case DIV:
-				printf("DIV r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(DEBUG)
+				    printf("DIV r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[instr[1]] / vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case EQ:
@@ -92,16 +99,20 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				vm->regs[instr[1]] = (uint32_t)(vm->regs[instr[1]] >= vm->regs[vm_instr_get_rb(instr)]);
 				break;
 			case LOAD:
-				printf("LOAD r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(DEBUG)
+				    printf("LOAD r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = get_addr(vm->mem, vm_instr_get_2nd_operand(instr));
 				break;
 			case STORE:
-				printf("STORE r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(DEBUG)
+				    printf("STORE r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
 				set_addr(vm->mem, vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
 				break;
 			case PRINT:
-				printf("PRINT r%d\n", instr[1]);
-				printf("Value of r%u : %u \n", instr[1], vm->regs[instr[1]]);
+                if(DEBUG)
+                    printf("PRINT r%d\n", instr[1]);
+                printf("%u \n", vm->regs[instr[1]]);
+				break;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 main() {
 
-	int a = 8;
-	int b_ = 45893;
-	const c = 888890;
-	int d = (a + b_) / (c*(c+(10*2)));
+	int a = 88;
+	int b_ = 4;
+	const c = 2;
+	int d = (a + b_) / (c*(c+(10*2))); // should be 2
 	print(d);
 }
