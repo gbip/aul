@@ -93,7 +93,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				break;
 			case STORE:
 				printf("STORE r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
-				set_addr(vm->mem, vm_instr_get_2nd_operand(instr), vm_instr_get_2nd_operand(instr));
+				set_addr(vm->mem, vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
 				break;
 			case PRINT:
 				printf("PRINT r%d\n", instr[1]);
