@@ -32,7 +32,7 @@ static void test_ast(void** state) {
 	ast_expr* op2 = ast_make_expr_id(anId);
 	ast_op* opNode = ast_make_op(op1, OP_ADD, op2);
 	ast_expr* op4 = ast_make_expr_op(opNode);
-	id* id2 = ast_make_id("var2");
+	id* id2 = ast_make_id(strdup("var2"));
 	ast_print* printNode = ast_make_print(anId);
 	ast_assign* assignNode = ast_make_assign(id2, op4);
 	ast_instr* finalNode4 = ast_make_instr_assign(assignNode);
