@@ -182,11 +182,11 @@ void ir_print_debug(ir_body* root) {
 				break;
 			}
 			case LOAD: {
-				printf("%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
 			}
 			case STORE: {
-				printf("%s r%d [%u] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
 			}
 			default: {
