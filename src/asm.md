@@ -212,7 +212,7 @@ display the value of <ra> on screen
 Sauts
 
 ```txt
-JMP <ra>
+JMP <unused> <ra>
 ```
 
 ```txt
@@ -224,7 +224,7 @@ Jump to the address of <ra>
 Sauts relatifs
 
 ```txt
-JMPREL+ <ra>
+JMPREL+ <unused> <ra>
 ```
 
 ```txt
@@ -237,7 +237,7 @@ Jump to pc+ <ra>
 Sauts relatifs
 
 ```txt
-JMPREL- <ra>
+JMPREL- <unused> <ra>
 ```
 
 ```txt
@@ -252,7 +252,7 @@ JMPC <ra> <rb>
 ```
 
 ```txt
-Jump to <ra> if <rb> is 0
+Jump to <rb> if <ra> is 0
 ```
 
 ### JMPCREL+
@@ -262,7 +262,7 @@ JMPCREL+ <ra> <rb>
 ```
 
 ```txt
-Jump to pc+<ra> if <rb> is 0
+Jump to pc+<rb> if <ra> is 0
 ```
 
 ### JMPCREL-
@@ -272,5 +272,5 @@ JMPCREL- <ra> <rb>
 ```
 
 ```txt
-Jump to pc-<ra> if <rb> is 0
+Jump to pc-<rb> if <ra> is 0
 ```
