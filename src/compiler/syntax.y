@@ -41,6 +41,7 @@
 %token tSUPEQ
 %token tINFEQ
 %token tEQUALITY
+%token tNOT
 %token <intValue> tLITT
 %token <intValue> tLITTEXP
 %token <idValue> tID
@@ -158,5 +159,7 @@ EXPR :
        	    {$$ = ast_make_expr_op(ast_make_op($1,OP_SUPEQ,$3));}
        	| EXPR tINFEQ EXPR
        	    {$$ = ast_make_expr_op(ast_make_op($1,OP_INFEQ,$3));}
+       	| tNOT tPARO EXPR tPARF
+       	    {$$ = ast_make_expr_op(ast_make_op($3,OP_NOT,NULL));}
 
 ;

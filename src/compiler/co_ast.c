@@ -226,6 +226,11 @@ void print_expr(ast_expr* expression, int offset_nb) {
 					print_expr(expression->op->left, offset_nb + 4);
 					print_expr(expression->op->right, offset_nb + 4);
 					break;
+                case OP_NOT:
+                    print_offset(offset_nb);
+                    printf("[NOT]\n");
+                    print_expr(expression->op->left, offset_nb + 4);
+                    break;
 				default:
 					print_offset(offset_nb);
 					printf("ERROR\n");
@@ -295,9 +300,11 @@ void print_if(ast_if* node, int offset_nb) {
 	print_offset(offset_nb);
 	printf("[IF]  \n");
 	print_expr(node->cond, offset_nb + 4);
+    print_offset(offset_nb);
 	printf("[THEN] \n");
 	print_ast_priv(node->_then, offset_nb + 4);
 	if(node->_else != NULL) {
+        print_offset(offset_nb);
 		printf("[ELSE] \n");
 		print_ast_priv(node->_else, offset_nb + 4);
 	}

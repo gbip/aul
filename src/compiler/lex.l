@@ -53,6 +53,8 @@
 
 "!=" {return tDIFF;}
 
+"!" {return tNOT;}
+
 [ \t\n]+ {}
 
 "," {return tSEP;}

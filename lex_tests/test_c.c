@@ -8,6 +8,9 @@ main() {
 	print(d);
 	if(a+b) {
 		print(a);
+		if((a == b)) {
+		    a = b;
+		}
 	} else {
 		b = 2*b;
 	}
