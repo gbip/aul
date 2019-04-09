@@ -39,6 +39,9 @@ typedef struct ast_assign ast_assign;
 /* IF */
 typedef struct ast_if ast_if;
 
+/* WHILE */
+typedef struct ast_while ast_while;
+
 /* INSTRUCTION */
 typedef enum instr_det {
 	DECL,
@@ -51,6 +54,7 @@ typedef struct ast_instr ast_instr;
 typedef enum ast_body_det {
     INSTR,
     IF,
+    WHILE
 } ast_body_det;
 
 typedef struct ast_body ast_body;
@@ -65,7 +69,8 @@ ast_op* ast_make_op(ast_expr* leftExpr, op operation, ast_expr* right);
 ast_body* ast_make_body_instr(ast_instr *instr, ast_body *next);
 ast_body* ast_make_body_if(ast_if* _if, ast_body* next);
 ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else);
-
+ast_body* ast_make_body_while(ast_while* _while, ast_body* next);
+ast_while* ast_make_while(ast_expr* cond, ast_body* body);
 
 #define CREATE_MAKE_UNION_H(type, code, deter, field) ast_expr* ast_make_expr_##type(code field);
 

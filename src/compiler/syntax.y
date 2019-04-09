@@ -42,6 +42,7 @@
 %token tINFEQ
 %token tEQUALITY
 %token tNOT
+%token tWHILE
 %token <intValue> tLITT
 %token <intValue> tLITTEXP
 %token <idValue> tID
@@ -81,6 +82,9 @@ INSTRS :
 	|
 	tIF tPARO EXPR tPARF tACCO INSTRS tACCF tELSE tACCO INSTRS tACCF INSTRS
 	    {$$ = ast_make_body_if(ast_make_if($3,$6,$10),$12);}
+	|
+        tWHILE tPARO EXPR tPARF tACCO INSTRS tACCF INSTRS
+            {$$ = ast_make_body_while(ast_make_while($3,$6),$8);}
 	|
         LINE tENDL INSTRS
             {$$ = ast_make_body_instr($1,$3);}

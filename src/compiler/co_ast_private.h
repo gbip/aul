@@ -75,6 +75,7 @@ struct ast_body {
 	union {
 		ast_instr* instr;
 		ast_if* _if;
+        ast_while* _while;
 	};
 	ast_body* next;
 };
