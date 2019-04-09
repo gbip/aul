@@ -252,9 +252,9 @@ void free_ast_op(ast_op* tree) {
 
 void free_id(id* tree) {
 	if(tree != NULL) {
-		/*if(tree->name != NULL) {
+		if(tree->name != NULL) {
 		    free(tree->name);
-		}*/
+		}
 		free(tree);
 	}
 }
