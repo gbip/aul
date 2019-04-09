@@ -414,7 +414,7 @@ void free_ast_instr(ast_instr* tree) {
 	}
 }
 
-free_ast_if(struct ast_if* tree) {
+void free_ast_if(struct ast_if* tree) {
     free_ast_expr(tree->cond);
     free_ast(tree->_then);
     free_ast(tree->_else);
