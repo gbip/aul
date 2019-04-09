@@ -9,7 +9,7 @@
 
 // Describe all the opcodes implemented by the virtual machine
 typedef enum vm_opcode_t { ADD, SUB, MUL, DIV, LOAD, STORE, EQ, INF, INFEQ, SUP, SUPEQ, MOVE, COPY, PRINT,
-                           JMP, JMPRELADD, JMPRELSUB, JMPC, JMPCRELADD, JMPCRELSUB } vm_opcode_t;
+                           JMP, JMPRELADD, JMPRELSUB, JMPC, JMPCRELADD, JMPCRELSUB, NOT } vm_opcode_t;
 
 // Give semantic to an integer by mapping it to an opcode
 // 0 => MOVE
@@ -17,7 +17,7 @@ typedef enum vm_opcode_t { ADD, SUB, MUL, DIV, LOAD, STORE, EQ, INF, INFEQ, SUP,
 // etc.
 
 
-const uint8_t OP_CODES[23];
+const uint8_t OP_CODES[24];
 
 uint8_t vm_opcode_to_byte(vm_opcode_t op);
 

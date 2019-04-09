@@ -7,6 +7,7 @@
 #include "vm_op_code.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define DEBUG 0
 
@@ -34,24 +35,47 @@ uintptr_t vm_instr_get_rb(uint8_t instr[INSTR_SIZE]) {
 	return instr[5];
 }
 
+uint8_t* vm_get_binary(const char* filename, uint32_t * nb_instr) {
+    uint8_t* result = malloc(sizeof(uint8_t) * INSTR_SIZE * 4096);
+    int index = 0;
+    FILE* file = fopen(filename, "r");
+    if(file == NULL) {
+        printf("File does not exist");
+        free(result);
+        return NULL;
+    }
+    // allocate the buffer where the file content will be stored
+    uint8_t instr[INSTR_SIZE];
+    // iterate over the whole file
+    while(!feof(file)) {
+        // load the next instruction in the buffer
+        fread(instr, 1, INSTR_SIZE, file);
+        memcpy(result + INSTR_SIZE*index,instr, INSTR_SIZE);
+        index++;
+        if (feof(file)) {
+            break;
+        }
+    }
+    *nb_instr = index;
+    return result;
+}
 
 void vm_execute(struct vm_machine* vm, const char* filename) {
-	// open the file
-	FILE* file = fopen(filename, "r");
-	if(file == NULL) {
+    uint32_t nb_instr;
+    uint32_t current_instr = 0;
+
+    uint8_t * code = vm_get_binary(filename, &nb_instr);
+
+	if(code == NULL) {
 		printf("File does not exist");
 		return;
 	}
-	// allocate the buffer where the file content will be stored
+
 	uint8_t instr[INSTR_SIZE];
-	// iterate over the whole file
-	while(!feof(file)) {
-		// load the next instruction in the buffer
-		fread(instr, 1, INSTR_SIZE, file);
-		
-		if (feof(file)) {
-		    break;
-		}
+	while(current_instr <= nb_instr) {
+        memcpy(instr,code + INSTR_SIZE*current_instr, INSTR_SIZE);
+        current_instr++;
+
 		// handle the instruction
 		//printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
 		switch(OP_CODES[instr[0]]) {
@@ -113,6 +137,12 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                     printf("PRINT r%d\n", instr[1]);
                 printf("%u \n", vm->regs[instr[1]]);
 				break;
+		    case JMPRELADD : {
+                if (instr[1] == 0) {
+                    current_instr += vm_instr_get_2nd_operand(instr) - 1;
+                }
+		        break;
+		    }
 		}
-	}
+    }
 }

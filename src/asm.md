@@ -28,6 +28,7 @@
 | [JMPC](#jmpc)    | 0x11   |
 | [JMPCREL+](#jmpcrel+)|0x12|
 | [JMPCREL-](#jmpcrel-)|0x13|
+| [NOT](#not)      | 0x14 |
 
 ## Exemples
 
@@ -273,4 +274,15 @@ JMPCREL- <ra> <rb>
 
 ```txt
 Jump to pc-<rb> if <ra> is 0
+```
+
+#### NOT
+
+```txt
+NOT <ra> <rb>
+```
+
+```txt
+<ra> = 1 if <rb> = 0
+<ra> = 0 otherwise
 ```

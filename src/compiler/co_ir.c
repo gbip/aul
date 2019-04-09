@@ -178,7 +178,33 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 					p = ir_make_instr(p, MUL, 0, 1, NULL);
 					break;
 				}
-			}
+                    //OP_EQUAL, OP_DIFF, OP_SUP, OP_INF, OP_SUPEQ, OP_INFEQ
+			    case OP_EQUAL : {
+                    p = ir_make_instr(p, EQ, 0, 1, NULL);
+                    break;
+			    }
+			    case OP_DIFF : {
+			        p = ir_make_instr(p, EQ, 0, 1, NULL);
+                    p = ir_make_instr(p, NOT , 0, 0, NULL);
+                    break;
+			    }
+			    case OP_SUP : {
+			        p = ir_make_instr(p, SUP, 0, 1, NULL);
+			        break;
+			    }
+			    case OP_INF : {
+			        p = ir_make_instr(p, INF, 0, 1, NULL);
+			        break;
+			    }
+			    case OP_SUPEQ : {
+			        p = ir_make_instr(p, SUPEQ, 0, 1, NULL);
+			        break;
+			    }
+			    case OP_INFEQ : {
+			        p = ir_make_instr(p, INFEQ, 0, 1, NULL);
+			        break;
+			    }
+            }
 			// Store the result
 			p = ir_push_register_data(p, 0, ts);
 			return p;
@@ -241,6 +267,10 @@ void ir_print_debug(ir_body* root) {
 				printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
 			}
+			case JMPCRELADD: {
+                printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
 			default: {
 				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
