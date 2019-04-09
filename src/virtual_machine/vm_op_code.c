@@ -4,7 +4,8 @@
 
 #include "vm_op_code.h"
 
-const uint8_t OP_CODES[17] = {MOVE, COPY, ADD, SUB, MUL, DIV, LOAD, STORE, EQ, INF, INFEQ, SUP, SUPEQ, PRINT};
+const uint8_t OP_CODES[23] = {MOVE, COPY, ADD, SUB, MUL, DIV, LOAD, STORE, EQ, INF, INFEQ, SUP, SUPEQ, PRINT,
+                              JMP, JMPRELADD, JMPRELSUB, JMPC, JMPCRELADD, JMPCRELSUB};
 
 uint8_t vm_opcode_to_byte(vm_opcode_t op) {
 	switch(op) {
@@ -36,9 +37,16 @@ uint8_t vm_opcode_to_byte(vm_opcode_t op) {
 			return 0x0C;
 		case PRINT:
 			return 0x0D;
+        case JMP:
+            return 0x0E;
+        case JMPRELADD:return 0x0F;
+        case JMPRELSUB:return 0x10;
+        case JMPC:return 0x11;
+        case JMPCRELADD:return 0x12;
+        case JMPCRELSUB:return 0x13;
 		default:
 			return 0xFF;
-	}
+    }
 }
 
 const char* vm_opcode_to_str(vm_opcode_t op) {
@@ -71,7 +79,13 @@ const char* vm_opcode_to_str(vm_opcode_t op) {
 			return "SUPEQ";
 		case PRINT:
 			return "PRINT";
+        case JMP:return "JMP";
+        case JMPRELADD:return "JMPRELADD";
+        case JMPRELSUB:return "JMPRELSUB";
+        case JMPC:return "JMPC";
+        case JMPCRELADD:return "JMPCRELADD";
+        case JMPCRELSUB:return "JMPCRELSUB";
 		default:
 			return "";
-	}
+    }
 }

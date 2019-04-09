@@ -22,6 +22,12 @@
 | [SUP](#sup)      | 0x0B   |
 | [SUPEQ](#supeq)  | 0x0C   |
 | [PRINT](#print)  | 0x0D   |
+| [JMP](#jmp)      | 0x0E   |
+| [JMPREL+](#jmprel+)| 0x0F |
+| [JMPREL-](#jmprel-)| 0x010|
+| [JMPC](#jmpc)    | 0x11   |
+| [JMPCREL+](#jmpcrel+)|0x12|
+| [JMPCREL-](#jmpcrel-)|0x13|
 
 ## Exemples
 
@@ -199,4 +205,72 @@ PRINT <ra>
 
 ```
 display the value of <ra> on screen
+```
+
+### JMP
+
+Sauts
+
+```txt
+JMP <ra>
+```
+
+```txt
+Jump to the address of <ra>
+```
+
+### JMPREL+
+
+Sauts relatifs
+
+```txt
+JMPREL+ <ra>
+```
+
+```txt
+Jump to pc+ <ra>
+```
+
+
+### JMPREL-
+
+Sauts relatifs
+
+```txt
+JMPREL- <ra>
+```
+
+```txt
+Jump to pc-<ra>
+```
+
+### JMPC
+
+
+```txt
+JMPC <ra> <rb>
+```
+
+```txt
+Jump to <ra> if <rb> is 0
+```
+
+### JMPCREL+
+
+```txt
+JMPCREL+ <ra> <rb>
+```
+
+```txt
+Jump to pc+<ra> if <rb> is 0
+```
+
+### JMPCREL-
+
+```txt
+JMPCREL- <ra> <rb>
+```
+
+```txt
+Jump to pc-<ra> if <rb> is 0
 ```
