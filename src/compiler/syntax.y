@@ -33,6 +33,8 @@
 %token tCONST
 %token tEGAL
 %token tENDL
+%token tIF
+%token tELSE
 %token <intValue> tLITT
 %token <intValue> tLITTEXP
 %token <idValue> tID
@@ -67,6 +69,12 @@ BODY :
 ;
 
 INSTRS :
+	tIF tPARO EXPR tPARF tACCO INSTRS tACCF INSTRS
+	    {$$ = ast_make_body_if(ast_make_if($3,$6,NULL),$8);}
+	|
+	tIF tPARO EXPR tPARF tACCO INSTRS tACCF tELSE tACCO INSTRS tACCF INSTRS
+	    {$$ = ast_make_body_if(ast_make_if($3,$6,$10),$12);}
+	|
         LINE tENDL INSTRS
             {$$ = ast_make_body_instr($1,$3);}
         |

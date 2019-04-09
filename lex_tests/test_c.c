@@ -5,4 +5,9 @@ main() {
 	const c = 2;
 	int d = (a + b_) / (c*(c+(10*2))); // should be 2
 	print(d);
+	if(a+b) {
+		print(a);
+	} else {
+		b = 2*b;
+	}
 }

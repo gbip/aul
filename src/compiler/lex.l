@@ -20,6 +20,10 @@
 
 ")" {return tPARF;}
 
+"if" {return tIF;}
+
+"else" {return tELSE;}
+
 [A-Za-z]([A-Za-z0-9]|"_")*  {
     yylval.idValue = ast_make_id(strdup(yytext));
     return tID;

@@ -59,8 +59,15 @@ struct ast_instr {
 	instr_det det;
 };
 
+/* BODY */
+
+
 struct ast_body {
-	ast_instr* instr;
+	ast_body_det det;
+	union {
+		ast_instr* instr;
+		ast_if* _if;
+	};
 	ast_body* next;
 };
 

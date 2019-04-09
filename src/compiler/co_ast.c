@@ -253,16 +253,40 @@ void print_node(ast_instr* node, int offset_nb) {
 	}
 }
 
-void print_ast(struct ast_body* body) {
-	printf("--------------------\n");
-	int i = 0;
+void print_ast_priv(struct ast_body* body, int i);
+
+void print_if(ast_if* node, int offset_nb) {
+	print_offset(offset_nb);
+	printf("[IF]  \n");
+	print_expr(node->cond, offset_nb + 4);
+	printf("[THEN] \n");
+	print_ast_priv(node->_then, offset_nb + 4);
+	if(node->_else != NULL) {
+		printf("[ELSE] \n");
+		print_ast_priv(node->_else, offset_nb + 4);
+	}
+}
+
+void print_ast_priv(struct ast_body* body, int i) { //i is the initial offset
 	ast_body* iter = body;
 	ast_instr* tree;
 	while(iter != NULL) {
-		tree = iter->instr;
-		print_node(tree, i);
+		switch(iter->det) {
+			case INSTR :
+				tree = iter->instr;
+				print_node(tree, i);
+				break;
+			case IF :
+				print_if(iter->_if,i);
+				break;
+		}
 		iter = iter->next;
 	}
+}
+
+void print_ast(struct ast_body* body) {
+	printf("--------------------\n");
+	print_ast_priv(body, 0);
 	printf("--------------------\n");
 }
 
