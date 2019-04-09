@@ -11,6 +11,12 @@
 
 typedef struct ir_body ir_body;
 typedef struct ir_ins ir_ins;
+typedef struct ir_if ir_if;
+
+typedef enum ir_body_kind {
+    IR_IF,
+    IR_INSTR,
+} ir_body_kind;
 
 // Write the intermediate representation to a file
 void ir_write_to_file(const char* filename, ir_body* root);

@@ -59,6 +59,14 @@ struct ast_instr {
 	instr_det det;
 };
 
+
+/* IF */
+struct ast_if {
+    ast_expr *cond;
+    ast_body *_then;
+    ast_body *_if;
+};
+
 /* BODY */
 
 

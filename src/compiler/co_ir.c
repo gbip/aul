@@ -16,21 +16,27 @@ struct ir_ins {
 	enum vm_opcode_t opcode;
 	uint8_t op1;
 	uint32_t op2;
-	/*
-	struct _if {
-	    ir_body* if_cond;
-	    ir_body* if_body;
-	};*/
+};
+
+struct ir_if {
+    ir_body* cond;
+    ir_body* _then;
+    ir_body* _else;
 };
 
 struct ir_body {
+    ir_body_kind kind;
 	ir_body* next;
-	ir_ins instr;
+	union {
+        ir_ins instr;
+        ir_if _if;
+	};
 };
 
 // Build a new instruction, chaining it to `p`.
 ir_body** ir_make_instr(ir_body** p, vm_opcode_t code, uint8_t op1, uint32_t op2, ir_body* following) {
 	*p = malloc(sizeof(ir_body));
+    (*p)->kind = IR_INSTR;
 	(*p)->instr.opcode = code;
 	(*p)->instr.op1 = op1;
 	(*p)->instr.op2 = op2;
@@ -67,6 +73,11 @@ ir_body* ir_build_tree(ast_body* ast) {
 	return p.next;
 }
 
+ir_body* ir_build_body(ast_body* ast,ts* ts) {
+    ir_body p;
+    ir_build_instrs(&(p.next), ast, ts);
+    return p.next;
+}
 
 ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
 	switch(ast->det) {
@@ -83,10 +94,51 @@ ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
 	return p;
 }
 
+uint32_t ir_get_number_of_instr(ir_body* p) {
+    uint32_t result = 0;
+    while (p != NULL) {
+        result++;
+        p = p->next;
+    }
+    return result;
+}
+
+/*
+ * [EXPR]
+ *
+ * [THEN]
+ *      [BODY]
+ * [ELSE]
+ *      [BODY]
+ * [END]
+ */
+ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
+    ir_body* _then = ir_build_body(_if->_then,ts);
+    uint32_t then_size = ir_get_number_of_instr(_then) + 1;
+    ir_body* _else = ir_build_body(_if->_then,ts);
+    uint32_t else_size = ir_get_number_of_instr(_else);
+    p = ir_build_expr(p,_if->cond,ts);
+    // Load the expression result
+    p = ir_load_data(p, ts_pop_tmp(ts),0);
+    ir_make_instr(&(_then->next), JMPCRELADD, 0, else_size,_else);
+    p = ir_make_instr(p, JMPCRELADD, 0, then_size,_then);
+    return p;
+};
+
 ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
-	p = ir_build_instr(p, ast->instr, ts);
-	if(ast->next != NULL)
-		p = ir_build_instrs(p, ast->next, ts);
+	//p = ir_build_instr(p, ast->instr, ts);
+	if(ast != NULL) {
+        switch (ast->det) {
+            case INSTR : {
+                p = ir_build_instr(p, ast->instr, ts);
+            break;
+            }
+            case IF : {
+                p = ir_build_if(p, ast->_if, ts);
+                break;}
+        }
+        p = ir_build_instrs(p, ast->next, ts);
+    }
 	return p;
 }
 
