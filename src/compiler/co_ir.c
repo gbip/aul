@@ -103,6 +103,14 @@ uint32_t ir_get_number_of_instr(ir_body* p) {
     return result;
 }
 
+ir_body** ir_get_end(ir_body* p) {
+    ir_body* copy = p;
+    while (copy->next != NULL)
+        copy = copy->next;
+    return &(copy->next);
+}
+
+
 /*
  * [EXPR]
  *
@@ -120,8 +128,11 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
     p = ir_build_expr(p,_if->cond,ts);
     // Load the expression result
     p = ir_load_data(p, ts_pop_tmp(ts),0);
-    ir_make_instr(&(_then->next), JMPCRELADD, 0, else_size,_else);
-    p = ir_make_instr(p, JMPCRELADD, 0, then_size,_then);
+    p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
+    *p = _then;
+    p = ir_get_end(_then);
+    p = ir_make_instr(p, JMPCRELADD, 0, else_size,NULL);
+    *p = _else;
     return p;
 };
 
@@ -252,8 +263,10 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 }
 
 void ir_print_debug(ir_body* root) {
-
+    int index = 0;
 	while(root != NULL) {
+	    printf("%d (%#x) | ",index, index);
+	    index++;
 		switch(root->instr.opcode) {
 			case MOVE: {
 				printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
