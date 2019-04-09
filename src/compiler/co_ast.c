@@ -8,6 +8,13 @@
 ast_body* ast;
 int init = 0;
 
+/* IF */
+struct ast_if {
+    ast_expr* cond;
+    ast_body* _then;
+    ast_body* _else;
+};
+
 /* EXPR */
 struct ast_expr {
 	union {
@@ -55,7 +62,11 @@ struct ast_instr {
 };
 
 struct ast_body {
-	ast_instr* instr;
+    ast_body_det det;
+    union {
+        ast_instr* instr;
+        ast_if* _if;
+    };
 	ast_body* next;
 };
 
@@ -81,11 +92,28 @@ void set_ast(ast_body* new_ast) {
 
 /* MAKERS */
 
-ast_body* ast_make_body(ast_instr* instr, ast_body* next) {
+ast_body* ast_make_body_instr(ast_instr *instr, ast_body *next) {
 	ast_body* result = malloc(sizeof(ast_body));
+	result->det = INSTR;
 	result->instr = instr;
 	result->next = next;
 	return result;
+}
+
+ast_body* ast_make_body_if(ast_if* _if, ast_body* next) {
+    ast_body* result = malloc(sizeof(ast_body));
+    result->det = IF;
+    result->_if = _if;
+    result->next = next;
+    return result;
+}
+
+ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else) {
+    ast_if* result = malloc(sizeof(ast_if));
+    result->cond = cond;
+    result->_else = _else;
+    result->_then = then;
+    return result;
 }
 
 void ast_body_set_next(ast_body* body, ast_body* next) {

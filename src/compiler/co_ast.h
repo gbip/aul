@@ -36,6 +36,9 @@ typedef struct ast_print ast_print;
 /* ASSIGN */
 typedef struct ast_assign ast_assign;
 
+/* IF */
+typedef struct ast_if ast_if;
+
 /* INSTRUCTION */
 typedef enum instr_det {
 	DECL,
@@ -45,6 +48,11 @@ typedef enum instr_det {
 typedef struct ast_instr ast_instr;
 
 /* BODY */
+typedef enum ast_body_det {
+    INSTR,
+    IF,
+} ast_body_det;
+
 typedef struct ast_body ast_body;
 
 /* NODE MAKERS */
@@ -54,7 +62,9 @@ ast_print* ast_make_print(id* anId);
 ast_assign* ast_make_assign(id* anId, ast_expr* anExpr);
 ast_decl* ast_make_decl(id* anId, co_type_t aType, ast_expr* anExpr);
 ast_op* ast_make_op(ast_expr* leftExpr, op operation, ast_expr* right);
-ast_body* ast_make_body(ast_instr* instr, ast_body* next);
+ast_body* ast_make_body_instr(ast_instr *instr, ast_body *next);
+ast_body* ast_make_body_if(ast_if* _if, ast_body* next);
+ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else);
 
 
 #define CREATE_MAKE_UNION_H(type, code, deter, field) ast_expr* ast_make_expr_##type(code field);

@@ -68,7 +68,7 @@ BODY :
 
 INSTRS :
         LINE tENDL INSTRS
-            {$$ = ast_make_body($1,$3);}
+            {$$ = ast_make_body_instr($1,$3);}
         |
             {$$ = NULL;}
 ;

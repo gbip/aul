@@ -41,10 +41,10 @@ static void test_ast(void** state) {
 	ast_instr* finalNode2 = ast_make_instr_decl(simpleDecl);
 	ast_decl* declNode = ast_make_decl(anId, INT, op4);
 	ast_instr* finalNode = ast_make_instr_decl(declNode);
-	ast_body* bod1 = ast_make_body(finalNode, NULL);
-	ast_body* bod2 = ast_make_body(finalNode2, NULL);
-	ast_body* bod3 = ast_make_body(finalNode3, NULL);
-	ast_body* bod4 = ast_make_body(finalNode4, NULL);
+	ast_body* bod1 = ast_make_body_instr(finalNode, NULL);
+	ast_body* bod2 = ast_make_body_instr(finalNode2, NULL);
+	ast_body* bod3 = ast_make_body_instr(finalNode3, NULL);
+	ast_body* bod4 = ast_make_body_instr(finalNode4, NULL);
 	ast_body_set_next(bod1, bod2);
 	ast_body_set_next(bod2, bod3);
 	ast_body_set_next(bod3, bod4);
