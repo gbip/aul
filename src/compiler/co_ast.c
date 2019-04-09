@@ -407,9 +407,23 @@ void free_ast_instr(ast_instr* tree) {
 	}
 }
 
+free_ast_if(struct ast_if* tree) {
+    free_ast_expr(tree->cond);
+    free_ast(tree->_then);
+    free_ast(tree->_else);
+    free(tree);
+}
+
 void free_ast(struct ast_body* tree) {
 	if(tree != NULL) {
-		free_ast_instr(tree->instr);
+	    switch(tree->det) {
+	        case IF:
+	            free_ast_if(tree->_if);
+	            break;
+	        case INSTR:
+                free_ast_instr(tree->instr);
+	            break;
+	    }
 		if(tree->next != NULL) {
 			free_ast(tree->next);
 		}
