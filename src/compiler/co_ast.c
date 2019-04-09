@@ -190,6 +190,42 @@ void print_expr(ast_expr* expression, int offset_nb) {
 					print_expr(expression->op->left, offset_nb + 4);
 					print_expr(expression->op->right, offset_nb + 4);
 					break;
+				case OP_DIFF:
+					print_offset(offset_nb);
+					printf("[!=]\n");
+					print_expr(expression->op->left, offset_nb + 4);
+					print_expr(expression->op->right, offset_nb + 4);
+					break;
+				case OP_EQUAL:
+					print_offset(offset_nb);
+					printf("[==]\n");
+					print_expr(expression->op->left, offset_nb + 4);
+					print_expr(expression->op->right, offset_nb + 4);
+					break;
+				case OP_INF:
+					print_offset(offset_nb);
+					printf("[<]\n");
+					print_expr(expression->op->left, offset_nb + 4);
+					print_expr(expression->op->right, offset_nb + 4);
+					break;
+				case OP_SUP:
+					print_offset(offset_nb);
+					printf("[>]\n");
+					print_expr(expression->op->left, offset_nb + 4);
+					print_expr(expression->op->right, offset_nb + 4);
+					break;
+				case OP_SUPEQ:
+					print_offset(offset_nb);
+					printf("[>=]\n");
+					print_expr(expression->op->left, offset_nb + 4);
+					print_expr(expression->op->right, offset_nb + 4);
+					break;
+				case OP_INFEQ:
+					print_offset(offset_nb);
+					printf("[<=]\n");
+					print_expr(expression->op->left, offset_nb + 4);
+					print_expr(expression->op->right, offset_nb + 4);
+					break;
 				default:
 					print_offset(offset_nb);
 					printf("ERROR\n");

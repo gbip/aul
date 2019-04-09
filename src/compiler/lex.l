@@ -41,6 +41,18 @@
 
 ";" {return tENDL;}
 
+"==" {return tEQUALITY;}
+
+"<" {return tINF;}
+
+"<=" {return tINFEQ;}
+
+">" {return tSUP;}
+
+">=" {return tSUPEQ;}
+
+"!=" {return tDIFF;}
+
 [ \t\n]+ {}
 
 "," {return tSEP;}

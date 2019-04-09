@@ -24,7 +24,7 @@ typedef enum expr_det {
 } expr_det;
 
 /* OP */
-typedef enum op { OP_ADD, OP_SUB, OP_DIV, OP_MUL } op;
+typedef enum op { OP_ADD, OP_SUB, OP_DIV, OP_MUL, OP_EQUAL, OP_DIFF, OP_SUP, OP_INF, OP_SUPEQ, OP_INFEQ } op;
 typedef struct ast_op ast_op;
 
 /* DECL */

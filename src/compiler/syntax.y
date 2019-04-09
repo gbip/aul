@@ -35,6 +35,12 @@
 %token tENDL
 %token tIF
 %token tELSE
+%token tDIFF
+%token tSUP
+%token tINF
+%token tSUPEQ
+%token tINFEQ
+%token tEQUALITY
 %token <intValue> tLITT
 %token <intValue> tLITTEXP
 %token <idValue> tID
@@ -140,4 +146,17 @@ EXPR :
             {$$ = ast_make_expr_op(ast_make_op($1,OP_DIV,$3));}
         | EXPR tMUL EXPR
             {$$ = ast_make_expr_op(ast_make_op($1,OP_MUL,$3));}
+        | EXPR tDIFF EXPR
+       	    {$$ = ast_make_expr_op(ast_make_op($1,OP_DIFF,$3));}
+       	| EXPR tEQUALITY EXPR
+       	    {$$ = ast_make_expr_op(ast_make_op($1,OP_EQUAL,$3));}
+       	| EXPR tSUP EXPR
+       	    {$$ = ast_make_expr_op(ast_make_op($1,OP_SUP,$3));}
+       	| EXPR tINF EXPR
+       	    {$$ = ast_make_expr_op(ast_make_op($1,OP_INF,$3));}
+       	| EXPR tSUPEQ EXPR
+       	    {$$ = ast_make_expr_op(ast_make_op($1,OP_SUPEQ,$3));}
+       	| EXPR tINFEQ EXPR
+       	    {$$ = ast_make_expr_op(ast_make_op($1,OP_INFEQ,$3));}
+
 ;
