@@ -122,6 +122,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 			    }
 				break;
 			case INFEQ:
+                printf("INFEQ %d <= %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
                 if (vm->regs[instr[1]] <= vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
                 } else {
@@ -129,6 +130,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                 }
 				break;
 			case SUP:
+                printf("SUP %d > %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
                 if (vm->regs[instr[1]] > vm->regs[vm_instr_get_rb(instr)]) {
                     vm->regs[instr[1]] = 1;
                 } else {
@@ -136,6 +138,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                 }
                 break;
 			case SUPEQ:
+                printf("SUPEQ %d >= %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
                 if (vm->regs[instr[1]] >= vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
                 }else {
@@ -168,6 +171,20 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 		    case JMPRELADD: {
 		        printf("JUMP to %#x\n",current_instr + vm_instr_get_2nd_operand(instr));
                 current_instr += vm_instr_get_2nd_operand(instr) - 1;
+                break;
+            }
+            case JMPCRELSUB : {
+                printf("JUMP to %#x if %u is 0\n", current_instr - vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
+                if (vm->regs[instr[1]] == 0) {
+                    printf("Jumping...\n");
+                    current_instr -= vm_instr_get_2nd_operand(instr) -1;
+                }
+                break;
+            }
+            case JMPRELSUB: {
+                printf("JUMP to %#x\n",current_instr - vm_instr_get_2nd_operand(instr));
+                current_instr -= vm_instr_get_2nd_operand(instr) - 1;
+                break;
             }
 		}
         current_instr++;

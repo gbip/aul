@@ -129,10 +129,15 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
     uint32_t then_size = ir_get_number_of_instr(_then) + 2;
     // Build the else body
 	ts_increase_depth(ts);
-    ir_body* _else = ir_build_body(_if->_else,ts);
+    ir_body* _else = ir_build_body(_if->_else,ts); /* printf("================= \n");
+    print_ast(_if->_else);
+    printf("================= \n");*/
 	ts_decrease_depth(ts);
     uint32_t else_size = ir_get_number_of_instr(_else) + 1;
 
+    /*printf("================= \n");
+    printf("size _else : %d, size _then : %d \n", else_size, then_size);
+    printf("================= \n");*/
     p = ir_build_expr(p,_if->cond,ts);
     // Load the expression result
     p = ir_load_data(p, ts_pop_tmp(ts),0);
@@ -141,26 +146,42 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
     p = ir_get_end(_then);
     p = ir_make_instr(p, JMPRELADD, 0, else_size,NULL);
     *p = _else;
+    printf("================= \n");
+   ir_print_debug(*p);
+    printf("================= \n");
     return p;
 };
 
 ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
     // Generate the body of the while loop
+	ts_increase_depth(ts);
     ir_body* body = ir_build_body(_while->body,ts);
+	ts_decrease_depth(ts);
     uint32_t while_size = ir_get_number_of_instr(body);
 
     // Save the list pointer before generating the header
-    ir_body* while_cond = *p;
+    ir_body** while_cond = p;
+
+
     // Generate the while header
     p = ir_build_expr(p, _while->cond, ts);
-    p = ir_load_data(p, ts_pop_tmp(ts),0);
-    p = ir_make_instr(p, JMPCRELADD, 0, while_size + 1, NULL);
+
+
+    /*printf("================= \n");
+    ir_print_debug(*while_cond);
+    printf("================= \n");*/
+
+    uint32_t expr_size = ir_get_number_of_instr(*while_cond);
+
+    p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
+    p = ir_make_instr(p, JMPCRELADD, 0, while_size + 2, NULL); // 1 instr
     // Compute the header size
-    uint32_t while_header= ir_get_number_of_instr(while_cond);
+    //uint32_t while_header= ir_get_number_of_instr(while_cond);
     // Chain the body to the header
     *p = body;
     p = ir_get_end(body);
-    p = ir_make_instr(p,JMPRELSUB, 0, while_size + while_header, NULL);
+    p = ir_make_instr(p,JMPRELSUB, 0, while_size + expr_size + 2 + 2, NULL);
+    printf("cond : %d & body : %d \n", expr_size , while_size);
     return p;
 
 }
@@ -175,12 +196,17 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
             }
             case IF : {
                 p = ir_build_if(p, ast->_if, ts);
+                /*printf("================= \n");
+                ir_print_debug(*p);
+                printf("================= \n");*/
                 break;
             }
             case WHILE : {
                 p = ir_build_while(p, ast->_while,ts);
+                break;
             }
         }
+        //print_ast(ast->next);
         p = ir_build_instrs(p, ast->next, ts);
     }
 	return p;
@@ -263,6 +289,7 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 		case LIT: {
 			// Store the literral content in r0
 			p = ir_make_instr(p, MOVE, 0, ast->literral, NULL);
+			//printf("putting %d in litteral \n", ast->literral);
 			// Push r0 as a temporary variable
 			p = ir_push_register_data(p, 0, ts);
 			return p;
@@ -312,13 +339,21 @@ void ir_print_debug(ir_body* root) {
 				break;
 			}
 			case JMPCRELADD: {
-                printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
                 break;
             }
 			case JMPRELADD: {
-				printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
 			}
+            case JMPRELSUB: {
+                printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
+            case JMPCRELSUB: {
+                printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                break;
+            }
 			default: {
 				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
