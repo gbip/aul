@@ -139,6 +139,27 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
     return p;
 };
 
+ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
+    // Generate the body of the while loop
+    ir_body* body = ir_build_body(_while->body,ts);
+    uint32_t while_size = ir_get_number_of_instr(body);
+
+    // Save the list pointer before generating the header
+    ir_body* while_cond = *p;
+    // Generate the while header
+    p = ir_build_expr(p, _while->cond, ts);
+    p = ir_load_data(p, ts_pop_tmp(ts),0);
+    p = ir_make_instr(p, JMPCRELADD, 0, while_size + 1, NULL);
+    // Compute the header size
+    uint32_t while_header= ir_get_number_of_instr(while_cond);
+    // Chain the body to the header
+    *p = body;
+    p = ir_get_end(body);
+    p = ir_make_instr(p,JMPRELSUB, 0, while_size + while_header, NULL);
+    return p;
+
+}
+
 ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 	//p = ir_build_instr(p, ast->instr, ts);
 	if(ast != NULL) {
@@ -149,7 +170,11 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
             }
             case IF : {
                 p = ir_build_if(p, ast->_if, ts);
-                break;}
+                break;
+            }
+            case WHILE : {
+                p = ir_build_while(p, ast->_while,ts);
+            }
         }
         p = ir_build_instrs(p, ast->next, ts);
     }
@@ -317,6 +342,23 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 	}
 
 	fclose(output);
+}
+
+void ir_opt_remove_contiguous_str_ld(ir_body* start) {
+    while (start != NULL) {
+        if (start->instr.opcode == STORE) {
+            uint32_t addr = start->instr.op2;
+            ir_body *aux = start->next;
+            if (aux != NULL && aux->instr.opcode == LOAD && aux->instr.op2 == addr) {
+                start->next = aux->next;
+            }
+        }
+        start = start->next;
+    }
+}
+
+ir_body* ir_optimization(ir_body* start) {
+    ir_opt_remove_contiguous_str_ld(start);
 }
 
 void free_ir(ir_body* root) {

@@ -3,8 +3,8 @@
 //
 
 main() {
-    int a = 76;
-    int b = 66;
+    int a = 66;
+    int b = 65;
 
     if (a<b) {
         print(a);

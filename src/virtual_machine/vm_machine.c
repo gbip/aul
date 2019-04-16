@@ -77,7 +77,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 
 		// handle the instruction
 		//printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
-		printf("PC : %#x, R0 : %#x, R1 : %#x\n",current_instr, vm->regs[0], vm->regs[1]);
+		printf("PC : %#x, R0 : %#x, R1 : %#x | ",current_instr, vm->regs[0], vm->regs[1]);
 		switch(OP_CODES[instr[0]]) {
 			case MOVE:
 			    if(DEBUG)

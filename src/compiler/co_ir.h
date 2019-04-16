@@ -37,6 +37,12 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts);
 
 ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts);
 
+ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts);
+
+ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts);
+
+ir_body* ir_optimization(ir_body* start);
+
 void free_ir(ir_body* root);
 
 #endif // AUL_IR_H

@@ -80,4 +80,9 @@ struct ast_body {
 	ast_body* next;
 };
 
+struct ast_while {
+    ast_expr* cond;
+    ast_body* body;
+};
+
 #endif // AUL_CO_AST_PRIVATE_H
