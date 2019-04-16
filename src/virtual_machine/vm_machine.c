@@ -74,7 +74,6 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 	uint8_t instr[INSTR_SIZE];
 	while(current_instr < nb_instr) {
         memcpy(instr,code + INSTR_SIZE*current_instr, INSTR_SIZE);
-
 		// handle the instruction
 		//printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
 		printf("PC : %#x, R0 : %#x, R1 : %#x | ",current_instr, vm->regs[0], vm->regs[1]);

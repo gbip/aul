@@ -4,14 +4,21 @@ main() {
 	int b_ = 4;
 	const c = 2;
 	int d = (a + b_) / (c*(c+(10*2))); // should be 2
-	int dd = (a<b_)+(a==b)-(a>=b);
-	print(d);
-	if(a+b) {
-		print(a);
-		if((a == b)) {
-		    a = b;
-		}
-	} else {
-		b = 2*b;
+	//int dd = (a<b_)+(a==b)-(a>=b);
+	if(a<b_) {
+	   if(c == d) {
+	       print(c);
+	   } else {
+            print(a);
+        }
 	}
+	else {
+	    print(b);
+	}
+    //int k = 2;
+    //while(a < 18) {
+     //   k = k+1;
+     //   print(k);
+    //}
+    //print(k);
 }

@@ -47,7 +47,7 @@ uint32_t ts_get(ts* ts, const char* name) {
 		}
 	}
 	// Tried to get a symbol from an empty symbol table
-    printf("WARNING : Tried to get a symbol from an empty symbol table\n");
+	printf("ERROR : Can't find symbol %s", name);
 	return 0;
 }
 
