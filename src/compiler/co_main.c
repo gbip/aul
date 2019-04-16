@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 		print_ast(get_ast());
 		printf("AST built, building intermediate representation tree ...\n");
 		ir_body* irt = ir_build_tree(get_ast());
-		ir_optimization(irt);
+		//ir_optimization(irt);
 		printf("===== Generated asm code : =====\n\n\n");
 		ir_print_debug(irt);
 		ir_write_to_file(argv[2], irt);

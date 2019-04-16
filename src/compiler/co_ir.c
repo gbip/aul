@@ -281,12 +281,10 @@ ir_body** ir_build_decl(ir_body** p, ast_decl* ast, ts* ts) {
 ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	// Evaluate the expression
 	p = ir_build_expr(p, ast->expr, ts);
-	// Store the variable address in r0
-	p = ir_make_instr(p, MOVE, 0, ts_get(ts, ast->id->name), NULL);
-	// Retrieve the expression result in r1
-	p = ir_load_data(p, ts_pop_tmp(ts), 1);
-	// Store the result at the address of the variable
-	p = ir_make_instr(p, STORE, 1, 0, NULL);
+	// Retrieve the result pushed from the evaluation
+	p = ir_load_data(p, ts_pop_tmp(ts), 0);
+	// Associate the result with the variable
+	p = ir_make_instr(p, STORE, 0, ts_get(ts, ast->id->name), NULL);
 	return p;
 }
 
@@ -312,6 +310,10 @@ void ir_print_debug(ir_body* root) {
                 printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
                 break;
             }
+			case JMPRELADD: {
+				printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+				break;
+			}
 			default: {
 				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
 				break;
@@ -356,11 +358,11 @@ void ir_opt_remove_contiguous_str_ld(ir_body* start) {
         start = start->next;
     }
 }
-
+/*
 ir_body* ir_optimization(ir_body* start) {
     ir_opt_remove_contiguous_str_ld(start);
 }
-
+*/
 void free_ir(ir_body* root) {
 	if(root->next != NULL) {
 		free_ir(root->next);

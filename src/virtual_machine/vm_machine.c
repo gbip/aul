@@ -161,7 +161,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 		        printf("JUMP to %#x if %u is 0\n", current_instr + vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
                 if (vm->regs[instr[1]] == 0) {
                     printf("Jumping...\n");
-                    current_instr += vm_instr_get_2nd_operand(instr) - 1;
+                    current_instr += vm_instr_get_2nd_operand(instr) -1;
                 }
 		        break;
 		    }
