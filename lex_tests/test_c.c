@@ -19,6 +19,13 @@ main() {
             print(a);
         } else {
             int b = 14;
+            while(b <= 15) {
+                if(b == 14) {
+                    b = 51;
+                } else {
+                    b = 45;
+                }
+            }
             print(b);
         }
     }

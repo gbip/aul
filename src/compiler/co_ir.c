@@ -147,9 +147,10 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
         p = ir_get_end(_then);
         p = ir_make_instr(p, JMPRELADD, 0, else_size, NULL);
         *p = _else;
-        printf("================= \n");
+        /*printf("================= \n");
         ir_print_debug(*p);
-        printf("================= \n");
+        printf("================= \n");*/
+        p = ir_get_end(_else);
         return p;
     } else {
         p = ir_build_expr(p, _if->cond, ts);
