@@ -1,18 +1,30 @@
 main() {
-
-	int a = 1;
-	int k = 1;
-	int i = 0;
-	while(a <= 3) {
-        a = a + 1;
-        while(i<10) {
-            k = k + 1;
-            i = i + 1;
+    if(1 <= 0) {
+        int a = 1;
+        int k = 1;
+        int i = 0;
+        while (a <= 3) {
+            a = a + 1;
+            while (i < 10) {
+                k = k + 1;
+                i = i + 1;
+            }
+            i = 0;
         }
-        i = 0;
+        print(a);
+        print(k);
+    } else {
+        if(1 == 2) {
+            int a = 12;
+            print(a);
+        } else {
+            int b = 14;
+            print(b);
+        }
     }
-	print(a);
-	print(k);
+    int m = 2;
+    print(m);
+
 
 	//k=1;
     //int k = 2;

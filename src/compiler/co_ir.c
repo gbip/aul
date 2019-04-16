@@ -127,29 +127,41 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
 	ts_decrease_depth(ts);
 
     uint32_t then_size = ir_get_number_of_instr(_then) + 2;
-    // Build the else body
-	ts_increase_depth(ts);
-    ir_body* _else = ir_build_body(_if->_else,ts); /* printf("================= \n");
-    print_ast(_if->_else);
-    printf("================= \n");*/
-	ts_decrease_depth(ts);
-    uint32_t else_size = ir_get_number_of_instr(_else) + 1;
 
-    /*printf("================= \n");
-    printf("size _else : %d, size _then : %d \n", else_size, then_size);
-    printf("================= \n");*/
-    p = ir_build_expr(p,_if->cond,ts);
-    // Load the expression result
-    p = ir_load_data(p, ts_pop_tmp(ts),0);
-    p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
-    *p = _then;
-    p = ir_get_end(_then);
-    p = ir_make_instr(p, JMPRELADD, 0, else_size,NULL);
-    *p = _else;
-    printf("================= \n");
-   ir_print_debug(*p);
-    printf("================= \n");
-    return p;
+    if(_if->_else != NULL) {
+        // Build the else body
+        ts_increase_depth(ts);
+        ir_body *_else = ir_build_body(_if->_else, ts); /* printf("================= \n");
+        print_ast(_if->_else);
+        printf("================= \n");*/
+        ts_decrease_depth(ts);
+        uint32_t else_size = ir_get_number_of_instr(_else) + 1;
+        /*printf("================= \n");
+       printf("size _else : %d, size _then : %d \n", else_size, then_size);
+       printf("================= \n");*/
+        p = ir_build_expr(p, _if->cond, ts);
+        // Load the expression result
+        p = ir_load_data(p, ts_pop_tmp(ts), 0);
+        p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
+        *p = _then;
+        p = ir_get_end(_then);
+        p = ir_make_instr(p, JMPRELADD, 0, else_size, NULL);
+        *p = _else;
+        printf("================= \n");
+        ir_print_debug(*p);
+        printf("================= \n");
+        return p;
+    } else {
+        p = ir_build_expr(p, _if->cond, ts);
+        // Load the expression result
+        p = ir_load_data(p, ts_pop_tmp(ts), 0);
+        p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
+        *p = _then;
+        p = ir_get_end(_then);
+        return p;
+    }
+
+
 };
 
 ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
