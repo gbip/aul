@@ -77,7 +77,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 
 		// handle the instruction
 		//printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
-		printf("PC : %#x\n",current_instr);
+		printf("PC : %#x, R0 : %#x, R1 : %#x\n",current_instr, vm->regs[0], vm->regs[1]);
 		switch(OP_CODES[instr[0]]) {
 			case MOVE:
 			    if(DEBUG)
@@ -108,32 +108,41 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				vm->regs[instr[1]] = vm->regs[instr[1]] / vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case EQ:
-                vm->regs[instr[1]] = 0;
                 if (vm->regs[instr[1]] == vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
-                }				break;
+                }else {
+                    vm->regs[instr[1]] = 0;
+                }
+                break;
 			case INF:
-                vm->regs[instr[1]] = 0;
+			    printf("INF %d < %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
 			    if (vm->regs[instr[1]] < vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
-				}
+				} else {
+                    vm->regs[instr[1]] = 0;
+			    }
 				break;
 			case INFEQ:
-                vm->regs[instr[1]] = 0;
                 if (vm->regs[instr[1]] <= vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
+                } else {
+                    vm->regs[instr[1]] = 0;
                 }
 				break;
 			case SUP:
-                vm->regs[instr[1]] = 0;
-                if (vm->regs[instr[1]] > vm->regs[vm_instr_get_rb(instr)]){
+                if (vm->regs[instr[1]] > vm->regs[vm_instr_get_rb(instr)]) {
                     vm->regs[instr[1]] = 1;
-                }				break;
+                } else {
+                    vm->regs[instr[1]] = 0;
+                }
+                break;
 			case SUPEQ:
-                vm->regs[instr[1]] = 0;
                 if (vm->regs[instr[1]] >= vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
-                }				break;
+                }else {
+                    vm->regs[instr[1]] = 0;
+                }
+                break;
 			case LOAD:
                 if(DEBUG)
 				    printf("LOAD r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
@@ -150,11 +159,17 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                 printf("%u \n", vm->regs[instr[1]]);
 				break;
 		    case JMPCRELADD : {
+		        printf("JUMP to %#x if %u is 0\n", current_instr + vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
                 if (vm->regs[instr[1]] == 0) {
+                    printf("Jumping...\n");
                     current_instr += vm_instr_get_2nd_operand(instr) - 1;
                 }
 		        break;
 		    }
+		    case JMPRELADD: {
+		        printf("JUMP to %#x\n",current_instr + vm_instr_get_2nd_operand(instr));
+                current_instr += vm_instr_get_2nd_operand(instr) - 1;
+            }
 		}
         current_instr++;
     }

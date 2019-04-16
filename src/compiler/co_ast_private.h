@@ -64,7 +64,7 @@ struct ast_instr {
 struct ast_if {
     ast_expr *cond;
     ast_body *_then;
-    ast_body *_if;
+    ast_body* _else;
 };
 
 /* BODY */
