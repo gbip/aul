@@ -14,18 +14,18 @@ struct vm_mem {
 
 DATA_TYPE get_addr(const vm_mem* mem, uint32_t addr) {
 	// Check that we are not out of range
-	if(addr - MEMORY_OFFSET > MEMORY_SIZE - 1) {
+	if((addr - MEMORY_OFFSET)/4 > MEMORY_SIZE - 1) {
 		printf("Out of range memory address (read %#x).", addr);
 		return 0;
 	}
-	return mem->memory[addr - MEMORY_OFFSET];
+	return mem->memory[(addr - MEMORY_OFFSET)/4];
 }
 void set_addr(vm_mem* mem, uint32_t addr, DATA_TYPE value) {
 	// Check that we are not out of range
 	if(addr - MEMORY_OFFSET > MEMORY_SIZE - 1) {
 		printf("Out of range memory address (write %#x).", addr);
 	} else {
-		mem->memory[addr - MEMORY_OFFSET] = value;
+		mem->memory[(addr - MEMORY_OFFSET)/4] = value;
 	}
 }
 

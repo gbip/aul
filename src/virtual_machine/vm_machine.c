@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 // A virtual machine is some memory associated with some registers
 struct vm_machine {
@@ -51,10 +51,10 @@ uint8_t* vm_get_binary(const char* filename, uint32_t * nb_instr) {
         // load the next instruction in the buffer
         fread(instr, 1, INSTR_SIZE, file);
         memcpy(result + INSTR_SIZE*index,instr, INSTR_SIZE);
-        index++;
         if (feof(file)) {
             break;
         }
+        index++;
     }
     *nb_instr = index;
     return result;
@@ -72,12 +72,12 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 	}
 
 	uint8_t instr[INSTR_SIZE];
-	while(current_instr <= nb_instr) {
+	while(current_instr < nb_instr) {
         memcpy(instr,code + INSTR_SIZE*current_instr, INSTR_SIZE);
-        current_instr++;
 
 		// handle the instruction
 		//printf("OPCODE : %#x r%d %#x\n", instr[0], instr[1], vm_instr_get_2nd_operand(instr));
+		printf("PC : %#x\n",current_instr);
 		switch(OP_CODES[instr[0]]) {
 			case MOVE:
 			    if(DEBUG)
@@ -108,20 +108,32 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				vm->regs[instr[1]] = vm->regs[instr[1]] / vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case EQ:
-				vm->regs[instr[1]] = (uint32_t)(vm->regs[instr[1]] == vm->regs[vm_instr_get_rb(instr)]);
-				break;
+                vm->regs[instr[1]] = 0;
+                if (vm->regs[instr[1]] == vm->regs[vm_instr_get_rb(instr)]){
+                    vm->regs[instr[1]] = 1;
+                }				break;
 			case INF:
-				vm->regs[instr[1]] = (uint32_t)(vm->regs[instr[1]] < vm->regs[vm_instr_get_rb(instr)]);
+                vm->regs[instr[1]] = 0;
+			    if (vm->regs[instr[1]] < vm->regs[vm_instr_get_rb(instr)]){
+                    vm->regs[instr[1]] = 1;
+				}
 				break;
 			case INFEQ:
-				vm->regs[instr[1]] = (uint32_t)(vm->regs[instr[1]] <= vm->regs[vm_instr_get_rb(instr)]);
+                vm->regs[instr[1]] = 0;
+                if (vm->regs[instr[1]] <= vm->regs[vm_instr_get_rb(instr)]){
+                    vm->regs[instr[1]] = 1;
+                }
 				break;
 			case SUP:
-				vm->regs[instr[1]] = (uint32_t)(vm->regs[instr[1]] > vm->regs[vm_instr_get_rb(instr)]);
-				break;
+                vm->regs[instr[1]] = 0;
+                if (vm->regs[instr[1]] > vm->regs[vm_instr_get_rb(instr)]){
+                    vm->regs[instr[1]] = 1;
+                }				break;
 			case SUPEQ:
-				vm->regs[instr[1]] = (uint32_t)(vm->regs[instr[1]] >= vm->regs[vm_instr_get_rb(instr)]);
-				break;
+                vm->regs[instr[1]] = 0;
+                if (vm->regs[instr[1]] >= vm->regs[vm_instr_get_rb(instr)]){
+                    vm->regs[instr[1]] = 1;
+                }				break;
 			case LOAD:
                 if(DEBUG)
 				    printf("LOAD r%d [%#x]\n", instr[1], vm_instr_get_2nd_operand(instr));
@@ -137,12 +149,13 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                     printf("PRINT r%d\n", instr[1]);
                 printf("%u \n", vm->regs[instr[1]]);
 				break;
-		    case JMPRELADD : {
-                if (instr[1] == 0) {
+		    case JMPCRELADD : {
+                if (vm->regs[instr[1]] == 0) {
                     current_instr += vm_instr_get_2nd_operand(instr) - 1;
                 }
 		        break;
 		    }
 		}
+        current_instr++;
     }
 }

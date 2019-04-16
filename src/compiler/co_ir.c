@@ -122,9 +122,9 @@ ir_body** ir_get_end(ir_body* p) {
  */
 ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
     ir_body* _then = ir_build_body(_if->_then,ts);
-    uint32_t then_size = ir_get_number_of_instr(_then) + 1;
+    uint32_t then_size = ir_get_number_of_instr(_then) + 2;
     ir_body* _else = ir_build_body(_if->_then,ts);
-    uint32_t else_size = ir_get_number_of_instr(_else);
+    uint32_t else_size = ir_get_number_of_instr(_else) + 1;
     p = ir_build_expr(p,_if->cond,ts);
     // Load the expression result
     p = ir_load_data(p, ts_pop_tmp(ts),0);
