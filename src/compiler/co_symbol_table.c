@@ -17,12 +17,34 @@ typedef struct symbol_table_entry {
 typedef struct ts {
 	symbol_table_entry table[TABLE_SIZE];
 	uintptr_t index;
+	uint64_t currDepth ; // represents the current scope's depth
 } ts;
 
 ts* ts_make() {
 	ts* result = malloc(sizeof(ts));
 	result->index = 0;
+	result->currDepth = 0;
 	return result;
+}
+
+void ts_increase_depth(ts* table) {
+	table->currDepth++;
+}
+
+void ts_decrease_depth(ts* table) {
+	table->currDepth--;
+	if((table->currDepth) < 0) {
+		printf("An error occured ! \n");
+	}
+	// delete all variables with greater depth than the new one
+	int cont = 1;
+	for(uintptr_t i = table->index -1; i >= 0 && (cont == 1) ; i--) {
+		cont = 0;
+		if(table->table[i].depth == ((table->currDepth)+1)) {
+			table->index--;
+			cont = 1;
+		}
+	}
 }
 
 void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth) {
@@ -30,7 +52,7 @@ void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth) {
 	assert(name != NULL);
 	entry.name = name;
 	entry.type = type;
-	entry.depth = depth;
+	entry.depth = ts->currDepth;
 	if(ts->index == 0) {
 		entry.addr = BASE_ADDR;
 	} else {
@@ -47,7 +69,9 @@ uint32_t ts_get(ts* ts, const char* name) {
 		}
 	}
 	// Tried to get a symbol from an empty symbol table
-	printf("ERROR : Can't find symbol %s", name);
+	printf("ERROR : Can't find symbol %s\n", name);
+	printf("Compilation failed\n");
+	exit(1);
 	return 0;
 }
 

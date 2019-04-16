@@ -34,6 +34,9 @@ uint32_t ts_gen_tmp(ts* ts);
 
 uint32_t ts_pop_tmp(ts* ts);
 
+void ts_increase_depth();
+
+void ts_decrease_depth();
 
 // Retrieve the index of a specified entry in the symbol table
 uint32_t ts_get(ts* ts, const char* name);
