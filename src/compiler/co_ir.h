@@ -33,7 +33,7 @@ ir_body** ir_build_decl(ir_body** p, ast_decl* ast, ts* ts);
 
 ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts);
 
-ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts);
+ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar);
 
 ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts);
 

@@ -139,9 +139,9 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
         /*printf("================= \n");
        printf("size _else : %d, size _then : %d \n", else_size, then_size);
        printf("================= \n");*/
-        p = ir_build_expr(p, _if->cond, ts);
+        p = ir_build_expr(p, _if->cond, ts, 0);
         // Load the expression result
-        p = ir_load_data(p, ts_pop_tmp(ts), 0);
+        //p = ir_load_data(p, ts_pop_tmp(ts), 0);
         p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
         *p = _then;
         p = ir_get_end(_then);
@@ -153,9 +153,9 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
         p = ir_get_end(_else);
         return p;
     } else {
-        p = ir_build_expr(p, _if->cond, ts);
+        p = ir_build_expr(p, _if->cond, ts, 0);
         // Load the expression result
-        p = ir_load_data(p, ts_pop_tmp(ts), 0);
+        //p = ir_load_data(p, ts_pop_tmp(ts), 0);
         p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
         *p = _then;
         p = ir_get_end(_then);
@@ -177,7 +177,7 @@ ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
 
 
     // Generate the while header
-    p = ir_build_expr(p, _while->cond, ts);
+    p = ir_build_expr(p, _while->cond, ts, 0);
 
 
     /*printf("================= \n");
@@ -186,14 +186,14 @@ ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
 
     uint32_t expr_size = ir_get_number_of_instr(*while_cond);
 
-    p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
+    //p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
     p = ir_make_instr(p, JMPCRELADD, 0, while_size + 2, NULL); // 1 instr
     // Compute the header size
     //uint32_t while_header= ir_get_number_of_instr(while_cond);
     // Chain the body to the header
     *p = body;
     p = ir_get_end(body);
-    p = ir_make_instr(p,JMPRELSUB, 0, while_size + expr_size + 2 + 2, NULL);
+    p = ir_make_instr(p,JMPRELSUB, 0, while_size + expr_size + 2 + 1, NULL);
     printf("cond : %d & body : %d \n", expr_size , while_size);
     return p;
 
@@ -233,15 +233,15 @@ ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
 	return p;
 }
 
-ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
+ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 	switch(ast->det) {
 		case OP: {
-			// Evaluate the left side
-			p = ir_build_expr(p, ast->op->right, ts);
 			// Evaluate the right side
-			p = ir_build_expr(p, ast->op->left, ts);
+			p = ir_build_expr(p, ast->op->right, ts, 1);
+			// Evaluate the left side
+			p = ir_build_expr(p, ast->op->left, ts, 0);
 			// Retrieve the evaluation results and store it in r0 and r1
-			p = ir_load_data(p, ts_pop_tmp(ts), 0);
+			//p = ir_load_data(p, ts_pop_tmp(ts), 0);
 			p = ir_load_data(p, ts_pop_tmp(ts), 1);
 			// Perform the operation
 			switch(ast->op->op) {
@@ -289,7 +289,9 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 			    }
             }
 			// Store the result
-			p = ir_push_register_data(p, 0, ts);
+			if(tmpVar) {
+                p = ir_push_register_data(p, 0, ts);
+            }
 			return p;
 		}
 		case ID:
@@ -297,14 +299,18 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts) {
 			p = ir_load_var(p, ast->id->name, ts, 0);
 			// Push it in as a temporary variable in the symbol table, so that it can be retrieved during operation
 			// evaluation
-			p = ir_push_register_data(p, 0, ts);
+            if(tmpVar) {
+                p = ir_push_register_data(p, 0, ts);
+            }
 			return p;
 		case LIT: {
 			// Store the literral content in r0
 			p = ir_make_instr(p, MOVE, 0, ast->literral, NULL);
 			//printf("putting %d in litteral \n", ast->literral);
 			// Push r0 as a temporary variable
-			p = ir_push_register_data(p, 0, ts);
+            if(tmpVar) {
+                p = ir_push_register_data(p, 0, ts);
+            }
 			return p;
 		}
 	}
@@ -315,9 +321,9 @@ ir_body** ir_build_decl(ir_body** p, ast_decl* ast, ts* ts) {
 	// Add the new symbol to the symbol table
 	ts_add(ts, ast->id->name, ast->type, 0);
 	// Generate expr evaluation
-	p = ir_build_expr(p, ast->expr, ts);
+	p = ir_build_expr(p, ast->expr, ts, 0);
 	// Retrieve the result pushed from the evaluation
-	p = ir_load_data(p, ts_pop_tmp(ts), 0);
+	//p = ir_load_data(p, ts_pop_tmp(ts), 0);
 	// Associate the result with the variable
 	p = ir_make_instr(p, STORE, 0, ts_get(ts, ast->id->name), NULL);
 	return p;
@@ -325,9 +331,9 @@ ir_body** ir_build_decl(ir_body** p, ast_decl* ast, ts* ts) {
 
 ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	// Evaluate the expression
-	p = ir_build_expr(p, ast->expr, ts);
+	p = ir_build_expr(p, ast->expr, ts, 0);
 	// Retrieve the result pushed from the evaluation
-	p = ir_load_data(p, ts_pop_tmp(ts), 0);
+	//p = ir_load_data(p, ts_pop_tmp(ts), 0);
 	// Associate the result with the variable
 	p = ir_make_instr(p, STORE, 0, ts_get(ts, ast->id->name), NULL);
 	return p;

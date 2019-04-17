@@ -14,30 +14,30 @@ main() {
         print(a);
         print(k);
     } else {
-        if(1 == 2) {
+        if(1 == 0) {
             int a = 12;
             print(a);
         } else {
-            int b = 14;
+            int b = (17*(14/2))/(1+2+3+4+((18/2)+1+(10-2))); // should be 1
+            print(b);
             while(b <= 15) {
-                if(b == 14) {
-                    b = 51;
-                } else {
-                    b = 45;
-                }
+               b = b + 1;
+               print(b);
             }
             print(b);
         }
+        int a = 1;
+        print(a);
     }
     int m = 2;
     print(m);
 
 
-	//k=1;
+    //k=1;
     //int k = 2;
     //while(a < 18) {
-     //   k = k+1;
-     //   print(k);
+    //   k = k+1;
+    //   print(k);
     //}
     //print(k);
 }
