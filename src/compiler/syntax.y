@@ -143,14 +143,14 @@ EXPR :
             {$$ = ast_make_expr_lit($1);}
         | tPARO EXPR tPARF
             {$$ = $2;}
+        | EXPR tDIV EXPR
+            {$$ = ast_make_expr_op(ast_make_op($1,OP_DIV,$3));}
+        | EXPR tMUL EXPR
+             {$$ = ast_make_expr_op(ast_make_op($1,OP_MUL,$3));}
         | EXPR tPLUS EXPR
             {$$ = ast_make_expr_op(ast_make_op($1,OP_ADD,$3));}
         | EXPR tMOINS EXPR
             {$$ = ast_make_expr_op(ast_make_op($1,OP_SUB,$3));}
-        | EXPR tDIV EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,OP_DIV,$3));}
-        | EXPR tMUL EXPR
-            {$$ = ast_make_expr_op(ast_make_op($1,OP_MUL,$3));}
         | EXPR tDIFF EXPR
        	    {$$ = ast_make_expr_op(ast_make_op($1,OP_DIFF,$3));}
        	| EXPR tEQUALITY EXPR
