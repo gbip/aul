@@ -199,93 +199,95 @@ void print_offset(int nb) {
 }
 
 void print_expr(ast_expr* expression, int offset_nb) {
-	switch(expression->det) {
-		case OP:
-			switch(expression->op->op) {
-				case OP_ADD:
-					print_offset(offset_nb);
-					printf("[OP_ADD]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_SUB:
-					print_offset(offset_nb);
-					printf("[SUB]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_DIV:
-					print_offset(offset_nb);
-					printf("[DIV]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_MUL:
-					print_offset(offset_nb);
-					printf("[MUL]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_DIFF:
-					print_offset(offset_nb);
-					printf("[!=]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_EQUAL:
-					print_offset(offset_nb);
-					printf("[==]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_INF:
-					print_offset(offset_nb);
-					printf("[<]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_SUP:
-					print_offset(offset_nb);
-					printf("[>]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_SUPEQ:
-					print_offset(offset_nb);
-					printf("[>=]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-				case OP_INFEQ:
-					print_offset(offset_nb);
-					printf("[<=]\n");
-					print_expr(expression->op->left, offset_nb + 4);
-					print_expr(expression->op->right, offset_nb + 4);
-					break;
-                case OP_NOT:
-                    print_offset(offset_nb);
-                    printf("[NOT]\n");
-                    print_expr(expression->op->left, offset_nb + 4);
-                    break;
-				default:
-					print_offset(offset_nb);
-					printf("ERROR\n");
-					break;
-			}
-			break;
-		case LIT:
-			print_offset(offset_nb);
-			printf("[LIT] %d\n", expression->literral);
-			break;
-		case ID:
-			print_offset(offset_nb);
-			printf("[ID] %s\n", expression->id->name);
-			break;
-		default:
-			print_offset(offset_nb);
-			printf("ERROR\n");
-			break;
-	}
+    if(expression != NULL) {
+        switch (expression->det) {
+            case OP:
+                switch (expression->op->op) {
+                    case OP_ADD:
+                        print_offset(offset_nb);
+                        printf("[OP_ADD]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_SUB:
+                        print_offset(offset_nb);
+                        printf("[SUB]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_DIV:
+                        print_offset(offset_nb);
+                        printf("[DIV]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_MUL:
+                        print_offset(offset_nb);
+                        printf("[MUL]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_DIFF:
+                        print_offset(offset_nb);
+                        printf("[!=]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_EQUAL:
+                        print_offset(offset_nb);
+                        printf("[==]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_INF:
+                        print_offset(offset_nb);
+                        printf("[<]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_SUP:
+                        print_offset(offset_nb);
+                        printf("[>]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_SUPEQ:
+                        print_offset(offset_nb);
+                        printf("[>=]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_INFEQ:
+                        print_offset(offset_nb);
+                        printf("[<=]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_NOT:
+                        print_offset(offset_nb);
+                        printf("[NOT]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        break;
+                    default:
+                        print_offset(offset_nb);
+                        printf("ERROR\n");
+                        break;
+                }
+                break;
+            case LIT:
+                print_offset(offset_nb);
+                printf("[LIT] %d\n", expression->literral);
+                break;
+            case ID:
+                print_offset(offset_nb);
+                printf("[ID] %s\n", expression->id->name);
+                break;
+            default:
+                print_offset(offset_nb);
+                printf("ERROR\n");
+                break;
+        }
+    }
 }
 
 void print_node(ast_instr* node, int offset_nb) {

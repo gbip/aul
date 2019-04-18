@@ -236,13 +236,19 @@ ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
 ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 	switch(ast->det) {
 		case OP: {
-			// Evaluate the right side
-			p = ir_build_expr(p, ast->op->right, ts, 1);
-			// Evaluate the left side
-			p = ir_build_expr(p, ast->op->left, ts, 0);
-			// Retrieve the evaluation results and store it in r0 and r1
-			//p = ir_load_data(p, ts_pop_tmp(ts), 0);
-			p = ir_load_data(p, ts_pop_tmp(ts), 1);
+		    if(ast->op->left == NULL) {
+		        // We only evaluate the right side, and don't need a temp var
+                p = ir_build_expr(p, ast->op->right, ts, 0);
+		    }
+		    else {
+                // Evaluate the right side
+                p = ir_build_expr(p, ast->op->right, ts, 1);
+                // Evaluate the left side
+                p = ir_build_expr(p, ast->op->left, ts, 0);
+                // Retrieve the evaluation results and store it in r0 and r1
+                //p = ir_load_data(p, ts_pop_tmp(ts), 0);
+                p = ir_load_data(p, ts_pop_tmp(ts), 1);
+            }
 			// Perform the operation
 			switch(ast->op->op) {
 				case OP_ADD: {
@@ -286,6 +292,9 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 			    case OP_INFEQ : {
 			        p = ir_make_instr(p, INFEQ, 0, 1, NULL);
 			        break;
+			    }
+			    case OP_NOT : { // To be used for logical operations only
+			        p = ir_make_instr(p, NOT, 0, 0, NULL);
 			    }
             }
 			// Store the result

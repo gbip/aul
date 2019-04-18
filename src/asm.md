@@ -10,7 +10,7 @@
 |------------------|--------|
 | [MOV](#mov)      | 0x00   |
 | [CP](#cp)        | 0x01   |
-| [OP_ADD](#add)   | 0x02   |
+| [ADD](#add)      | 0x02   |
 | [SUB](#sub)      | 0x03   |
 | [MUL](#mul)      | 0x04   |
 | [DIV](#div)      | 0x05   |
@@ -34,7 +34,7 @@
 
 |       Exemple      |    OPcode   | Opérande1 |  Opérande2  |
 |:------------------:|:-----------:|:---------:|:-----------:|
-|   `RO = RO + R1`   | [OP_ADD](#add) |     R0    |      R1     |
+|   `RO = RO + R1`   | [ADD](#add) |     R0    |      R1     |
 |                    | 0x02        | 0x00      | 0x0000_0001 |
 | `R4 = R4 * R12`    | [MUL](#mul) | R4        | R12         |
 |                    | 0x04        | 0x04      | 0x0000_000C |
@@ -64,12 +64,12 @@ CP <ra> <rb>
 ra <- rb
 ```
 
-### OP_ADD
+### ADD
 
 Addition de deux registres 
 
 ```txt
-OP_ADD <ra> <rb>
+ADD <ra> <rb>
 ```
 
 ```txt
