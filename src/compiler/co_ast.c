@@ -171,6 +171,21 @@ ast_decl* ast_make_decl(id* anId, co_type_t aType, ast_expr* anExpr) {
 ast_op* ast_make_op(ast_expr* leftExpr, op operation, ast_expr* right) {
 	ast_op* result = malloc(sizeof(ast_op));
 	result->left = leftExpr;
+	if(result->left == NULL) {
+		switch(operation) {
+			case OP_SUB : // Cas - EXPR
+				result->left = ast_make_expr_lit(0);
+				break;
+			case OP_NOT: // Cas NOT EXPR
+				//TODO
+				break;
+			default :
+				printf("OP GENERATION ERROR !");
+				exit(1);
+
+
+		}
+	}
 	result->right = right;
 	result->op = operation;
 	return result;

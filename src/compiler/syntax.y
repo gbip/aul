@@ -164,6 +164,8 @@ EXPR :
        	| EXPR tINFEQ EXPR
        	    {$$ = ast_make_expr_op(ast_make_op($1,OP_INFEQ,$3));}
        	| tNOT tPARO EXPR tPARF
-       	    {$$ = ast_make_expr_op(ast_make_op($3,OP_NOT,NULL));}
+       	    {$$ = ast_make_expr_op(ast_make_op(NULL,OP_NOT,$3));}
+       	| tMOINS EXPR
+            {$$ = ast_make_expr_op(ast_make_op(NULL,OP_SUB,$2));}
 
 ;

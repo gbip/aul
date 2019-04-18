@@ -158,7 +158,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 			case PRINT:
                 if(DEBUG)
                     printf("PRINT r%d\n", instr[1]);
-                printf("%u \n", vm->regs[instr[1]]);
+                printf("%d \n", vm->regs[instr[1]]);
 				break;
 		    case JMPCRELADD : {
 		        printf("JUMP to %#x if %u is 0\n", current_instr + vm_instr_get_2nd_operand(instr), vm->regs[instr[1]]);
