@@ -1,4 +1,4 @@
-# InSTOREuctions
+# Instructions
 
 |  Champ | OPcode | Opérande1 | Opérande2 |
 |:------:|:------:|:---------:|:---------:|
@@ -278,7 +278,7 @@ JMPCRELSUB <ra> <rb>
 Jump to pc-<rb> if <ra> is 0
 ```
 
-#### NOT
+### NOT
 
 ```txt
 NOT <ra> <rb>
