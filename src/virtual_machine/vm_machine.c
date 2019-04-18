@@ -84,6 +84,8 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				vm->regs[instr[1]] = vm_instr_get_2nd_operand(instr);
 				break;
 			case COPY:
+                if(DEBUG)
+                    printf("COPY r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[vm_instr_get_rb(instr)];
 				break;
 			case ADD:

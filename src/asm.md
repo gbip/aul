@@ -1,4 +1,4 @@
-# Instructions
+# InSTOREuctions
 
 |  Champ | OPcode | Opérande1 | Opérande2 |
 |:------:|:------:|:---------:|:---------:|
@@ -8,14 +8,14 @@
 
 |  Nom             | OPcode |
 |------------------|--------|
-| [MOV](#mov)      | 0x00   |
-| [CP](#cp)        | 0x01   |
+| [MOVE](#MOVE)    | 0x00   |
+| [COPY](#COPY)    | 0x01   |
 | [ADD](#add)      | 0x02   |
 | [SUB](#sub)      | 0x03   |
 | [MUL](#mul)      | 0x04   |
 | [DIV](#div)      | 0x05   |
-| [LD](#ld)        | 0x06   |
-| [STR](#str)      | 0x07   |
+| [LOAD](#LOAD)    | 0x06   |
+| [STORE](#STORE)  | 0x07   |
 | [EQ](#eq)        | 0x08   |
 | [INF](#inf)      | 0x09   |
 | [INFEQ](#infeq)  | 0x0A   |
@@ -23,14 +23,14 @@
 | [SUPEQ](#supeq)  | 0x0C   |
 | [PRINT](#print)  | 0x0D   |
 | [JMP](#jmp)      | 0x0E   |
-| [JMPREL+](#jmprel+)| 0x0F |
-| [JMPREL-](#jmprel-)| 0x010|
+| [JMPRELADD](#JMPRELADD)| 0x0F |
+| [JMPRELSUB](#JMPRELSUB)| 0x010|
 | [JMPC](#jmpc)    | 0x11   |
-| [JMPCREL+](#jmpcrel+)|0x12|
-| [JMPCREL-](#jmpcrel-)|0x13|
-| [NOT](#not)      | 0x14 |
-| [AND](#mov)      | 0x15   |
-| [OR](#cp)        | 0x16   |
+| [JMPCRELADD](#JMPCRELADD)|0x12|
+| [JMPCRELSUB](#JMPCRELSUB)|0x13|
+| [NOT](#NOT)      | 0x14 |
+| [AND](#AND)      | 0x15   |
+| [OR](#OR)        | 0x16   |
 
 ## Exemples
 
@@ -40,26 +40,26 @@
 |                    | 0x02        | 0x00      | 0x0000_0001 |
 | `R4 = R4 * R12`    | [MUL](#mul) | R4        | R12         |
 |                    | 0x04        | 0x04      | 0x0000_000C |
-| `R4 = 0x9876_5432` | [MOV](#mov) | R4        | 0x9876_5432 |
+| `R4 = 0x9876_5432` | [MOVE](#MOVE) | R4        | 0x9876_5432 |
 |                    | 0x00        | 0x04      | 0x9876_5432 |
 
-### MOV
+### MOVE
 
-Assignation de valeur à un registre depuis une donnée
+Assignation de valeur à un regiSTOREe depuis une donnée
 
 ```txt
-MOV <ra> <val>
+MOVE <ra> <val>
 ```
 
 ```txt
 ra <- val
 ```
 
-### CP
+### COPY
 
-Copie de valeur entre registres
+Copie de valeur entre regiSTOREes
 ```txt
-CP <ra> <rb>
+COPY <ra> <rb>
 ```
 
 ```txt
@@ -68,7 +68,7 @@ ra <- rb
 
 ### ADD
 
-Addition de deux registres 
+Addition de deux regiSTOREes 
 
 ```txt
 ADD <ra> <rb>
@@ -80,7 +80,7 @@ ra = ra+b
 
 ### SUB
 
-Soustraction de deux registres
+SouSTOREaction de deux regiSTOREes
 
 ```txt
 SUB <ra> <rb>
@@ -92,7 +92,7 @@ ra= ra - rb
 
 ### MUL
 
-Multiplication de deux registres
+Multiplication de deux regiSTOREes
 
 ```txt
 MUL <ra> <rb>
@@ -104,7 +104,7 @@ ra = ra*rb
 
 ### DIV
 
-Divisions de deux registres
+Divisions de deux regiSTOREes
 
 ```txt
 DIV <ra> <rb>
@@ -114,24 +114,24 @@ DIV <ra> <rb>
 ra = ra/rb
 ```
 
-### LD
+### LOAD
 
-Chargement d'un registre depuis une donnée en mémoire
+Chargement d'un regiSTOREe depuis une donnée en mémoire
 
 ```txt
-LD <ra> <addr>
+LOAD <ra> <addr>
 ```
 
 ```txt
 ra <- @addr
 ```
 
-### STR
+### STORE
 
-Stockage d'un registre en mémoire
+Stockage d'un regiSTOREe en mémoire
 
 ```txt
-STR <ra> <addr>
+STORE <ra> <addr>
 ```
 
 ```txt
@@ -200,7 +200,7 @@ ra = 1 si ra >= rb
 
 ### PRINT
 
-Affiche la valeur d'un registre
+Affiche la valeur d'un regiSTOREe
 
 ```txt
 PRINT <ra>
@@ -222,12 +222,12 @@ JMP <unused> <ra>
 Jump to the address of <ra>
 ```
 
-### JMPREL+
+### JMPRELADD
 
 Sauts relatifs
 
 ```txt
-JMPREL+ <unused> <ra>
+JMPRELADD <unused> <ra>
 ```
 
 ```txt
@@ -235,12 +235,12 @@ Jump to pc+ <ra>
 ```
 
 
-### JMPREL-
+### JMPRELSUB
 
 Sauts relatifs
 
 ```txt
-JMPREL- <unused> <ra>
+JMPRELSUB <unused> <ra>
 ```
 
 ```txt
@@ -258,20 +258,20 @@ JMPC <ra> <rb>
 Jump to <rb> if <ra> is 0
 ```
 
-### JMPCREL+
+### JMPCRELADD
 
 ```txt
-JMPCREL+ <ra> <rb>
+JMPCRELADD <ra> <rb>
 ```
 
 ```txt
 Jump to pc+<rb> if <ra> is 0
 ```
 
-### JMPCREL-
+### JMPCRELSUB
 
 ```txt
-JMPCREL- <ra> <rb>
+JMPCRELSUB <ra> <rb>
 ```
 
 ```txt
