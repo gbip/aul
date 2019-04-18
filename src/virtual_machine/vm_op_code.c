@@ -5,7 +5,7 @@
 #include "vm_op_code.h"
 
 const uint8_t OP_CODES[24] = {MOVE, COPY, ADD, SUB, MUL, DIV, LOAD, STORE, EQ, INF, INFEQ, SUP, SUPEQ, PRINT,
-                              JMP, JMPRELADD, JMPRELSUB, JMPC, JMPCRELADD, JMPCRELSUB, NOT};
+                              JMP, JMPRELADD, JMPRELSUB, JMPC, JMPCRELADD, JMPCRELSUB, NOT, AND, OR};
 
 uint8_t vm_opcode_to_byte(vm_opcode_t op) {
 	switch(op) {
@@ -90,13 +90,24 @@ const char* vm_opcode_to_str(vm_opcode_t op) {
 			return "SUPEQ";
 		case PRINT:
 			return "PRINT";
-        case JMP:return "JMP";
-        case JMPRELADD:return "JMPRELADD";
-        case JMPRELSUB:return "JMPRELSUB";
-        case JMPC:return "JMPC";
-        case JMPCRELADD:return "JMPCRELADD";
-        case JMPCRELSUB:return "JMPCRELSUB";
-        case NOT:return "NOT";
+        case JMP:
+            return "JMP";
+        case JMPRELADD:
+            return "JMPRELADD";
+        case JMPRELSUB:
+            return "JMPRELSUB";
+        case JMPC:
+            return "JMPC";
+        case JMPCRELADD:
+            return "JMPCRELADD";
+        case JMPCRELSUB:
+            return "JMPCRELSUB";
+        case NOT:
+            return "NOT";
+        case AND:
+            return "AND";
+        case OR:
+            return "OR";
 
         default:
 			return "";
