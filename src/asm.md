@@ -29,6 +29,8 @@
 | [JMPCREL+](#jmpcrel+)|0x12|
 | [JMPCREL-](#jmpcrel-)|0x13|
 | [NOT](#not)      | 0x14 |
+| [AND](#mov)      | 0x15   |
+| [OR](#cp)        | 0x16   |
 
 ## Exemples
 
@@ -284,5 +286,27 @@ NOT <ra> <rb>
 
 ```txt
 <ra> = 1 if <rb> = 0
+<ra> = 0 otherwise
+```
+
+### AND
+
+```txt
+AND <ra> <rb>
+```
+
+```txt
+<ra> = 1 if (<ra> != 0 and <rb> !=0)
+<ra> = 0 otherwise
+```
+
+### OR
+
+```txt
+OR <ra> <rb>
+```
+
+```txt
+<ra> = 1 if (<ra> != 0 or <rb> !=0)
 <ra> = 0 otherwise
 ```

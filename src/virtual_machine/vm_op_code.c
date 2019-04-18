@@ -39,13 +39,22 @@ uint8_t vm_opcode_to_byte(vm_opcode_t op) {
 			return 0x0D;
         case JMP:
             return 0x0E;
-        case JMPRELADD:return 0x0F;
-        case JMPRELSUB:return 0x10;
-        case JMPC:return 0x11;
-        case JMPCRELADD:return 0x12;
-        case JMPCRELSUB:return 0x13;
-        case NOT:return 0x14;
-
+        case JMPRELADD:
+        	return 0x0F;
+        case JMPRELSUB:
+        	return 0x10;
+        case JMPC:
+        	return 0x11;
+        case JMPCRELADD:
+        	return 0x12;
+        case JMPCRELSUB:
+        	return 0x13;
+        case NOT:
+        	return 0x14;
+		case AND:
+			return 0x15;
+		case OR:
+			return 0x16;
         default:
 			return 0xFF;
     }

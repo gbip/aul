@@ -91,6 +91,26 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				    printf("ADD r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[instr[1]] + vm->regs[vm_instr_get_rb(instr)];
 				break;
+            case AND: // LOGICAL AND (C-like)
+                if(DEBUG)
+                    printf("AND r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if((vm->regs[instr[1]] == 0) || (vm->regs[vm_instr_get_rb(instr)] == 0)) {
+                    vm->regs[instr[1]] = 0;
+                }
+                else {
+                    vm->regs[instr[1]] = 1;
+                }
+                break;
+            case OR: // LOGICAL OR (C-like)
+                if(DEBUG)
+                    printf("OR r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if((vm->regs[instr[1]] == 0) && (vm->regs[vm_instr_get_rb(instr)] == 0)) {
+                    vm->regs[instr[1]] = 0;
+                }
+                else {
+                    vm->regs[instr[1]] = 1;
+                }
+                break;
 			case SUB:
                 if(DEBUG)
 				    printf("SUB r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));

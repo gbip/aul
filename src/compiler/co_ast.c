@@ -203,6 +203,18 @@ void print_expr(ast_expr* expression, int offset_nb) {
         switch (expression->det) {
             case OP:
                 switch (expression->op->op) {
+                    case OP_AND:
+                        print_offset(offset_nb);
+                        printf("[OP_AND]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
+                    case OP_OR:
+                        print_offset(offset_nb);
+                        printf("[OP_OR]\n");
+                        print_expr(expression->op->left, offset_nb + 4);
+                        print_expr(expression->op->right, offset_nb + 4);
+                        break;
                     case OP_ADD:
                         print_offset(offset_nb);
                         printf("[OP_ADD]\n");

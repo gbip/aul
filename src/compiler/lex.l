@@ -39,6 +39,10 @@
 
 "/" {return tDIV;}
 
+"&&" {return tAND;}
+
+"||" {return tOR;}
+
 "=" {return tEGAL;}
 
 ";" {return tENDL;}

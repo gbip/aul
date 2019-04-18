@@ -43,6 +43,8 @@
 %token tEQUALITY
 %token tNOT
 %token tWHILE
+%token tAND
+%token tOR
 %token <intValue> tLITT
 %token <intValue> tLITTEXP
 %token <idValue> tID
@@ -167,5 +169,9 @@ EXPR :
        	    {$$ = ast_make_expr_op(ast_make_op(NULL,OP_NOT,$3));}
        	| tMOINS EXPR
             {$$ = ast_make_expr_op(ast_make_op(NULL,OP_SUB,$2));}
+        | EXPR tAND EXPR
+             {$$ = ast_make_expr_op(ast_make_op($1,OP_AND,$3));}
+        | EXPR tOR EXPR
+             {$$ = ast_make_expr_op(ast_make_op($1,OP_OR,$3));}
 
 ;

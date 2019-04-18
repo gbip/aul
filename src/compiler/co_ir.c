@@ -255,6 +255,14 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 					p = ir_make_instr(p, ADD, 0, 1, NULL);
 					break;
 				}
+                case OP_AND: {
+                    p = ir_make_instr(p, AND, 0, 1, NULL);
+                    break;
+                }
+                case OP_OR: {
+                    p = ir_make_instr(p, OR, 0, 1, NULL);
+                    break;
+                }
 				case OP_SUB: {
 					p = ir_make_instr(p, SUB, 0, 1, NULL);
 					break;
