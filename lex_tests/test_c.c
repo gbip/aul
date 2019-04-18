@@ -20,7 +20,7 @@ main() {
         } else {
             int b = -(17*(14/2))/(1+2+3+4+((18/2)+1+(10-2))); // should be 4
             print(b);
-            while(b <= 15) {
+            while(b == -4) {
                b = b + 1;
                print(b);
             }

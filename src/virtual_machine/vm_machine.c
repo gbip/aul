@@ -106,8 +106,18 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				    printf("DIV r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
 				vm->regs[instr[1]] = vm->regs[instr[1]] / vm->regs[vm_instr_get_rb(instr)];
 				break;
+		    case NOT: // Implemented like in C (true <=> not zero ; false <=> zero)
+                if(DEBUG)
+                    printf("NOT r%d r%u\n", instr[1], vm_instr_get_2nd_operand(instr));
+                if(vm->regs[vm_instr_get_rb(instr)] == 0) {
+                    vm->regs[instr[1]] = 1;
+                }
+                else {
+                    vm->regs[instr[1]] = 0;
+                }
+                break;
 			case EQ:
-                if (vm->regs[instr[1]] == vm->regs[vm_instr_get_rb(instr)]){
+                if ((int) vm->regs[instr[1]] == (int) vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
                 }else {
                     vm->regs[instr[1]] = 0;
@@ -115,7 +125,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                 break;
 			case INF:
 			    printf("INF %d < %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
-			    if (vm->regs[instr[1]] < vm->regs[vm_instr_get_rb(instr)]){
+			    if ((int) vm->regs[instr[1]] < (int) vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
 				} else {
                     vm->regs[instr[1]] = 0;
@@ -123,7 +133,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				break;
 			case INFEQ:
                 printf("INFEQ %d <= %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
-                if (vm->regs[instr[1]] <= vm->regs[vm_instr_get_rb(instr)]){
+                if ((int) vm->regs[instr[1]] <= (int) vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
                 } else {
                     vm->regs[instr[1]] = 0;
@@ -131,7 +141,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
 				break;
 			case SUP:
                 printf("SUP %d > %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
-                if (vm->regs[instr[1]] > vm->regs[vm_instr_get_rb(instr)]) {
+                if ((int) vm->regs[instr[1]] > (int) vm->regs[vm_instr_get_rb(instr)]) {
                     vm->regs[instr[1]] = 1;
                 } else {
                     vm->regs[instr[1]] = 0;
@@ -139,7 +149,7 @@ void vm_execute(struct vm_machine* vm, const char* filename) {
                 break;
 			case SUPEQ:
                 printf("SUPEQ %d >= %d ?\n",vm->regs[instr[1]], vm->regs[vm_instr_get_rb(instr)]);
-                if (vm->regs[instr[1]] >= vm->regs[vm_instr_get_rb(instr)]){
+                if ((int) vm->regs[instr[1]] >= (int) vm->regs[vm_instr_get_rb(instr)]){
                     vm->regs[instr[1]] = 1;
                 }else {
                     vm->regs[instr[1]] = 0;
