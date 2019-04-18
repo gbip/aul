@@ -45,7 +45,7 @@
 
 ### MOVE
 
-Assignation de valeur à un regiSTOREe depuis une donnée
+Assignation de valeur à un registre depuis une donnée
 
 ```txt
 MOVE <ra> <val>
@@ -57,7 +57,7 @@ ra <- val
 
 ### COPY
 
-Copie de valeur entre regiSTOREes
+Copie de valeur entre registres
 ```txt
 COPY <ra> <rb>
 ```
@@ -68,7 +68,7 @@ ra <- rb
 
 ### ADD
 
-Addition de deux regiSTOREes 
+Addition de deux registres 
 
 ```txt
 ADD <ra> <rb>
@@ -80,7 +80,7 @@ ra = ra+b
 
 ### SUB
 
-SouSTOREaction de deux regiSTOREes
+Soustraction de deux registres
 
 ```txt
 SUB <ra> <rb>
@@ -92,7 +92,7 @@ ra= ra - rb
 
 ### MUL
 
-Multiplication de deux regiSTOREes
+Multiplication de deux registres
 
 ```txt
 MUL <ra> <rb>
@@ -104,7 +104,7 @@ ra = ra*rb
 
 ### DIV
 
-Divisions de deux regiSTOREes
+Divisions de deux registres
 
 ```txt
 DIV <ra> <rb>
@@ -116,7 +116,7 @@ ra = ra/rb
 
 ### LOAD
 
-Chargement d'un regiSTOREe depuis une donnée en mémoire
+Chargement d'un registre depuis une donnée en mémoire
 
 ```txt
 LOAD <ra> <addr>
@@ -128,7 +128,7 @@ ra <- @addr
 
 ### STORE
 
-Stockage d'un regiSTOREe en mémoire
+Stockage d'un registre en mémoire
 
 ```txt
 STORE <ra> <addr>
@@ -200,7 +200,7 @@ ra = 1 si ra >= rb
 
 ### PRINT
 
-Affiche la valeur d'un regiSTOREe
+Affiche la valeur d'un registre
 
 ```txt
 PRINT <ra>
