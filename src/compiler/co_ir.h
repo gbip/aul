@@ -12,16 +12,18 @@
 typedef struct ir_body ir_body;
 typedef struct ir_ins ir_ins;
 typedef struct ir_if ir_if;
+typedef struct ir_while ir_while;
 
 typedef enum ir_body_kind {
     IR_IF,
+    IR_WHILE,
     IR_INSTR,
 } ir_body_kind;
 
 // Write the intermediate representation to a file
 void ir_write_to_file(const char* filename, ir_body* root);
 
-void ir_print_debug(ir_body* root);
+void ir_print_debug(ir_body* root, const char* ident);
 
 ir_body* ir_build_tree(ast_body* ast);
 
@@ -42,6 +44,10 @@ ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts);
 ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts);
 
 ir_body* ir_optimization(ir_body* start);
+
+ir_body* ir_optimization(ir_body* start);
+
+ir_body* ir_flatten(ir_body* start);
 
 void free_ir(ir_body* root);
 

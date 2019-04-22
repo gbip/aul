@@ -24,12 +24,18 @@ struct ir_if {
     ir_body* _else;
 };
 
+struct ir_while {
+    ir_body* cond;
+    ir_body* _while;
+};
+
 struct ir_body {
     ir_body_kind kind;
 	ir_body* next;
 	union {
         ir_ins instr;
         ir_if _if;
+        ir_while _while;
 	};
 };
 
@@ -120,48 +126,31 @@ ir_body** ir_get_end(ir_body* p) {
  *      [BODY]
  * [END]
  */
-ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts) {
+ir_body** ir_build_if(ir_body** k, ast_if* _if, ts* ts) {
+    *k = malloc(sizeof(ir_body));
+    (*k)->kind = IR_IF;
+    (*k)->next = NULL;
+
     // Build the then body
 	ts_increase_depth(ts);
     ir_body* _then = ir_build_body(_if->_then,ts);
 	ts_decrease_depth(ts);
+    (*k)->_if._then = _then;
 
-    uint32_t then_size = ir_get_number_of_instr(_then) + 2;
+    ir_body* cond = malloc(sizeof(ir_body));
+    ir_build_expr(&cond, _if->cond, ts, 0);
+    (*k)->_if.cond = cond;
 
     if(_if->_else != NULL) {
         // Build the else body
         ts_increase_depth(ts);
-        ir_body *_else = ir_build_body(_if->_else, ts); /* printf("================= \n");
-        print_ast(_if->_else);
-        printf("================= \n");*/
+        ir_body *_else = ir_build_body(_if->_else, ts);
         ts_decrease_depth(ts);
-        uint32_t else_size = ir_get_number_of_instr(_else) + 1;
-        /*printf("================= \n");
-       printf("size _else : %d, size _then : %d \n", else_size, then_size);
-       printf("================= \n");*/
-        p = ir_build_expr(p, _if->cond, ts, 0);
-        // Load the expression result
-        //p = ir_load_data(p, ts_pop_tmp(ts), 0);
-        p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
-        *p = _then;
-        p = ir_get_end(_then);
-        p = ir_make_instr(p, JMPRELADD, 0, else_size, NULL);
-        *p = _else;
-        /*printf("================= \n");
-        ir_print_debug(*p);
-        printf("================= \n");*/
-        p = ir_get_end(_else);
-        return p;
-    } else {
-        p = ir_build_expr(p, _if->cond, ts, 0);
-        // Load the expression result
-        //p = ir_load_data(p, ts_pop_tmp(ts), 0);
-        p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
-        *p = _then;
-        p = ir_get_end(_then);
-        return p;
+        (*k)->_if._else = _else;
     }
 
+
+    return &((*k)->next);
 
 };
 
@@ -356,45 +345,66 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	return p;
 }
 
-void ir_print_debug(ir_body* root) {
+void ir_print_debug(ir_body* root, const char* ident) {
     int index = 0;
 	while(root != NULL) {
-	    printf("%d (%#x) | ",index, index);
-	    index++;
-		switch(root->instr.opcode) {
-			case MOVE: {
-				printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
-				break;
-			}
-			case LOAD: {
-				printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-			case STORE: {
-				printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-			case JMPCRELADD: {
-                printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
+
+	    if (root->kind == IR_INSTR) {
+	        printf("%s",ident);
+            printf("%d (%#x) | ",index, index);
+            index++;
+            switch (root->instr.opcode) {
+                case MOVE: {
+                    printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1,
+                           root->instr.op2);
+                    break;
+                }
+                case LOAD: {
+                    printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
+                case STORE: {
+                    printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
+                case JMPCRELADD: {
+                    printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
+                case JMPRELADD: {
+                    printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
+                case JMPRELSUB: {
+                    printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
+                case JMPCRELSUB: {
+                    printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
+                default: {
+                    printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+                    break;
+                }
             }
-			case JMPRELADD: {
-				printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-            case JMPRELSUB: {
-                printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
+        }
+	    if (root->kind == IR_IF) {
+            char new_ident[80];
+            strcpy(new_ident,ident);
+            strcat(new_ident,"  ");
+	        printf("[IF]\n");
+
+	        ir_print_debug(root->_if.cond,new_ident);
+	        printf("[THEN]\n");
+            ir_print_debug(root->_if._then,new_ident);
+            if (root->_if._else != NULL) {
+                printf("[ELSE]\n");
+                ir_print_debug(root->_if._else,new_ident);
             }
-            case JMPCRELSUB: {
-                printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                break;
-            }
-			default: {
-				printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-				break;
-			}
-		}
+            printf("[ENDIF]\n");
+
+        }
 		root = root->next;
 	}
 }
@@ -439,6 +449,92 @@ ir_body* ir_optimization(ir_body* start) {
     ir_opt_remove_contiguous_str_ld(start);
 }
 */
+
+/* Concatenates first and second together, returning the last element
+ * First
+ * | Instr
+ * | Instr
+ * | Instr
+ * v
+ * Second
+ * | Instr
+ * | Instr
+ * | Instr <- Returned pointer
+ * v
+ * NULL
+ */
+ir_body* ir_concat(ir_body* first, ir_body* second) {
+    while (first-> next != NULL) {
+        first = first->next;
+    }
+    first->next = second;
+    while(first->next != NULL) {
+        first = first->next;
+    }
+    return first;
+}
+
+ir_body* ir_get_last(ir_body* root, uint32_t* nb_elem) {
+    nb_elem = 0;
+    while( root->next != NULL) {
+        root = root->next;
+        nb_elem+=1;
+    }
+
+    return root;
+}
+
+ir_body* ir_flatten(ir_body* root) {
+
+    ir_body* beginning = root;
+    ir_body* prev = root;
+    while ( root != NULL) {
+        switch (root->kind) {
+            case IR_INSTR : {
+                prev = root;
+                root = root->next;
+                break;
+            }
+            case IR_WHILE : {
+                break;
+            }
+            case IR_IF : {
+
+                // Link the previous instruction to the condition
+                prev->next = root->_if.cond;
+
+                    // Chain the JMP call at the end of the condition evaluation
+                    uint32_t then_size = ir_get_number_of_instr(root->_if._then) + 2;
+                    ir_body **p = ir_get_end(root->_if.cond);
+                    p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
+                    // Chain the THEN body after the JMP
+                    *p = root->_if._then;
+                    p = ir_get_end(root->_if._then);
+
+                if (root->_if._else != NULL) {
+                    uint32_t else_size = ir_get_number_of_instr(root->_if._else) + 1;
+                    // Add the jump over the else body
+                    p = ir_make_instr(p, JMPRELADD, 0, else_size, NULL);
+                    // Chain the else body
+                    *p =root->_if._else;
+                    p = ir_get_end(root->_if._else);
+                }
+
+                // Chain the rest of the code after the if evaluation
+                *p = root->next;
+                prev = root;
+                root = root->next;
+
+                break;
+            }
+
+        }
+    }
+
+    return beginning;
+
+}
+
 void free_ir(ir_body* root) {
 	if(root->next != NULL) {
 		free_ir(root->next);

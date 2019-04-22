@@ -11,4 +11,6 @@ main() {
     } else {
         print(b);
     }
+    int c = 4;
+    print(c);
 }
