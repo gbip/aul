@@ -153,33 +153,23 @@ ir_body** ir_build_if(ir_body** k, ast_if* _if, ts* ts) {
 	return &((*k)->next);
 };
 
-ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
+ir_body** ir_build_while(ir_body** k, ast_while* _while, ts* ts) {
+    *k = malloc(sizeof(ir_body));
+    (*k)->kind = IR_WHILE;
+    (*k)->next = NULL;
 	// Generate the body of the while loop
 	ts_increase_depth(ts);
 	ir_body* body = ir_build_body(_while->body, ts);
 	ts_decrease_depth(ts);
-	uint32_t while_size = ir_get_number_of_instr(body);
+    (*k)->_while._while = body;
 
-	// Save the list pointer before generating the header
-	ir_body** while_cond = p;
 
 
 	// Generate the while header
-	p = ir_build_expr(p, _while->cond, ts, 0);
-
-
-	uint32_t expr_size = ir_get_number_of_instr(*while_cond);
-
-	// p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
-	p = ir_make_instr(p, JMPCRELADD, 0, while_size + 2, NULL); // 1 instr
-	// Compute the header size
-	// uint32_t while_header= ir_get_number_of_instr(while_cond);
-	// Chain the body to the header
-	*p = body;
-	p = ir_get_end(body);
-	p = ir_make_instr(p, JMPRELSUB, 0, while_size + expr_size + 2 + 1, NULL);
-	printf("cond : %u & body : %u \n", expr_size, while_size);
-	return p;
+    ir_body* cond = malloc(sizeof(ir_body));
+	ir_build_expr(&cond, _while->cond, ts, 0);
+    (*k)->_while.cond = cond;
+    return &((*k)->next);
 }
 
 ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
@@ -395,6 +385,17 @@ void ir_print_debug(ir_body* root, const char* ident) {
 			}
 			printf("[ENDIF]\n");
 		}
+        if(root->kind == IR_WHILE) {
+            char new_ident[80];
+            strcpy(new_ident, ident);
+            strcat(new_ident, "  ");
+            printf("[WHILE]\n");
+
+            ir_print_debug(root->_while.cond, new_ident);
+            printf("[DO]\n");
+            ir_print_debug(root->_while._while, new_ident);
+            printf("[ENDWHILE]\n");
+        }
 		root = root->next;
 	}
 }
@@ -487,6 +488,31 @@ ir_body* ir_flatten(ir_body* root) {
 				break;
 			}
 			case IR_WHILE: {
+			    // Flatten nested code
+                root->_while.cond = ir_flatten(root->_while.cond);
+                root->_while._while = ir_flatten(root->_while._while);
+                // Link the previous instruction to the condition, if there is a previous instruction
+                if (prev != NULL) {
+                    prev->next = root->_while.cond;
+                } else {
+                    beginning = root->_while.cond;
+                }
+
+                uint32_t while_size = ir_get_number_of_instr(root->_while._while);
+                uint32_t expr_size = ir_get_number_of_instr(root->_while.cond);
+
+                ir_body** p = ir_get_end(root->_while.cond);
+                p = ir_make_instr(p, JMPCRELADD, 0, while_size + 2, root->_while._while);
+                // Chain the body to the header
+                ir_print_debug(root->_while._while,"----- ");
+                p = ir_get_end(*p);
+                p = ir_make_instr(p, JMPRELSUB, 0, while_size + expr_size + 2 + 1, NULL);
+
+
+                *p = root->next;
+                prev = root;
+                root = root->next;
+
 				break;
 			}
 			case IR_IF: {
