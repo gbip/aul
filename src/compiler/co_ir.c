@@ -168,10 +168,6 @@ ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
 	p = ir_build_expr(p, _while->cond, ts, 0);
 
 
-	/*printf("================= \n");
-	ir_print_debug(*while_cond);
-	printf("================= \n");*/
-
 	uint32_t expr_size = ir_get_number_of_instr(*while_cond);
 
 	// p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
@@ -182,7 +178,7 @@ ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
 	*p = body;
 	p = ir_get_end(body);
 	p = ir_make_instr(p, JMPRELSUB, 0, while_size + expr_size + 2 + 1, NULL);
-	printf("cond : %d & body : %d \n", expr_size, while_size);
+	printf("cond : %u & body : %u \n", expr_size, while_size);
 	return p;
 }
 
@@ -345,9 +341,8 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 void ir_print_debug(ir_body* root, const char* ident) {
 	int index = 0;
 	while(root != NULL) {
-
-		if(root->kind == IR_INSTR) {
-			printf("%s", ident);
+        printf("%s", ident);
+        if(root->kind == IR_INSTR) {
 			printf("%d (%#x) | ", index, index);
 			index++;
 			switch(root->instr.opcode) {
@@ -480,12 +475,13 @@ ir_body* ir_get_last(ir_body* root, uint32_t* nb_elem) {
 }
 
 ir_body* ir_flatten(ir_body* root) {
-
+    printf("FLATTENING START\n");
 	ir_body* beginning = root;
-	ir_body* prev = root;
+	ir_body* prev = NULL;
 	while(root != NULL) {
 		switch(root->kind) {
 			case IR_INSTR: {
+			    //printf("%#x, %#x, %#x\n", root->instr.opcode,root->instr.op1, root->instr.op2);
 				prev = root;
 				root = root->next;
 				break;
@@ -495,8 +491,18 @@ ir_body* ir_flatten(ir_body* root) {
 			}
 			case IR_IF: {
 
-				// Link the previous instruction to the condition
-				prev->next = root->_if.cond;
+			    printf("IF\n");
+			    // Flatten the whole IF node through recursive call
+                root->_if.cond = ir_flatten(root->_if.cond);
+                root->_if._then = ir_flatten(root->_if._then);
+                root->_if._else = ir_flatten(root->_if._else);
+
+				// Link the previous instruction to the condition, if there is a previous instruction
+				if (prev != NULL) {
+                    prev->next = root->_if.cond;
+                } else {
+				    beginning = root->_if.cond;
+				}
 
 				// Chain the JMP call at the end of the condition evaluation
 				uint32_t then_size = ir_get_number_of_instr(root->_if._then) + 2;
@@ -524,6 +530,7 @@ ir_body* ir_flatten(ir_body* root) {
 			}
 		}
 	}
+	printf("FLATTENING DONE\n");
 
 	return beginning;
 }
