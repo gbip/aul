@@ -17,7 +17,7 @@ typedef struct symbol_table_entry {
 typedef struct ts {
 	symbol_table_entry table[TABLE_SIZE];
 	uintptr_t index;
-	uint64_t currDepth ; // represents the current scope's depth
+	uint64_t currDepth; // represents the current scope's depth
 } ts;
 
 ts* ts_make() {
@@ -38,9 +38,9 @@ void ts_decrease_depth(ts* table) {
 	}
 	// delete all variables with greater depth than the new one
 	int cont = 1;
-	for(uintptr_t i = table->index -1; i >= 0 && (cont == 1) ; i--) {
+	for(uintptr_t i = table->index - 1; i >= 0 && (cont == 1); i--) {
 		cont = 0;
-		if(table->table[i].depth == ((table->currDepth)+1)) {
+		if(table->table[i].depth == ((table->currDepth) + 1)) {
 			table->index--;
 			cont = 1;
 		}

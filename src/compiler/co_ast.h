@@ -24,7 +24,21 @@ typedef enum expr_det {
 } expr_det;
 
 /* OP */
-typedef enum op { OP_ADD, OP_SUB, OP_DIV, OP_MUL, OP_EQUAL, OP_DIFF, OP_SUP, OP_INF, OP_SUPEQ, OP_INFEQ, OP_NOT, OP_AND, OP_OR } op;
+typedef enum op {
+	OP_ADD,
+	OP_SUB,
+	OP_DIV,
+	OP_MUL,
+	OP_EQUAL,
+	OP_DIFF,
+	OP_SUP,
+	OP_INF,
+	OP_SUPEQ,
+	OP_INFEQ,
+	OP_NOT,
+	OP_AND,
+	OP_OR
+} op;
 typedef struct ast_op ast_op;
 
 /* DECL */
@@ -51,11 +65,7 @@ typedef enum instr_det {
 typedef struct ast_instr ast_instr;
 
 /* BODY */
-typedef enum ast_body_det {
-    INSTR,
-    IF,
-    WHILE
-} ast_body_det;
+typedef enum ast_body_det { INSTR, IF, WHILE } ast_body_det;
 
 typedef struct ast_body ast_body;
 
@@ -66,7 +76,7 @@ ast_print* ast_make_print(id* anId);
 ast_assign* ast_make_assign(id* anId, ast_expr* anExpr);
 ast_decl* ast_make_decl(id* anId, co_type_t aType, ast_expr* anExpr);
 ast_op* ast_make_op(ast_expr* leftExpr, op operation, ast_expr* right);
-ast_body* ast_make_body_instr(ast_instr *instr, ast_body *next);
+ast_body* ast_make_body_instr(ast_instr* instr, ast_body* next);
 ast_body* ast_make_body_if(ast_if* _if, ast_body* next);
 ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else);
 ast_body* ast_make_body_while(ast_while* _while, ast_body* next);

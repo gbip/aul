@@ -15,9 +15,9 @@ typedef struct ir_if ir_if;
 typedef struct ir_while ir_while;
 
 typedef enum ir_body_kind {
-    IR_IF,
-    IR_WHILE,
-    IR_INSTR,
+	IR_IF,
+	IR_WHILE,
+	IR_INSTR,
 } ir_body_kind;
 
 // Write the intermediate representation to a file

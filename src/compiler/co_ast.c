@@ -10,15 +10,15 @@ int init = 0;
 
 /* IF */
 struct ast_if {
-    ast_expr* cond;
-    ast_body* _then;
-    ast_body* _else;
+	ast_expr* cond;
+	ast_body* _then;
+	ast_body* _else;
 };
 
 /* WHILE */
 struct ast_while {
-    ast_expr* cond;
-    ast_body* body;
+	ast_expr* cond;
+	ast_body* body;
 };
 
 /* EXPR */
@@ -68,12 +68,12 @@ struct ast_instr {
 };
 
 struct ast_body {
-    ast_body_det det;
-    union {
-        ast_instr* instr;
-        ast_if* _if;
-        ast_while* _while;
-    };
+	ast_body_det det;
+	union {
+		ast_instr* instr;
+		ast_if* _if;
+		ast_while* _while;
+	};
 	ast_body* next;
 };
 
@@ -99,7 +99,7 @@ void set_ast(ast_body* new_ast) {
 
 /* MAKERS */
 
-ast_body* ast_make_body_instr(ast_instr *instr, ast_body *next) {
+ast_body* ast_make_body_instr(ast_instr* instr, ast_body* next) {
 	ast_body* result = malloc(sizeof(ast_body));
 	result->det = INSTR;
 	result->instr = instr;
@@ -108,33 +108,33 @@ ast_body* ast_make_body_instr(ast_instr *instr, ast_body *next) {
 }
 
 ast_body* ast_make_body_if(ast_if* _if, ast_body* next) {
-    ast_body* result = malloc(sizeof(ast_body));
-    result->det = IF;
-    result->_if = _if;
-    result->next = next;
-    return result;
+	ast_body* result = malloc(sizeof(ast_body));
+	result->det = IF;
+	result->_if = _if;
+	result->next = next;
+	return result;
 }
 
 ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else) {
-    ast_if* result = malloc(sizeof(ast_if));
-    result->cond = cond;
-    result->_else = _else;
-    result->_then = then;
-    return result;
+	ast_if* result = malloc(sizeof(ast_if));
+	result->cond = cond;
+	result->_else = _else;
+	result->_then = then;
+	return result;
 }
 
 ast_body* ast_make_body_while(ast_while* _while, ast_body* next) {
-    ast_body* result = malloc(sizeof(ast_body));
-    result->det = WHILE;
-    result->_while = _while;
-    result->next = next;
-    return result;
+	ast_body* result = malloc(sizeof(ast_body));
+	result->det = WHILE;
+	result->_while = _while;
+	result->next = next;
+	return result;
 }
 ast_while* ast_make_while(ast_expr* cond, ast_body* body) {
-    ast_while* result = malloc(sizeof(ast_while));
-    result->cond = cond;
-    result->body= body;
-    return result;
+	ast_while* result = malloc(sizeof(ast_while));
+	result->cond = cond;
+	result->body = body;
+	return result;
 }
 
 void ast_body_set_next(ast_body* body, ast_body* next) {
@@ -173,17 +173,15 @@ ast_op* ast_make_op(ast_expr* leftExpr, op operation, ast_expr* right) {
 	result->left = leftExpr;
 	if(result->left == NULL) {
 		switch(operation) {
-			case OP_SUB : // Cas - EXPR
+			case OP_SUB: // Cas - EXPR
 				result->left = ast_make_expr_lit(0);
 				break;
 			case OP_NOT: // Cas NOT EXPR
-				//TODO
+				// TODO
 				break;
-			default :
+			default:
 				printf("OP GENERATION ERROR !");
 				exit(1);
-
-
 		}
 	}
 	result->right = right;
@@ -199,107 +197,107 @@ void print_offset(int nb) {
 }
 
 void print_expr(ast_expr* expression, int offset_nb) {
-    if(expression != NULL) {
-        switch (expression->det) {
-            case OP:
-                switch (expression->op->op) {
-                    case OP_AND:
-                        print_offset(offset_nb);
-                        printf("[OP_AND]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_OR:
-                        print_offset(offset_nb);
-                        printf("[OP_OR]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_ADD:
-                        print_offset(offset_nb);
-                        printf("[OP_ADD]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_SUB:
-                        print_offset(offset_nb);
-                        printf("[SUB]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_DIV:
-                        print_offset(offset_nb);
-                        printf("[DIV]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_MUL:
-                        print_offset(offset_nb);
-                        printf("[MUL]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_DIFF:
-                        print_offset(offset_nb);
-                        printf("[!=]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_EQUAL:
-                        print_offset(offset_nb);
-                        printf("[==]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_INF:
-                        print_offset(offset_nb);
-                        printf("[<]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_SUP:
-                        print_offset(offset_nb);
-                        printf("[>]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_SUPEQ:
-                        print_offset(offset_nb);
-                        printf("[>=]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_INFEQ:
-                        print_offset(offset_nb);
-                        printf("[<=]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        print_expr(expression->op->right, offset_nb + 4);
-                        break;
-                    case OP_NOT:
-                        print_offset(offset_nb);
-                        printf("[NOT]\n");
-                        print_expr(expression->op->left, offset_nb + 4);
-                        break;
-                    default:
-                        print_offset(offset_nb);
-                        printf("ERROR\n");
-                        break;
-                }
-                break;
-            case LIT:
-                print_offset(offset_nb);
-                printf("[LIT] %d\n", expression->literral);
-                break;
-            case ID:
-                print_offset(offset_nb);
-                printf("[ID] %s\n", expression->id->name);
-                break;
-            default:
-                print_offset(offset_nb);
-                printf("ERROR\n");
-                break;
-        }
-    }
+	if(expression != NULL) {
+		switch(expression->det) {
+			case OP:
+				switch(expression->op->op) {
+					case OP_AND:
+						print_offset(offset_nb);
+						printf("[OP_AND]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_OR:
+						print_offset(offset_nb);
+						printf("[OP_OR]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_ADD:
+						print_offset(offset_nb);
+						printf("[OP_ADD]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_SUB:
+						print_offset(offset_nb);
+						printf("[SUB]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_DIV:
+						print_offset(offset_nb);
+						printf("[DIV]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_MUL:
+						print_offset(offset_nb);
+						printf("[MUL]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_DIFF:
+						print_offset(offset_nb);
+						printf("[!=]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_EQUAL:
+						print_offset(offset_nb);
+						printf("[==]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_INF:
+						print_offset(offset_nb);
+						printf("[<]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_SUP:
+						print_offset(offset_nb);
+						printf("[>]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_SUPEQ:
+						print_offset(offset_nb);
+						printf("[>=]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_INFEQ:
+						print_offset(offset_nb);
+						printf("[<=]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						print_expr(expression->op->right, offset_nb + 4);
+						break;
+					case OP_NOT:
+						print_offset(offset_nb);
+						printf("[NOT]\n");
+						print_expr(expression->op->left, offset_nb + 4);
+						break;
+					default:
+						print_offset(offset_nb);
+						printf("ERROR\n");
+						break;
+				}
+				break;
+			case LIT:
+				print_offset(offset_nb);
+				printf("[LIT] %d\n", expression->literral);
+				break;
+			case ID:
+				print_offset(offset_nb);
+				printf("[ID] %s\n", expression->id->name);
+				break;
+			default:
+				print_offset(offset_nb);
+				printf("ERROR\n");
+				break;
+		}
+	}
 }
 
 void print_node(ast_instr* node, int offset_nb) {
@@ -350,11 +348,11 @@ void print_if(ast_if* node, int offset_nb) {
 	print_offset(offset_nb);
 	printf("[IF]  \n");
 	print_expr(node->cond, offset_nb + 4);
-    print_offset(offset_nb);
+	print_offset(offset_nb);
 	printf("[THEN] \n");
 	print_ast_priv(node->_then, offset_nb + 4);
 	if(node->_else != NULL) {
-        print_offset(offset_nb);
+		print_offset(offset_nb);
 		printf("[ELSE] \n");
 		print_ast_priv(node->_else, offset_nb + 4);
 	}
@@ -369,20 +367,20 @@ void print_while(ast_while* node, int offset_nb) {
 	print_ast_priv(node->body, offset_nb + 4);
 }
 
-void print_ast_priv(struct ast_body* body, int i) { //i is the initial offset
+void print_ast_priv(struct ast_body* body, int i) { // i is the initial offset
 	ast_body* iter = body;
 	ast_instr* tree;
 	while(iter != NULL) {
 		switch(iter->det) {
-			case INSTR :
+			case INSTR:
 				tree = iter->instr;
 				print_node(tree, i);
 				break;
-			case IF :
-				print_if(iter->_if,i);
+			case IF:
+				print_if(iter->_if, i);
 				break;
 			case WHILE:
-				print_while(iter->_while,i);
+				print_while(iter->_while, i);
 				break;
 		}
 		iter = iter->next;
@@ -410,7 +408,7 @@ void free_ast_op(ast_op* tree) {
 void free_id(id* tree) {
 	if(tree != NULL) {
 		if(tree->name != NULL) {
-		    free(tree->name);
+			free(tree->name);
 		}
 		free(tree);
 	}
@@ -477,31 +475,31 @@ void free_ast_instr(ast_instr* tree) {
 }
 
 void free_ast_if(struct ast_if* tree) {
-    free_ast_expr(tree->cond);
-    free_ast(tree->_then);
-    free_ast(tree->_else);
-    free(tree);
+	free_ast_expr(tree->cond);
+	free_ast(tree->_then);
+	free_ast(tree->_else);
+	free(tree);
 }
 
 void free_ast_while(struct ast_while* tree) {
-    free_ast_expr(tree->cond);
-    free_ast(tree->body);
-    free(tree);
+	free_ast_expr(tree->cond);
+	free_ast(tree->body);
+	free(tree);
 }
 
 void free_ast(struct ast_body* tree) {
 	if(tree != NULL) {
-	    switch(tree->det) {
-	        case IF:
-	            free_ast_if(tree->_if);
-	            break;
-	        case INSTR:
-                free_ast_instr(tree->instr);
-	            break;
-	        case WHILE:
-	            free_ast_while(tree->_while);
-	            break;
-	    }
+		switch(tree->det) {
+			case IF:
+				free_ast_if(tree->_if);
+				break;
+			case INSTR:
+				free_ast_instr(tree->instr);
+				break;
+			case WHILE:
+				free_ast_while(tree->_while);
+				break;
+		}
 		if(tree->next != NULL) {
 			free_ast(tree->next);
 		}

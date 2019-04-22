@@ -62,9 +62,9 @@ struct ast_instr {
 
 /* IF */
 struct ast_if {
-    ast_expr *cond;
-    ast_body *_then;
-    ast_body* _else;
+	ast_expr* cond;
+	ast_body* _then;
+	ast_body* _else;
 };
 
 /* BODY */
@@ -75,14 +75,14 @@ struct ast_body {
 	union {
 		ast_instr* instr;
 		ast_if* _if;
-        ast_while* _while;
+		ast_while* _while;
 	};
 	ast_body* next;
 };
 
 struct ast_while {
-    ast_expr* cond;
-    ast_body* body;
+	ast_expr* cond;
+	ast_body* body;
 };
 
 #endif // AUL_CO_AST_PRIVATE_H

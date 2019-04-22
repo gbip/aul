@@ -19,30 +19,30 @@ struct ir_ins {
 };
 
 struct ir_if {
-    ir_body* cond;
-    ir_body* _then;
-    ir_body* _else;
+	ir_body* cond;
+	ir_body* _then;
+	ir_body* _else;
 };
 
 struct ir_while {
-    ir_body* cond;
-    ir_body* _while;
+	ir_body* cond;
+	ir_body* _while;
 };
 
 struct ir_body {
-    ir_body_kind kind;
+	ir_body_kind kind;
 	ir_body* next;
 	union {
-        ir_ins instr;
-        ir_if _if;
-        ir_while _while;
+		ir_ins instr;
+		ir_if _if;
+		ir_while _while;
 	};
 };
 
 // Build a new instruction, chaining it to `p`.
 ir_body** ir_make_instr(ir_body** p, vm_opcode_t code, uint8_t op1, uint32_t op2, ir_body* following) {
 	*p = malloc(sizeof(ir_body));
-    (*p)->kind = IR_INSTR;
+	(*p)->kind = IR_INSTR;
 	(*p)->instr.opcode = code;
 	(*p)->instr.op1 = op1;
 	(*p)->instr.op2 = op2;
@@ -79,10 +79,10 @@ ir_body* ir_build_tree(ast_body* ast) {
 	return p.next;
 }
 
-ir_body* ir_build_body(ast_body* ast,ts* ts) {
-    ir_body p;
-    ir_build_instrs(&(p.next), ast, ts);
-    return p.next;
+ir_body* ir_build_body(ast_body* ast, ts* ts) {
+	ir_body p;
+	ir_build_instrs(&(p.next), ast, ts);
+	return p.next;
 }
 
 ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
@@ -101,19 +101,19 @@ ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
 }
 
 uint32_t ir_get_number_of_instr(ir_body* p) {
-    uint32_t result = 0;
-    while (p != NULL) {
-        result++;
-        p = p->next;
-    }
-    return result;
+	uint32_t result = 0;
+	while(p != NULL) {
+		result++;
+		p = p->next;
+	}
+	return result;
 }
 
 ir_body** ir_get_end(ir_body* p) {
-    ir_body* copy = p;
-    while (copy->next != NULL)
-        copy = copy->next;
-    return &(copy->next);
+	ir_body* copy = p;
+	while(copy->next != NULL)
+		copy = copy->next;
+	return &(copy->next);
 }
 
 
@@ -127,90 +127,88 @@ ir_body** ir_get_end(ir_body* p) {
  * [END]
  */
 ir_body** ir_build_if(ir_body** k, ast_if* _if, ts* ts) {
-    *k = malloc(sizeof(ir_body));
-    (*k)->kind = IR_IF;
-    (*k)->next = NULL;
+	*k = malloc(sizeof(ir_body));
+	(*k)->kind = IR_IF;
+	(*k)->next = NULL;
 
-    // Build the then body
+	// Build the then body
 	ts_increase_depth(ts);
-    ir_body* _then = ir_build_body(_if->_then,ts);
+	ir_body* _then = ir_build_body(_if->_then, ts);
 	ts_decrease_depth(ts);
-    (*k)->_if._then = _then;
+	(*k)->_if._then = _then;
 
-    ir_body* cond = malloc(sizeof(ir_body));
-    ir_build_expr(&cond, _if->cond, ts, 0);
-    (*k)->_if.cond = cond;
+	ir_body* cond = malloc(sizeof(ir_body));
+	ir_build_expr(&cond, _if->cond, ts, 0);
+	(*k)->_if.cond = cond;
 
-    if(_if->_else != NULL) {
-        // Build the else body
-        ts_increase_depth(ts);
-        ir_body *_else = ir_build_body(_if->_else, ts);
-        ts_decrease_depth(ts);
-        (*k)->_if._else = _else;
-    }
+	if(_if->_else != NULL) {
+		// Build the else body
+		ts_increase_depth(ts);
+		ir_body* _else = ir_build_body(_if->_else, ts);
+		ts_decrease_depth(ts);
+		(*k)->_if._else = _else;
+	}
 
 
-    return &((*k)->next);
-
+	return &((*k)->next);
 };
 
 ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts) {
-    // Generate the body of the while loop
+	// Generate the body of the while loop
 	ts_increase_depth(ts);
-    ir_body* body = ir_build_body(_while->body,ts);
+	ir_body* body = ir_build_body(_while->body, ts);
 	ts_decrease_depth(ts);
-    uint32_t while_size = ir_get_number_of_instr(body);
+	uint32_t while_size = ir_get_number_of_instr(body);
 
-    // Save the list pointer before generating the header
-    ir_body** while_cond = p;
-
-
-    // Generate the while header
-    p = ir_build_expr(p, _while->cond, ts, 0);
+	// Save the list pointer before generating the header
+	ir_body** while_cond = p;
 
 
-    /*printf("================= \n");
-    ir_print_debug(*while_cond);
-    printf("================= \n");*/
+	// Generate the while header
+	p = ir_build_expr(p, _while->cond, ts, 0);
 
-    uint32_t expr_size = ir_get_number_of_instr(*while_cond);
 
-    //p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
-    p = ir_make_instr(p, JMPCRELADD, 0, while_size + 2, NULL); // 1 instr
-    // Compute the header size
-    //uint32_t while_header= ir_get_number_of_instr(while_cond);
-    // Chain the body to the header
-    *p = body;
-    p = ir_get_end(body);
-    p = ir_make_instr(p,JMPRELSUB, 0, while_size + expr_size + 2 + 1, NULL);
-    printf("cond : %d & body : %d \n", expr_size , while_size);
-    return p;
+	/*printf("================= \n");
+	ir_print_debug(*while_cond);
+	printf("================= \n");*/
 
+	uint32_t expr_size = ir_get_number_of_instr(*while_cond);
+
+	// p = ir_load_data(p, ts_pop_tmp(ts),0); // 1 instr
+	p = ir_make_instr(p, JMPCRELADD, 0, while_size + 2, NULL); // 1 instr
+	// Compute the header size
+	// uint32_t while_header= ir_get_number_of_instr(while_cond);
+	// Chain the body to the header
+	*p = body;
+	p = ir_get_end(body);
+	p = ir_make_instr(p, JMPRELSUB, 0, while_size + expr_size + 2 + 1, NULL);
+	printf("cond : %d & body : %d \n", expr_size, while_size);
+	return p;
 }
 
 ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
-	//p = ir_build_instr(p, ast->instr, ts);
+	// p = ir_build_instr(p, ast->instr, ts);
 	if(ast != NULL) {
-        switch (ast->det) {
-            case INSTR : {
-                p = ir_build_instr(p, ast->instr, ts);
-            break;
-            }
-            case IF : {
-                p = ir_build_if(p, ast->_if, ts);
-                /*printf("================= \n");
-                ir_print_debug(*p);
-                printf("================= \n");*/
-                break;
-            }
-            case WHILE : {
-                p = ir_build_while(p, ast->_while,ts);
-                break;
-            }
-        }
-        //print_ast(ast->next);
-        p = ir_build_instrs(p, ast->next, ts);
-    }
+		switch(ast->det) {
+			case INSTR: {
+				p = ir_build_instr(p, ast->instr, ts);
+				break;
+			}
+			case IF: {
+				p = ir_build_if(p, ast->_if, ts);
+				/*printf("================= \n");
+				ir_print_debug(*p);
+				printf("================= \n");*/
+				break;
+			}
+			case WHILE: {
+				p = ir_build_while(p, ast->_while, ts);
+				break;
+			}
+		}
+		// print_ast(ast->next);
+		p = ir_build_instrs(p, ast->next, ts);
+	}
 	return p;
 }
 
@@ -225,33 +223,32 @@ ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts) {
 ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 	switch(ast->det) {
 		case OP: {
-		    if(ast->op->left == NULL) {
-		        // We only evaluate the right side, and don't need a temp var
-                p = ir_build_expr(p, ast->op->right, ts, 0);
-		    }
-		    else {
-                // Evaluate the right side
-                p = ir_build_expr(p, ast->op->right, ts, 1);
-                // Evaluate the left side
-                p = ir_build_expr(p, ast->op->left, ts, 0);
-                // Retrieve the evaluation results and store it in r0 and r1
-                //p = ir_load_data(p, ts_pop_tmp(ts), 0);
-                p = ir_load_data(p, ts_pop_tmp(ts), 1);
-            }
+			if(ast->op->left == NULL) {
+				// We only evaluate the right side, and don't need a temp var
+				p = ir_build_expr(p, ast->op->right, ts, 0);
+			} else {
+				// Evaluate the right side
+				p = ir_build_expr(p, ast->op->right, ts, 1);
+				// Evaluate the left side
+				p = ir_build_expr(p, ast->op->left, ts, 0);
+				// Retrieve the evaluation results and store it in r0 and r1
+				// p = ir_load_data(p, ts_pop_tmp(ts), 0);
+				p = ir_load_data(p, ts_pop_tmp(ts), 1);
+			}
 			// Perform the operation
 			switch(ast->op->op) {
 				case OP_ADD: {
 					p = ir_make_instr(p, ADD, 0, 1, NULL);
 					break;
 				}
-                case OP_AND: {
-                    p = ir_make_instr(p, AND, 0, 1, NULL);
-                    break;
-                }
-                case OP_OR: {
-                    p = ir_make_instr(p, OR, 0, 1, NULL);
-                    break;
-                }
+				case OP_AND: {
+					p = ir_make_instr(p, AND, 0, 1, NULL);
+					break;
+				}
+				case OP_OR: {
+					p = ir_make_instr(p, OR, 0, 1, NULL);
+					break;
+				}
 				case OP_SUB: {
 					p = ir_make_instr(p, SUB, 0, 1, NULL);
 					break;
@@ -264,40 +261,40 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 					p = ir_make_instr(p, MUL, 0, 1, NULL);
 					break;
 				}
-                    //OP_EQUAL, OP_DIFF, OP_SUP, OP_INF, OP_SUPEQ, OP_INFEQ
-			    case OP_EQUAL : {
-                    p = ir_make_instr(p, EQ, 0, 1, NULL);
-                    break;
-			    }
-			    case OP_DIFF : {
-			        p = ir_make_instr(p, EQ, 0, 1, NULL);
-                    p = ir_make_instr(p, NOT , 0, 0, NULL);
-                    break;
-			    }
-			    case OP_SUP : {
-			        p = ir_make_instr(p, SUP, 0, 1, NULL);
-			        break;
-			    }
-			    case OP_INF : {
-			        p = ir_make_instr(p, INF, 0, 1, NULL);
-			        break;
-			    }
-			    case OP_SUPEQ : {
-			        p = ir_make_instr(p, SUPEQ, 0, 1, NULL);
-			        break;
-			    }
-			    case OP_INFEQ : {
-			        p = ir_make_instr(p, INFEQ, 0, 1, NULL);
-			        break;
-			    }
-			    case OP_NOT : { // To be used for logical operations only
-			        p = ir_make_instr(p, NOT, 0, 0, NULL);
-			    }
-            }
+					// OP_EQUAL, OP_DIFF, OP_SUP, OP_INF, OP_SUPEQ, OP_INFEQ
+				case OP_EQUAL: {
+					p = ir_make_instr(p, EQ, 0, 1, NULL);
+					break;
+				}
+				case OP_DIFF: {
+					p = ir_make_instr(p, EQ, 0, 1, NULL);
+					p = ir_make_instr(p, NOT, 0, 0, NULL);
+					break;
+				}
+				case OP_SUP: {
+					p = ir_make_instr(p, SUP, 0, 1, NULL);
+					break;
+				}
+				case OP_INF: {
+					p = ir_make_instr(p, INF, 0, 1, NULL);
+					break;
+				}
+				case OP_SUPEQ: {
+					p = ir_make_instr(p, SUPEQ, 0, 1, NULL);
+					break;
+				}
+				case OP_INFEQ: {
+					p = ir_make_instr(p, INFEQ, 0, 1, NULL);
+					break;
+				}
+				case OP_NOT: { // To be used for logical operations only
+					p = ir_make_instr(p, NOT, 0, 0, NULL);
+				}
+			}
 			// Store the result
 			if(tmpVar) {
-                p = ir_push_register_data(p, 0, ts);
-            }
+				p = ir_push_register_data(p, 0, ts);
+			}
 			return p;
 		}
 		case ID:
@@ -305,18 +302,18 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar) {
 			p = ir_load_var(p, ast->id->name, ts, 0);
 			// Push it in as a temporary variable in the symbol table, so that it can be retrieved during operation
 			// evaluation
-            if(tmpVar) {
-                p = ir_push_register_data(p, 0, ts);
-            }
+			if(tmpVar) {
+				p = ir_push_register_data(p, 0, ts);
+			}
 			return p;
 		case LIT: {
 			// Store the literral content in r0
 			p = ir_make_instr(p, MOVE, 0, ast->literral, NULL);
-			//printf("putting %d in litteral \n", ast->literral);
+			// printf("putting %d in litteral \n", ast->literral);
 			// Push r0 as a temporary variable
-            if(tmpVar) {
-                p = ir_push_register_data(p, 0, ts);
-            }
+			if(tmpVar) {
+				p = ir_push_register_data(p, 0, ts);
+			}
 			return p;
 		}
 	}
@@ -329,7 +326,7 @@ ir_body** ir_build_decl(ir_body** p, ast_decl* ast, ts* ts) {
 	// Generate expr evaluation
 	p = ir_build_expr(p, ast->expr, ts, 0);
 	// Retrieve the result pushed from the evaluation
-	//p = ir_load_data(p, ts_pop_tmp(ts), 0);
+	// p = ir_load_data(p, ts_pop_tmp(ts), 0);
 	// Associate the result with the variable
 	p = ir_make_instr(p, STORE, 0, ts_get(ts, ast->id->name), NULL);
 	return p;
@@ -339,72 +336,70 @@ ir_body** ir_build_assign(ir_body** p, ast_assign* ast, ts* ts) {
 	// Evaluate the expression
 	p = ir_build_expr(p, ast->expr, ts, 0);
 	// Retrieve the result pushed from the evaluation
-	//p = ir_load_data(p, ts_pop_tmp(ts), 0);
+	// p = ir_load_data(p, ts_pop_tmp(ts), 0);
 	// Associate the result with the variable
 	p = ir_make_instr(p, STORE, 0, ts_get(ts, ast->id->name), NULL);
 	return p;
 }
 
 void ir_print_debug(ir_body* root, const char* ident) {
-    int index = 0;
+	int index = 0;
 	while(root != NULL) {
 
-	    if (root->kind == IR_INSTR) {
-	        printf("%s",ident);
-            printf("%d (%#x) | ",index, index);
-            index++;
-            switch (root->instr.opcode) {
-                case MOVE: {
-                    printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1,
-                           root->instr.op2);
-                    break;
-                }
-                case LOAD: {
-                    printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-                case STORE: {
-                    printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-                case JMPCRELADD: {
-                    printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-                case JMPRELADD: {
-                    printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-                case JMPRELSUB: {
-                    printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-                case JMPCRELSUB: {
-                    printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-                default: {
-                    printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
-                    break;
-                }
-            }
-        }
-	    if (root->kind == IR_IF) {
-            char new_ident[80];
-            strcpy(new_ident,ident);
-            strcat(new_ident,"  ");
-	        printf("[IF]\n");
+		if(root->kind == IR_INSTR) {
+			printf("%s", ident);
+			printf("%d (%#x) | ", index, index);
+			index++;
+			switch(root->instr.opcode) {
+				case MOVE: {
+					printf("%s %s%d %#x \n", vm_opcode_to_str(root->instr.opcode), "r", root->instr.op1, root->instr.op2);
+					break;
+				}
+				case LOAD: {
+					printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+				case STORE: {
+					printf("%s r%d [%#x] \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+				case JMPCRELADD: {
+					printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+				case JMPRELADD: {
+					printf("%s r%d @%d \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+				case JMPRELSUB: {
+					printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+				case JMPCRELSUB: {
+					printf("%s r%d @%#x \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+				default: {
+					printf("%s r%d r%u \n", vm_opcode_to_str(root->instr.opcode), root->instr.op1, root->instr.op2);
+					break;
+				}
+			}
+		}
+		if(root->kind == IR_IF) {
+			char new_ident[80];
+			strcpy(new_ident, ident);
+			strcat(new_ident, "  ");
+			printf("[IF]\n");
 
-	        ir_print_debug(root->_if.cond,new_ident);
-	        printf("[THEN]\n");
-            ir_print_debug(root->_if._then,new_ident);
-            if (root->_if._else != NULL) {
-                printf("[ELSE]\n");
-                ir_print_debug(root->_if._else,new_ident);
-            }
-            printf("[ENDIF]\n");
-
-        }
+			ir_print_debug(root->_if.cond, new_ident);
+			printf("[THEN]\n");
+			ir_print_debug(root->_if._then, new_ident);
+			if(root->_if._else != NULL) {
+				printf("[ELSE]\n");
+				ir_print_debug(root->_if._else, new_ident);
+			}
+			printf("[ENDIF]\n");
+		}
 		root = root->next;
 	}
 }
@@ -433,16 +428,16 @@ void ir_write_to_file(const char* filename, ir_body* root) {
 }
 
 void ir_opt_remove_contiguous_str_ld(ir_body* start) {
-    while (start != NULL) {
-        if (start->instr.opcode == STORE) {
-            uint32_t addr = start->instr.op2;
-            ir_body *aux = start->next;
-            if (aux != NULL && aux->instr.opcode == LOAD && aux->instr.op2 == addr) {
-                start->next = aux->next;
-            }
-        }
-        start = start->next;
-    }
+	while(start != NULL) {
+		if(start->instr.opcode == STORE) {
+			uint32_t addr = start->instr.op2;
+			ir_body* aux = start->next;
+			if(aux != NULL && aux->instr.opcode == LOAD && aux->instr.op2 == addr) {
+				start->next = aux->next;
+			}
+		}
+		start = start->next;
+	}
 }
 /*
 ir_body* ir_optimization(ir_body* start) {
@@ -464,75 +459,73 @@ ir_body* ir_optimization(ir_body* start) {
  * NULL
  */
 ir_body* ir_concat(ir_body* first, ir_body* second) {
-    while (first-> next != NULL) {
-        first = first->next;
-    }
-    first->next = second;
-    while(first->next != NULL) {
-        first = first->next;
-    }
-    return first;
+	while(first->next != NULL) {
+		first = first->next;
+	}
+	first->next = second;
+	while(first->next != NULL) {
+		first = first->next;
+	}
+	return first;
 }
 
 ir_body* ir_get_last(ir_body* root, uint32_t* nb_elem) {
-    nb_elem = 0;
-    while( root->next != NULL) {
-        root = root->next;
-        nb_elem+=1;
-    }
+	nb_elem = 0;
+	while(root->next != NULL) {
+		root = root->next;
+		nb_elem += 1;
+	}
 
-    return root;
+	return root;
 }
 
 ir_body* ir_flatten(ir_body* root) {
 
-    ir_body* beginning = root;
-    ir_body* prev = root;
-    while ( root != NULL) {
-        switch (root->kind) {
-            case IR_INSTR : {
-                prev = root;
-                root = root->next;
-                break;
-            }
-            case IR_WHILE : {
-                break;
-            }
-            case IR_IF : {
+	ir_body* beginning = root;
+	ir_body* prev = root;
+	while(root != NULL) {
+		switch(root->kind) {
+			case IR_INSTR: {
+				prev = root;
+				root = root->next;
+				break;
+			}
+			case IR_WHILE: {
+				break;
+			}
+			case IR_IF: {
 
-                // Link the previous instruction to the condition
-                prev->next = root->_if.cond;
+				// Link the previous instruction to the condition
+				prev->next = root->_if.cond;
 
-                    // Chain the JMP call at the end of the condition evaluation
-                    uint32_t then_size = ir_get_number_of_instr(root->_if._then) + 2;
-                    ir_body **p = ir_get_end(root->_if.cond);
-                    p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
-                    // Chain the THEN body after the JMP
-                    *p = root->_if._then;
-                    p = ir_get_end(root->_if._then);
+				// Chain the JMP call at the end of the condition evaluation
+				uint32_t then_size = ir_get_number_of_instr(root->_if._then) + 2;
+				ir_body** p = ir_get_end(root->_if.cond);
+				p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
+				// Chain the THEN body after the JMP
+				*p = root->_if._then;
+				p = ir_get_end(root->_if._then);
 
-                if (root->_if._else != NULL) {
-                    uint32_t else_size = ir_get_number_of_instr(root->_if._else) + 1;
-                    // Add the jump over the else body
-                    p = ir_make_instr(p, JMPRELADD, 0, else_size, NULL);
-                    // Chain the else body
-                    *p =root->_if._else;
-                    p = ir_get_end(root->_if._else);
-                }
+				if(root->_if._else != NULL) {
+					uint32_t else_size = ir_get_number_of_instr(root->_if._else) + 1;
+					// Add the jump over the else body
+					p = ir_make_instr(p, JMPRELADD, 0, else_size, NULL);
+					// Chain the else body
+					*p = root->_if._else;
+					p = ir_get_end(root->_if._else);
+				}
 
-                // Chain the rest of the code after the if evaluation
-                *p = root->next;
-                prev = root;
-                root = root->next;
+				// Chain the rest of the code after the if evaluation
+				*p = root->next;
+				prev = root;
+				root = root->next;
 
-                break;
-            }
+				break;
+			}
+		}
+	}
 
-        }
-    }
-
-    return beginning;
-
+	return beginning;
 }
 
 void free_ir(ir_body* root) {
