@@ -21,6 +21,14 @@ struct ast_while {
 	ast_body* body;
 };
 
+/* FOR */
+struct ast_for {
+    ast_expr* cond;
+    ast_body* body;
+    ast_body* init;
+    ast_body* maj;
+};
+
 /* EXPR */
 struct ast_expr {
 	union {
@@ -73,6 +81,7 @@ struct ast_body {
 		ast_instr* instr;
 		ast_if* _if;
 		ast_while* _while;
+        ast_for* _for;
 	};
 	ast_body* next;
 };
@@ -108,18 +117,35 @@ ast_body* ast_make_body_instr(ast_instr* instr, ast_body* next) {
 }
 
 ast_body* ast_make_body_if(ast_if* _if, ast_body* next) {
+    ast_body* result = malloc(sizeof(ast_body));
+    result->det = IF;
+    result->_if = _if;
+    result->next = next;
+    return result;
+}
+
+ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else) {
+    ast_if* result = malloc(sizeof(ast_if));
+    result->cond = cond;
+    result->_else = _else;
+    result->_then = then;
+    return result;
+}
+
+ast_body* ast_make_body_for(ast_for* _for, ast_body* next) {
 	ast_body* result = malloc(sizeof(ast_body));
-	result->det = IF;
-	result->_if = _if;
+	result->det = FOR;
+	result->_for = _for;
 	result->next = next;
 	return result;
 }
 
-ast_if* ast_make_if(ast_expr* cond, ast_body* then, ast_body* _else) {
-	ast_if* result = malloc(sizeof(ast_if));
-	result->cond = cond;
-	result->_else = _else;
-	result->_then = then;
+ast_for* ast_make_for(ast_body* _init, ast_expr* _cond, ast_body* _maj, ast_body* _body) {
+	ast_for* result = malloc(sizeof(ast_for));
+	result->cond = _cond;
+	result->init = _init;
+	result->body = _body;
+	result->maj = _maj;
 	return result;
 }
 
@@ -367,6 +393,23 @@ void print_while(ast_while* node, int offset_nb) {
 	print_ast_priv(node->body, offset_nb + 4);
 }
 
+void print_for(ast_for* node, int offset_nb) {
+    print_offset(offset_nb);
+    printf("[FOR]  \n");
+    print_offset(offset_nb);
+    printf("[INIT]  \n");
+    print_ast_priv(node->init, offset_nb + 4);
+    print_offset(offset_nb);
+    printf("[COND]   \n");
+    print_expr(node->cond, offset_nb + 4);
+    print_offset(offset_nb);
+    printf("[MAJ]    \n");
+    print_ast_priv(node->maj, offset_nb + 4);
+    print_offset(offset_nb);
+    printf("[DO]  \n");
+    print_ast_priv(node->body, offset_nb + 4);
+}
+
 void print_ast_priv(struct ast_body* body, int i) { // i is the initial offset
 	ast_body* iter = body;
 	ast_instr* tree;
@@ -382,6 +425,8 @@ void print_ast_priv(struct ast_body* body, int i) { // i is the initial offset
 			case WHILE:
 				print_while(iter->_while, i);
 				break;
+		    case FOR:
+		        print_for(iter->_for, i);
 		}
 		iter = iter->next;
 	}
@@ -481,6 +526,14 @@ void free_ast_if(struct ast_if* tree) {
 	free(tree);
 }
 
+void free_ast_for(struct ast_for* tree) {
+    free_ast_expr(tree->cond);
+    free_ast(tree->init);
+    free_ast(tree->maj);
+    free_ast(tree->body);
+    free(tree);
+}
+
 void free_ast_while(struct ast_while* tree) {
 	free_ast_expr(tree->cond);
 	free_ast(tree->body);
@@ -499,6 +552,8 @@ void free_ast(struct ast_body* tree) {
 			case WHILE:
 				free_ast_while(tree->_while);
 				break;
+		    case FOR:
+		        free_ast_for(tree->_for);
 		}
 		if(tree->next != NULL) {
 			free_ast(tree->next);

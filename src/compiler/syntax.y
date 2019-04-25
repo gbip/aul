@@ -45,6 +45,8 @@
 %token tWHILE
 %token tAND
 %token tOR
+%token tFOR
+
 %token <intValue> tLITT
 %token <intValue> tLITTEXP
 %token <idValue> tID
@@ -54,7 +56,7 @@
 %type <ast_print> PRINT
 %type <ast_decl> DECL
 %type <ast_assign> ASSIGN
-%type <ast_instr> LINE
+%type <ast_instr> INIT LINE
 %type <ast_body> INSTRS MAIN BODY S
 
 %left tPLUS tMOINS
@@ -88,11 +90,23 @@ INSTRS :
         tWHILE tPARO EXPR tPARF tACCO INSTRS tACCF INSTRS
             {$$ = ast_make_body_while(ast_make_while($3,$6),$8);}
 	|
+	tFOR tPARO INIT tENDL EXPR tENDL ASSIGN tPARF tACCO INSTRS tACCF INSTRS
+	    {$$ = ast_make_body_for(ast_make_for(ast_make_body_instr($3, NULL), $5, ast_make_body_instr(ast_make_instr_assign($7), NULL), $10),$12);}
+	|
         LINE tENDL INSTRS
             {$$ = ast_make_body_instr($1,$3);}
         |
             {$$ = NULL;}
 ;
+
+
+INIT :
+	 ASSIGN
+            {$$ = ast_make_instr_assign($1);}
+        | DECL
+            {$$ = ast_make_instr_decl($1);}
+;
+
 
 LINE :
         ASSIGN

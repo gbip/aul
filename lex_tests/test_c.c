@@ -11,8 +11,8 @@ main() {
             }
             i = 0;
         }
-        print(a);
-        print(k);
+        //print(a);
+        //print(k);
     } else {
         int i1 = 1;
         int i2 = 2;
@@ -29,13 +29,35 @@ main() {
                print(b);
             }
             print(b);
+            /*for(int i = 0 ; i < 42 ; i = i + 1) {
+                print(i);
+               if(i == 10) {
+                    int k = 0;
+                    for(k = 0 ; k < 42 ; k = k + 1 ) {
+                        k = k + 1;
+                    }
+                }
+            }*/
         }
         int a = 1;
-        print(a);
+        //print(a);
+    }
+    int i = 0;
+    int j = 0;
+    for(int i = 0; i < 10 ; i = i +1) {
+        for(int j = 0 ; j < i ; j=j+1) {
+            print(j);
+            if(j == 8) {
+                while (j < 12) {
+                    j = j + 1;
+                    print(j);
+                }
+            }
+        }
+
     }
     int m = 2;
     print(m);
-
 
     //k=1;
     //int k = 2;

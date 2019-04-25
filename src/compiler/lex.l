@@ -26,6 +26,8 @@
 
 "while" {return tWHILE;}
 
+"for" {return tFOR;}
+
 [A-Za-z]([A-Za-z0-9]|"_")*  {
     yylval.idValue = ast_make_id(strdup(yytext));
     return tID;

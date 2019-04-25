@@ -67,6 +67,14 @@ struct ast_if {
 	ast_body* _else;
 };
 
+/* FOR */
+struct ast_for {
+	ast_expr* cond;
+	ast_body* body;
+	ast_body* init;
+	ast_body* maj;
+};
+
 /* BODY */
 
 
@@ -76,6 +84,7 @@ struct ast_body {
 		ast_instr* instr;
 		ast_if* _if;
 		ast_while* _while;
+		ast_for* _for;
 	};
 	ast_body* next;
 };

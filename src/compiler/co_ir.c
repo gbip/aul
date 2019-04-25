@@ -23,6 +23,13 @@ struct ir_if {
 	ir_body* _then;
 	ir_body* _else;
 };
+struct ir_for {
+    ir_body* _init;
+    ir_body* _cond;
+    ir_body* _maj;
+    ir_body* _body;
+};
+
 
 struct ir_while {
 	ir_body* cond;
@@ -36,6 +43,7 @@ struct ir_body {
 		ir_ins instr;
 		ir_if _if;
 		ir_while _while;
+		ir_for _for;
 	};
 };
 
@@ -153,6 +161,26 @@ ir_body** ir_build_if(ir_body** k, ast_if* _if, ts* ts) {
 	return &((*k)->next);
 };
 
+ir_body** ir_build_for(ir_body** k, ast_for* astFor, ts* ts) {
+	*k = malloc(sizeof(ir_body));
+	(*k)->kind = IR_FOR;
+	(*k)->next = NULL;
+	// Generate the different parts of the for loop
+	ts_increase_depth(ts);
+    ir_body* init = ir_build_body(astFor->init, ts);
+	ir_body* body = ir_build_body(astFor->body, ts);
+	ir_body* cond = malloc(sizeof(ir_body));
+	ir_build_expr(&cond, astFor->cond, ts, 0);
+	ir_body* update = ir_build_body(astFor->maj, ts);
+	ts_decrease_depth(ts);
+	(*k)->_for._body = body;
+	(*k)->_for._cond = cond;
+	(*k)->_for._init = init;
+	(*k)->_for._maj = update;
+
+	return &((*k)->next);
+}
+
 ir_body** ir_build_while(ir_body** k, ast_while* _while, ts* ts) {
     *k = malloc(sizeof(ir_body));
     (*k)->kind = IR_WHILE;
@@ -190,6 +218,9 @@ ir_body** ir_build_instrs(ir_body** p, ast_body* ast, ts* ts) {
 			case WHILE: {
 				p = ir_build_while(p, ast->_while, ts);
 				break;
+			}
+			case FOR: {
+				p = ir_build_for(p, ast->_for, ts);
 			}
 		}
 		// print_ast(ast->next);
@@ -396,6 +427,21 @@ void ir_print_debug(ir_body* root, const char* ident) {
             ir_print_debug(root->_while._while, new_ident);
             printf("[ENDWHILE]\n");
         }
+        if(root->kind == IR_FOR) {
+            char new_ident[80];
+            strcpy(new_ident, ident);
+            strcat(new_ident, "  ");
+            printf("[FOR]\n");
+            printf("[INIT]\n");
+            ir_print_debug(root->_for._init, new_ident);
+            printf("[COND]\n");
+            ir_print_debug(root->_for._cond, new_ident);
+            printf("[MAJ]\n");
+            ir_print_debug(root->_for._maj, new_ident);
+            printf("[DO]\n");
+            ir_print_debug(root->_for._body, new_ident);
+            printf("[ENDFOR]\n");
+        }
 		root = root->next;
 	}
 }
@@ -515,6 +561,44 @@ ir_body* ir_flatten(ir_body* root) {
 
 				break;
 			}
+            case IR_FOR: {
+                // Flatten nested code
+                root->_for._cond = ir_flatten(root->_for._cond);
+                root->_for._maj = ir_flatten(root->_for._maj);
+                root->_for._init = ir_flatten(root->_for._init);
+                root->_for._body = ir_flatten(root->_for._body);
+                // Link the previous instruction to the initialisation, if there is a previous instruction
+                if (prev != NULL) {
+                    prev->next = root->_for._init;
+                } else {
+                    beginning = root->_for._init;
+                }
+                // Link initialisation to expression evaluation
+                ir_body** p0 = ir_get_end(root->_for._init);
+                *p0 = root->_for._cond;
+
+                uint32_t body_size = ir_get_number_of_instr(root->_for._body);
+                uint32_t update_size = ir_get_number_of_instr(root->_for._maj);
+                uint32_t expr_size = ir_get_number_of_instr(root->_for._cond);
+
+                ir_body** p = ir_get_end(root->_for._cond);
+                p = ir_make_instr(p, JMPCRELADD, 0, body_size + update_size + 2, root->_for._body);
+
+                // Chain the body to the header
+                ir_print_debug(root->_for._body,"----- ");
+
+                p = ir_get_end(*p);
+                *p = root->_for._maj;
+                p = ir_get_end(*p);
+                p = ir_make_instr(p, JMPRELSUB, 0, body_size + update_size + expr_size + 2 + 1, NULL);
+
+
+                *p = root->next;
+                prev = root;
+                root = root->next;
+
+                break;
+            }
 			case IR_IF: {
 
 			    printf("IF\n");
@@ -531,7 +615,11 @@ ir_body* ir_flatten(ir_body* root) {
 				}
 
 				// Chain the JMP call at the end of the condition evaluation
-				uint32_t then_size = ir_get_number_of_instr(root->_if._then) + 2;
+				int offs = 1;
+				if(root->_if._else != NULL) {
+				    offs = 2; // To take into account the JMP before the else, in case it exists
+				}
+				uint32_t then_size = ir_get_number_of_instr(root->_if._then) + offs;
 				ir_body** p = ir_get_end(root->_if.cond);
 				p = ir_make_instr(p, JMPCRELADD, 0, then_size, NULL);
 				// Chain the THEN body after the JMP

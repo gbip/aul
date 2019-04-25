@@ -13,10 +13,13 @@ typedef struct ir_body ir_body;
 typedef struct ir_ins ir_ins;
 typedef struct ir_if ir_if;
 typedef struct ir_while ir_while;
+typedef struct ir_for ir_for;
+
 
 typedef enum ir_body_kind {
 	IR_IF,
 	IR_WHILE,
+	IR_FOR,
 	IR_INSTR,
 } ir_body_kind;
 
@@ -40,6 +43,8 @@ ir_body** ir_build_expr(ir_body** p, ast_expr* ast, ts* ts, int tmpVar);
 ir_body** ir_build_print(ir_body** p, ast_print* ast, ts* ts);
 
 ir_body** ir_build_if(ir_body** p, ast_if* _if, ts* ts);
+
+ir_body** ir_build_for(ir_body** p, ast_for* _for, ts* ts);
 
 ir_body** ir_build_while(ir_body** p, ast_while* _while, ts* ts);
 
