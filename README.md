@@ -1,14 +1,21 @@
-# Contact
+---
+title: "Conception d'un compilateur et implémentation du jeu d'instruction en VHDL"
+author: 
+	- Julien Ferry
+	- Paul Florence
+date: 5 Mai 2019
+titlepage: true
+titlepage-color: "435488"
+titlepage-text-color: "FFFFFF"
+titlepage-rule-color : "FFFFFF"
+logo : "./insa.png"
+logo-width : 250
+---
 
-Rémi ADELIN `<radelin@laas.fr>`
-Eric ALATA `<ealata@laas.fr`
+# Conception d'un compilateur
 
-## Dependencies
+## AST
 
-You need to have [`cmocka`](https://cmocka.org) installed to run unit tests. Since it is packaged with most distributions, you should be able to retrieve it by running 
+## Représentation intermédiaire
 
-```
-sudo apt install cmocka
-```
-
-To use `cmocka` take a look at [their documentation](https://api.cmocka.org/group__cmocka__asserts.html).
+## Jeu d'instruction
