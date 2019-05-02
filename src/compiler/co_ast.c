@@ -241,7 +241,7 @@ void print_expr(ast_expr* expression, int offset_nb) {
 						break;
 					case OP_ADD:
 						print_offset(offset_nb);
-						printf("[OP_ADD]\n");
+						printf("[ADD]\n");
 						print_expr(expression->op->left, offset_nb + 4);
 						print_expr(expression->op->right, offset_nb + 4);
 						break;
