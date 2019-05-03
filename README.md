@@ -17,9 +17,11 @@ logo-width : 250
 ## Langage accepté
 
 Notre compilateur accepte des programmes écrits dans un langage C réduit. Ce langage supporte : //TODO : MAJ
-- les fonctionalités imposées par le cahier des charges (constantes, entiers, "if", "while"...etc) sauf fonctions et pointeurs
-- les expressions conditionnelles (et, ou...)
-- les boucles "for"
+
+* les fonctionalités imposées par le cahier des charges (constantes, entiers, "if", "while"...etc) sauf fonctions et pointeurs
+* les expressions conditionnelles (et, ou...)
+* les boucles "for"
+* les variables globales
 
 ## AST
 
