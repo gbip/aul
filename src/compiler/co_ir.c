@@ -77,14 +77,49 @@ ir_body** ir_push_register_data(ir_body** p, uint8_t reg, ts* ts) {
 	return p;
 }
 
+ir_body* ir_get_last(ir_body* root, uint32_t* nb_elem) {
+    nb_elem = 0;
+    while(root->next != NULL) {
+        root = root->next;
+        nb_elem += 1;
+    }
 
-ir_body* ir_build_tree(ast_body* ast) {
-	// create symbol table
-	ts* ts = ts_make();
-	ir_body p;
-	ir_build_instrs(&(p.next), ast, ts);
-	ts_free(ts);
-	return p.next;
+    return root;
+}
+
+uint32_t ir_get_number_of_instr(ir_body* p) {
+    uint32_t result = 0;
+    while(p != NULL) {
+        result++;
+        p = p->next;
+    }
+    return result;
+}
+
+ir_body* ir_build_tree(ast_body* ast, ast_body* var_ast) {
+    if(var_ast == NULL) {
+        // create symbol table
+        ts *ts = ts_make();
+        ir_body p;
+        ir_build_instrs(&(p.next), ast, ts);
+        ts_free(ts);
+        return p.next;
+    } else {
+        // create symbol table
+        ts *ts = ts_make();
+        ir_body p;
+        ir_body p1;
+        // Build global variables AST
+        ir_build_instrs(&(p1.next), var_ast, ts);
+        ts_increase_depth();
+        // Build main AST
+        ir_build_instrs(&(p.next), ast, ts);
+        // Chain them together
+        ir_body *p2 = ir_get_last(&p1, ir_get_number_of_instr(p1.next));
+        p2->next = (p.next);
+        ts_free(ts);
+        return p1.next;
+    }
 }
 
 ir_body* ir_build_body(ast_body* ast, ts* ts) {
@@ -106,15 +141,6 @@ ir_body** ir_build_instr(ir_body** p, ast_instr* ast, ts* ts) {
 			break;
 	}
 	return p;
-}
-
-uint32_t ir_get_number_of_instr(ir_body* p) {
-	uint32_t result = 0;
-	while(p != NULL) {
-		result++;
-		p = p->next;
-	}
-	return result;
 }
 
 ir_body** ir_get_end(ir_body* p) {
@@ -509,16 +535,6 @@ ir_body* ir_concat(ir_body* first, ir_body* second) {
 		first = first->next;
 	}
 	return first;
-}
-
-ir_body* ir_get_last(ir_body* root, uint32_t* nb_elem) {
-	nb_elem = 0;
-	while(root->next != NULL) {
-		root = root->next;
-		nb_elem += 1;
-	}
-
-	return root;
 }
 
 ir_body* ir_flatten(ir_body* root) {

@@ -108,6 +108,7 @@ void ast_body_set_next(ast_body* body, ast_body* next);
 void print_ast(struct ast_body* body);
 void free_ast(ast_body* tree);
 ast_body* get_ast();
+ast_body* get_var_ast();
 void set_ast(ast_body*);
-
+void set_global_var_ast(ast_body*);
 #endif // AUL_AST_H

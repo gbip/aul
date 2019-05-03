@@ -6,6 +6,7 @@
 #include "../aul_utils.h"
 
 ast_body* ast;
+ast_body* var_ast;
 int init = 0;
 
 /* IF */
@@ -102,8 +103,16 @@ ast_body* get_ast() {
 	return ast;
 }
 
+ast_body* get_var_ast() {
+	return var_ast;
+}
+
 void set_ast(ast_body* new_ast) {
 	ast = new_ast;
+}
+
+void set_global_var_ast(ast_body* global_var_ast) {
+    var_ast = global_var_ast;
 }
 
 /* MAKERS */

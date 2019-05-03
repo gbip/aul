@@ -57,7 +57,7 @@
 %type <ast_decl> DECL
 %type <ast_assign> ASSIGN
 %type <ast_instr> INIT LINE
-%type <ast_body> INSTRS MAIN BODY S
+%type <ast_body> INSTRS MAIN BODY S GLOBAL_VARS
 
 %left tPLUS tMOINS
 %right tDIV tMUL
@@ -67,8 +67,15 @@
 %%
 
 S : MAIN
-            {set_ast($1);}
+	{set_global_var_ast(NULL); set_ast($1);}
+    | GLOBAL_VARS MAIN
+        {set_global_var_ast($1); set_ast($2);}
 ;
+
+GLOBAL_VARS : DECL tENDL
+	{$$ = ast_make_body_instr(ast_make_instr_decl($1), NULL);}
+	| DECL tENDL GLOBAL_VARS
+	{$$ = ast_make_body_instr(ast_make_instr_decl($1),$3);}
 
 MAIN :
         tMAIN tPARO tPARF tACCO BODY tACCF

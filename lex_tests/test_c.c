@@ -1,3 +1,7 @@
+int k = 1;
+int varua = 2;
+const varub = 9;
+
 main() {
     if(1 <= 0) {
         int a = 1;
@@ -18,6 +22,7 @@ main() {
         int i2 = 2;
         int i3 = 3;
         int i4 = 4;
+        k = (2*(varua + varub + k)) + i1; //should be 25
         if(!(((i1 < i2) && ((i2 > i3) || (i4 > i1)))) || (1 && (0 || (i1 != 1) ))) {
             int a = 12;
             print(a);
@@ -29,15 +34,15 @@ main() {
                print(b);
             }
             print(b);
-            /*for(int i = 0 ; i < 42 ; i = i + 1) {
+            for(int i = 0 ; i < 42 ; i = i + 1) {
                 print(i);
-               if(i == 10) {
+                if(i == 10) {
                     int k = 0;
                     for(k = 0 ; k < 42 ; k = k + 1 ) {
                         k = k + 1;
                     }
                 }
-            }*/
+            }
         }
         int a = 1;
         //print(a);
@@ -58,7 +63,7 @@ main() {
     }
     int m = 2;
     print(m);
-
+    print(k);
     //k=1;
     //int k = 2;
     //while(a < 18) {
