@@ -57,4 +57,10 @@ Calculer la partie droite, le résultat est contenu dans R0.
 
 Ainsi, à chaque noeud d'opération, un seul accès mémoire (au maximum) est généré (et il est ici nécessaire car lors de l'évaluation de la partie gauche le contenu du registre R0 risque d'être modifié).
 
+### Notes sur la prise en compte des variables globales :
+
+Un second AST, séparé de celui du programme principal, est généré par l'analyseur syntaxique. A partir de cet AST, on génère une représentation intermédiaire arborescente, et on commence à remplir la table des symboles. L'aspect arborescent de cette représentation intermédiaire est limité aux structures conditionnelles et boucles du programme (if - else, while, for), et en particulier les expressions ne sont plus représentées par des arbres. Par conséquent, l'arbre correspondant à l'AST de déclaration des variables globales ne comporte qu'une seule branche. En gardant la même table des symboles et en incrémentant la profondeur, on génère la représentation intermédiaire (arborescente) du programme principal. On chaine ensuite cette représentation intermédiaire sur la fin de celle des variables globales, pour obtenir un seul arbre de représentation intermédiaire. Le traitement est ensuite identique aux processus décrits précédemment.
+
 ## Jeu d'instruction
+
+#include "src/asm.md"
