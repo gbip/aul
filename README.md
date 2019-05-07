@@ -63,4 +63,3 @@ Un second AST, séparé de celui du programme principal, est généré par l'ana
 
 ## Jeu d'instruction
 
-#include "src/asm.md"
