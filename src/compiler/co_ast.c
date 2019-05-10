@@ -6,6 +6,7 @@
 #include "../aul_utils.h"
 
 ast_body* ast;
+ast_body* var_ast;
 int init = 0;
 
 /* IF */
@@ -102,8 +103,16 @@ ast_body* get_ast() {
 	return ast;
 }
 
+ast_body* get_var_ast() {
+	return var_ast;
+}
+
 void set_ast(ast_body* new_ast) {
 	ast = new_ast;
+}
+
+void set_global_var_ast(ast_body* global_var_ast) {
+    var_ast = global_var_ast;
 }
 
 /* MAKERS */
@@ -241,7 +250,7 @@ void print_expr(ast_expr* expression, int offset_nb) {
 						break;
 					case OP_ADD:
 						print_offset(offset_nb);
-						printf("[OP_ADD]\n");
+						printf("[ADD]\n");
 						print_expr(expression->op->left, offset_nb + 4);
 						print_expr(expression->op->right, offset_nb + 4);
 						break;

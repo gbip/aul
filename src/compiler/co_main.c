@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
 	} else {
 		print_ast(get_ast());
 		printf("AST built, building intermediate representation tree ...\n");
-		ir_body* irt = ir_build_tree(get_ast());
+		ir_body* irt = ir_build_tree(get_ast(), get_var_ast());
 		ir_print_debug(irt, "");
 		irt = ir_flatten(irt);
 		// ir_optimization(irt);

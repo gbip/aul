@@ -63,11 +63,17 @@ void ts_add(ts* ts, const char* name, co_type_t type, uint64_t depth) {
 }
 
 uint32_t ts_get(ts* ts, const char* name) {
-	for(uintptr_t i = 0; i < ts->index; i++) {
+	/*for(uintptr_t i = 0; i < ts->index; i++) { //parcourir dans l'autre sens plutôt !
+		if(strcmp(ts->table[i].name, name) == 0) {
+			return ts->table[i].addr;
+		}
+	}*/
+	for(uintptr_t i =  ts->index - 1; i >= 0; i--) { //parcourir dans l'autre sens plutôt !
 		if(strcmp(ts->table[i].name, name) == 0) {
 			return ts->table[i].addr;
 		}
 	}
+
 	// Tried to get a symbol from an empty symbol table
 	printf("ERROR : Can't find symbol %s\n", name);
 	printf("Compilation failed\n");
