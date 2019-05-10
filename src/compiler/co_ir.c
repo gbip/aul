@@ -522,7 +522,6 @@ ir_body* ir_get_last(ir_body* root, uint32_t* nb_elem) {
 }
 
 ir_body* ir_flatten(ir_body* root) {
-    printf("FLATTENING START\n");
 	ir_body* beginning = root;
 	ir_body* prev = NULL;
 	while(root != NULL) {
@@ -600,8 +599,6 @@ ir_body* ir_flatten(ir_body* root) {
                 break;
             }
 			case IR_IF: {
-
-			    printf("IF\n");
 			    // Flatten the whole IF node through recursive call
                 root->_if.cond = ir_flatten(root->_if.cond);
                 root->_if._then = ir_flatten(root->_if._then);
@@ -644,7 +641,6 @@ ir_body* ir_flatten(ir_body* root) {
 			}
 		}
 	}
-	printf("FLATTENING DONE\n");
 
 	return beginning;
 }
