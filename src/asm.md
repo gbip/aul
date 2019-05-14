@@ -31,7 +31,7 @@
 | [NOT](#NOT)      | 0x14 |
 | [AND](#AND)      | 0x15   |
 | [OR](#OR)        | 0x16   |
-
+| [NOP](#NOP) | 0x17 |
 ## Exemples
 
 |       Exemple      |    OPcode   | Opérande1 |  Opérande2  |
@@ -309,4 +309,10 @@ OR <ra> <rb>
 ```txt
 <ra> = 1 if (<ra> != 0 or <rb> !=0)
 <ra> = 0 otherwise
+```
+
+### NOP
+
+```txt
+NOP
 ```
