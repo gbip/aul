@@ -48,7 +48,7 @@ Des optimisations peuvent alors être effectuées. Une deuxième passe sur cet "
 
 <!--- ![Arbre de représentation intermédiaire correspondant à l'AST de la figure 2\label{IRTex}](./pictures/screenshot_irt.png) --->
 
-L'exploitation de cet arbre de représentation intermédiaire ne consiste pas en une simple cancaténation des codes. Il s'agit aussi de générer les instructions de saut et les offset correspondants, pour les boucles et les structures conditionnelles, et d'apporter quelques améliorations au code (entre autres).
+L'exploitation de cet arbre de représentation intermédiaire ne consiste pas en une simple cancaténation des codes. Il s'agit aussi de générer les instructions de saut et les offset correspondants, pour les boucles et les structures conditionnelles, et d'apporter quelques améliorations au code (entre autres). Les calculs d'offsets sont bien sûrs effectués en fonction du nombre d'instructions du corps de la structure correspondante (par exemple pour une boucle "while").
 
 <!--- ![Code assembleur final provenant de la mise à plat de l'IRT de la figure 3\label{IRTex}](./pictures/screenshot_irt_flatten.png)> --->
 
