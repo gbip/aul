@@ -1,10 +1,12 @@
-# Instructions
+# Annexe : Présentation complète de notre jeu d'instructions
+
+## Format
 
 |  Champ | OPcode | Opérande1 | Opérande2 |
 |:------:|:------:|:---------:|:---------:|
 | Taille | 8 bits |   8 bits  |  32 bits  |
 
-## Résumé
+## Liste des instructions
 
 |  Nom             | OPcode |
 |------------------|--------|
@@ -32,6 +34,7 @@
 | [AND](#AND)      | 0x15   |
 | [OR](#OR)        | 0x16   |
 | [NOP](#NOP) | 0x17 |
+
 ## Exemples
 
 |       Exemple      |    OPcode   | Opérande1 |  Opérande2  |
@@ -45,7 +48,7 @@
 
 ### MOVE
 
-Assignation de valeur à un registre depuis une donnée
+### Assignation de valeur à un registre depuis une donnée
 
 ```txt
 MOVE <ra> <val>
@@ -58,6 +61,7 @@ ra <- val
 ### COPY
 
 Copie de valeur entre registres
+
 ```txt
 COPY <ra> <rb>
 ```
@@ -72,6 +76,7 @@ Addition de deux registres
 
 ```txt
 ADD <ra> <rb>
+
 ```
 
 ```txt
