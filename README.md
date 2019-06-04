@@ -34,7 +34,7 @@ Il construit et utilise un **arbre syntaxique** pour compiler le programme fourn
 
 Le programme à compiler, écrit dans notre langage C réduit (décrit précédemment), est tout d'abord transformé en une suite de tokens par un analyseur lexical produit par Lex. Le résultat est ensuite parsé  par l'analyseur syntaxique produit par Yacc. Au cours de son analyse (selon la grammaire que nous avons écrite), cet analyseur va effectuer des actions. En utilisant les fonctions appropriées, il va construire l'arbre syntaxique du programme à compiler. 
 
-Il s'agit ici de créer dans le heap (via de l'allocation dynamique) les noeuds adéquats (instances des structs que nous avons définies) et de les chaîner correctement. Cette structure arborescente présente deux avantages majeurs : elle nous dispensera, par la suite, d'avoir à utiliser une table des labels, et elle permettra d'effectuer plus facilement des optimisations. 
+Il s'agit ici de créer dans le tas (via de l'allocation dynamique) les noeuds adéquats (instances des structs que nous avons définies) et de les chaîner correctement. Cette structure arborescente présente deux avantages majeurs : elle nous dispensera, par la suite, d'avoir à utiliser une table des labels, et elle permettra d'effectuer plus facilement des optimisations. 
 
 <!--- ![Extrait d'un programme à compiler\label{ASTexFrom}](./pictures/screenshot_ast_bis.png) --->
 
@@ -48,9 +48,7 @@ Des optimisations peuvent alors être effectuées. Une deuxième passe sur cet "
 
 <!--- ![Arbre de représentation intermédiaire correspondant à l'AST de la figure 2\label{IRTex}](./pictures/screenshot_irt.png) --->
 
-L'exploitation de cet arbre de représentation intermédiaire ne consiste pas en une simple cancaténation des codes. Il s'agit aussi de générer les instructions de saut et les offset correspondants, pour les boucles et les structures conditionnelles, et d'apporter quelques améliorations au code (entre autres). Les calculs d'offsets sont bien sûrs effectués en fonction du nombre d'instructions du corps de la structure correspondante (par exemple pour une boucle "while").
-
-<!--- ![Code assembleur final provenant de la mise à plat de l'IRT de la figure 3\label{IRTex}](./pictures/screenshot_irt_flatten.png)> --->
+L'exploitation de cet arbre de représentation intermédiaire ne consiste pas en une simple cancaténation des codes. Il s'agit aussi de générer les instructions de saut et les offsets correspondants, pour les boucles et les structures conditionnelles, et d'apporter quelques améliorations au code (entre autres). Les calculs d'offsets sont bien sûrs effectués en fonction du nombre d'instructions du corps de la structure correspondante.
 
 ## Notes sur la génération de code pour les expressions :
 
@@ -93,14 +91,20 @@ L’architecture générale est très simple : un pointeur d’instructions dés
 ## Fonctionnalités implémentées et présentation rapide
 
 Notre processeur comporte :
-Une Unité Arithmétique et Logique (ALU) implémentant toutes les opérations arithmétiques (+,*,-) à l’exception de la division ; les instructions logiques (&& et ||) et les comparaisons (>, >=, ==, <, <=) de notre jeu d’instructions.
-Une banque de registres.
-Une mémoire d’instructions, un fetch, un pointeur d’instructions et un décodeur.
-Une unité des gestions des aléas (AMU) .
-La gestion des sauts (JUMP, JUMPS relatifs et JUMPS relatifs conditionnels).
-Une RAM.
 
-Les différents composants de notre processeur sont organisés selon un pipeline à 4 étages (cf schéma).
+* Une Unité Arithmétique et Logique (ALU) implémentant toutes les opérations arithmétiques (+,*,-) à l’exception de la division : les instructions logiques (&& et ||) et les comparaisons (>, >=, ==, <, <=) de notre jeu d’instructions
+
+* une banque de registres
+
+* Une mémoire d’instructions, un fetch, un pointeur d’instructions et un décodeur
+
+* Une unité des gestions des aléas (AMU) 
+
+* La gestion des sauts (JUMP, JUMPS relatifs et JUMPS relatifs conditionnels)
+
+* Une RAM
+
+Les différents composants de notre processeur sont organisés selon un pipeline à 4 étages (cf schéma en annexe).
 
 1. Le premier étage charge les instructions, les décode, et lit les données dans la banque de registre de manière asynchrone. En cas d’aléas, l’AMU interrompt le fonctionnement du fetch et entraîne l’envoi d’instructions NOP dans le pipeline.
 2. Les opérations (arithmétiques, logiques et comparaisons) sont effectuées en asynchrone dans l’ALU situé au second étage.
@@ -116,9 +120,7 @@ Un schéma représentant l’architecture interne de notre processeur est prése
 \KOMAoptions{paper={landscape},pagesize}
 \recalctypearea
 
-![Schéma général de notre processeur\label{ASTexFrom}](./pictures/processeur.png){ width=125% }
-
-
+![Schéma général de notre processeur\label{ASTexFrom}](./pictures/processeur.png){ width=950px }
 
 \newpage
 \KOMAoptions{paper={portrait},pagesize}
