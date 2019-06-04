@@ -11,6 +11,7 @@ titlepage-rule-color : "FFFFFF"
 logo : "./insa.png"
 logo-width : 250
 ---
+
 ## Jeu d'instruction
 
 # Conception d'un compilateur
@@ -31,7 +32,9 @@ Il construit et utilise un **arbre syntaxique** pour compiler le programme fourn
 
 ### AST
 
-Le programme à compiler, écrit dans notre langage C réduit (décrit précédemment), est tout d'abord transformé en une suite de tokens par un analyseur lexical produit par Lex. Le résultat est ensuite parsé  par l'analyseur syntaxique produit par Yacc. Au cours de son analyse (selon la grammaire que nous avons écrite), cet analyseur va effectuer des actions. En utilisant les fonctions appropriées, il va construire l'arbre syntaxique du programme à compiler. Il s'agit ici de créer dans le heap (via de l'allocation dynamique) les noeuds adéquats (instances des structs que nous avons définies) et de les chaîner correctement. Cette structure arborescente présente deux avantages majeurs : elle nous dispensera, par la suite, d'avoir à utiliser une table des labels, et elle permettra d'effectuer plus facilement des optimisations. 
+Le programme à compiler, écrit dans notre langage C réduit (décrit précédemment), est tout d'abord transformé en une suite de tokens par un analyseur lexical produit par Lex. Le résultat est ensuite parsé  par l'analyseur syntaxique produit par Yacc. Au cours de son analyse (selon la grammaire que nous avons écrite), cet analyseur va effectuer des actions. En utilisant les fonctions appropriées, il va construire l'arbre syntaxique du programme à compiler. 
+
+Il s'agit ici de créer dans le heap (via de l'allocation dynamique) les noeuds adéquats (instances des structs que nous avons définies) et de les chaîner correctement. Cette structure arborescente présente deux avantages majeurs : elle nous dispensera, par la suite, d'avoir à utiliser une table des labels, et elle permettra d'effectuer plus facilement des optimisations. 
 
 <!--- ![Extrait d'un programme à compiler\label{ASTexFrom}](./pictures/screenshot_ast_bis.png) --->
 
@@ -39,7 +42,9 @@ Le programme à compiler, écrit dans notre langage C réduit (décrit précéde
 
 ### Représentation intermédiaire
 
-Une fois l'arbre syntaxique produit, nous conservons une représentation arborescente du programme à compiler, mais transformons chaque noeud d'expressions en une séquence d'instructions assembleur. La structure arborescente concerne donc uniquement le "flot" du programme (structures conditionnelles et boucles), et plus les expressions (contrairement à l'AST précédent). Des optimisations peuvent alors être effectuées. Une deuxième passe sur cet "arbre de représentation intermédiaire" permet de "mettre à plat" le code assembleur, c'est à dire de transformer notre arbre d'instructions en une liste chainée d'instructions (le programme assembleur résultant de la compilation).
+Une fois l'arbre syntaxique produit, nous conservons une représentation arborescente du programme à compiler, mais transformons chaque noeud d'expressions en une séquence d'instructions assembleur. La structure arborescente concerne donc uniquement le "flot" du programme (structures conditionnelles et boucles), et plus les expressions (contrairement à l'AST précédent). 
+
+Des optimisations peuvent alors être effectuées. Une deuxième passe sur cet "arbre de représentation intermédiaire" permet de "mettre à plat" le code assembleur, c'est à dire de transformer notre arbre d'instructions en une liste chainée d'instructions (le programme assembleur résultant de la compilation).
 
 <!--- ![Arbre de représentation intermédiaire correspondant à l'AST de la figure 2\label{IRTex}](./pictures/screenshot_irt.png) --->
 
@@ -65,7 +70,9 @@ Ainsi, à chaque noeud d'opération, un seul accès mémoire (au maximum) est g�
 
 ## Notes sur la prise en compte des variables globales :
 
-Un second AST, séparé de celui du programme principal, est généré par l'analyseur syntaxique. A partir de cet AST, on génère une représentation intermédiaire arborescente, et on commence à remplir la table des symboles. L'aspect arborescent de cette représentation intermédiaire est limité aux structures conditionnelles et boucles du programme (if - else, while, for), et en particulier les expressions ne sont plus représentées par des arbres. Par conséquent, *l'arbre correspondant à l'AST de déclaration des variables globales ne comporte qu'une seule branche*. En gardant la même table des symboles et en incrémentant la profondeur, on génère la représentation intermédiaire (arborescente) du programme principal. On chaine ensuite cette représentation intermédiaire sur la fin de celle des variables globales, pour obtenir un seul arbre de représentation intermédiaire. Le traitement est ensuite identique aux processus décrits précédemment.
+Un second AST, séparé de celui du programme principal, est généré par l'analyseur syntaxique. A partir de cet AST, on génère une représentation intermédiaire arborescente, et on commence à remplir la table des symboles. L'aspect arborescent de cette représentation intermédiaire est limité aux structures conditionnelles et boucles du programme (if - else, while, for), et en particulier les expressions ne sont plus représentées par des arbres. 
+
+Par conséquent, *l'arbre correspondant à l'AST de déclaration des variables globales ne comporte qu'une seule branche*. En gardant la même table des symboles et en incrémentant la profondeur, on génère la représentation intermédiaire (arborescente) du programme principal. On chaine ensuite cette représentation intermédiaire sur la fin de celle des variables globales, pour obtenir un seul arbre de représentation intermédiaire. Le traitement est ensuite identique aux processus décrits précédemment.
 
 # Jeu d’instructions
 
@@ -77,7 +84,9 @@ Le format général de nos instructions est :
 
 # L’interpréteur
 
-L’implémentation puis l’utilisation d’un interpréteur nous a permis de tester nos programmes compilés. Notre interpréteur est écrit en langage C. La mémoire y est représentée par un tableau, de même que les registres. L’architecture générale est très simple : un pointeur d’instructions désigne l’instruction courante, qui est traitée par un grand bloc “switch”, dans lequel les mises à jour correspondant aux instructions sont effectuées. Des informations de débuggage utiles peuvent être affichées.
+L’implémentation puis l’utilisation d’un interpréteur nous a permis de tester nos programmes compilés. Notre interpréteur est écrit en langage C. La mémoire y est représentée par un tableau, de même que les registres. 
+
+L’architecture générale est très simple : un pointeur d’instructions désigne l’instruction courante, qui est traitée par un grand bloc “switch”, dans lequel les mises à jour correspondant aux instructions sont effectuées. Des informations de débuggage utiles peuvent être affichées.
 
 # Le processeur VHDL
 
@@ -93,11 +102,11 @@ Une RAM.
 
 Les différents composants de notre processeur sont organisés selon un pipeline à 4 étages (cf schéma).
 
--> Le premier étage charge les instructions, les décode, et lit les données dans la banque de registre de manière asynchrone. En cas d’aléas, l’AMU interrompt le fonctionnement du fetch et entraîne l’envoi d’instructions NOP dans le pipeline.
--> Les opérations (arithmétiques, logiques et comparaisons) sont effectuées en asynchrone dans l’ALU situé au second étage.
--> Le troisième étage comporte la mémoire. La lecture y est asynchrone tandis que l’écriture y est synchrone.
+1. Le premier étage charge les instructions, les décode, et lit les données dans la banque de registre de manière asynchrone. En cas d’aléas, l’AMU interrompt le fonctionnement du fetch et entraîne l’envoi d’instructions NOP dans le pipeline.
+2. Les opérations (arithmétiques, logiques et comparaisons) sont effectuées en asynchrone dans l’ALU situé au second étage.
+3. Le troisième étage comporte la mémoire. La lecture y est asynchrone tandis que l’écriture y est synchrone.
 Les buffers séparant les différents étages de notre pipeline fonctionnent bien sûr de façon synchrone.
--> Enfin, le dernier étage de notre pipeline abrite le “contrôleur de registres”. C’est ce dernier qui se charge de l’écriture des données appropriées dans la banque de registres, en fonction de l’instruction en cours. C’est également cette unité qui ordonne au fetch le chargement d’un nouveau PC dans le cas d’un JUMP.
+4. Enfin, le dernier étage de notre pipeline abrite le “contrôleur de registres”. C’est ce dernier qui se charge de l’écriture des données appropriées dans la banque de registres, en fonction de l’instruction en cours. C’est également cette unité qui ordonne au fetch le chargement d’un nouveau PC dans le cas d’un JUMP.
 
 ## Schéma de notre processeur
 
